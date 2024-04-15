@@ -1,20 +1,18 @@
-import { BoardCell, BoardCellProps } from "@/BoardCell";
+import { BoardCellProps } from "@/BoardCell";
 
 const createCells = (
-  rows: number,
-  columns: number
+  rows: number = 0,
+  columns: number = 0
 ): Array<Array<BoardCellProps>> => {
-  if (rows === undefined && columns === undefined) return [];
-
-  let cells: Array<Array<BoardCellProps>> = [];
+  const cells: Array<Array<BoardCellProps>> = [];
 
   for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
-    let row: Array<BoardCellProps> = [];
-
+    cells[rowIndex] = [];
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
-      row = [...row, BoardCell.player];
+      cells[rowIndex][columnIndex] = {
+        player: undefined,
+      };
     }
-    cells = [...cells, row];
   }
   return cells;
 };
