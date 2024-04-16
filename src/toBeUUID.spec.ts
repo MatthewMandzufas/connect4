@@ -36,13 +36,18 @@ describe("toBeUUID", () => {
     });
   });
   describe("given an invalid v4 UUID string", () => {
-    const fakeUUID = "23214323";
+    const invalidUUID = "23214323";
 
     it("returns a negative MatcherResult", () => {
-      expect(toBeUUID(fakeUUID)).toEqual({
+      expect(toBeUUID(invalidUUID)).toEqual({
         pass: false,
         message: expect.any(Function),
       });
+    });
+    it("the return message function, returns a valid message", () => {
+      const { message } = toBeUUID(invalidUUID);
+
+      expect(message()).toEqual(`${invalidUUID} is an invalid UUID.`);
     });
   });
 });
