@@ -1,6 +1,6 @@
 import { BoardCellProps } from "@/BoardCell";
 
-const createCells = (
+const createBoardCells = (
   rows: number = 0,
   columns: number = 0
 ): Array<Array<BoardCellProps>> => {
@@ -17,4 +17,4 @@ const createCells = (
   return cells;
 };
 
-export default createCells;
+export default createBoardCells;

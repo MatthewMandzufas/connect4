@@ -1,5 +1,5 @@
 import { BoardCell, BoardCellProps } from "@/BoardCell";
-import createCells from "@/create-cells";
+import createBoardCells from "@/create-board-cells";
 import styled from "styled-components";
 
 type BoardProps = {
@@ -25,5 +25,5 @@ export const Board = (props: BoardProps) => {
 };
 
 Board.defaultProps = {
-  cells: createCells(6, 7),
+  cells: createBoardCells(6, 7),
 };
