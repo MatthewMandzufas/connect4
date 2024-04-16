@@ -1,4 +1,3 @@
-import { expect } from "vitest";
 import { MatcherResult } from "./vitest";
 
 const UUID_REGEX =
@@ -15,9 +14,5 @@ function toBeUUID(
     message: () => `${received} is${isNot ? " a valid" : " an invalid"} UUID.`,
   };
 }
-
-expect.extend({
-  toBeUUID,
-});
 
 export default toBeUUID;

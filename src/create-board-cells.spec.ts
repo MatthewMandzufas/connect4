@@ -12,21 +12,21 @@ describe("create-cells", () => {
       [
         expect.objectContaining({
           player: undefined,
-          uuid: expect.any(String),
+          uuid: expect.toBeUUID(),
         }),
         expect.objectContaining({
           player: undefined,
-          uuid: expect.any(String),
+          uuid: expect.toBeUUID(),
         }),
       ],
       [
         expect.objectContaining({
           player: undefined,
-          uuid: expect.any(String),
+          uuid: expect.toBeUUID(),
         }),
         expect.objectContaining({
           player: undefined,
-          uuid: expect.any(String),
+          uuid: expect.toBeUUID(),
         }),
       ],
     ]);

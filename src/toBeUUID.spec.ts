@@ -65,7 +65,6 @@ describe("toBeUUID", () => {
           isNot: true,
         });
         const { message } = negatedToBeUUID(invalidUUID);
-
         expect(message()).toEqual(`${invalidUUID} is a valid UUID.`);
       });
     });
