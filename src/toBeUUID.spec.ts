@@ -14,5 +14,17 @@ describe("toBeUUID", () => {
       const message = toBeUUID(validUUID).message;
       expect(message()).toEqual(`${validUUID} is not a valid UUID.`);
     });
+    describe("and we use the negated matcher", () => {
+      it("should return a negative MatcherResult", () => {
+        const boundToBeUUID = toBeUUID.bind({
+          isNot: true,
+        });
+
+        expect(boundToBeUUID(validUUID)).toEqual({
+          pass: true,
+          message: expect.any(Function),
+        });
+      });
+    });
   });
 });
