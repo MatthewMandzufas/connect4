@@ -60,6 +60,14 @@ describe("toBeUUID", () => {
           message: expect.any(Function),
         });
       });
+      it("returns a message function, indicating the provided UUID is invalid", () => {
+        const negatedToBeUUID = toBeUUID.bind({
+          isNot: true,
+        });
+        const { message } = negatedToBeUUID(invalidUUID);
+
+        expect(message()).toEqual(`${invalidUUID} is a valid UUID.`);
+      });
     });
   });
 });
