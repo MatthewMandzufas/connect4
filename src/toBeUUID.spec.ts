@@ -26,10 +26,10 @@ describe("toBeUUID", () => {
         });
       });
       it("returns a message function, indicating the provided UUID is invalid", () => {
-        const boundToBeUUID = toBeUUID.bind({
+        const negatedToBeUUID = toBeUUID.bind({
           isNot: true,
         });
-        const { message } = boundToBeUUID(validUUID);
+        const { message } = negatedToBeUUID(validUUID);
 
         expect(message()).toEqual(`${validUUID} is a valid UUID.`);
       });
@@ -48,6 +48,18 @@ describe("toBeUUID", () => {
       const { message } = toBeUUID(invalidUUID);
 
       expect(message()).toEqual(`${invalidUUID} is an invalid UUID.`);
+    });
+    describe("and we use the negated matcher", () => {
+      it("should return a negative MatcherResult", () => {
+        const negatedToBeUUID = toBeUUID.bind({
+          isNot: true,
+        });
+
+        expect(negatedToBeUUID(invalidUUID)).toEqual({
+          pass: false,
+          message: expect.any(Function),
+        });
+      });
     });
   });
 });
