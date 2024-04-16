@@ -11,6 +11,7 @@ const createBoardCells = (
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
       cells[rowIndex][columnIndex] = {
         player: undefined,
+        uuid: crypto.randomUUID(),
       };
     }
   }

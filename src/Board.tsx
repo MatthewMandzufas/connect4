@@ -15,8 +15,8 @@ export const Board = (props: BoardProps) => {
     <>
       {props.cells.map((row) => (
         <Row>
-          {row.map(() => (
-            <BoardCell></BoardCell>
+          {row.map((boardCellProps, currentIndex) => (
+            <BoardCell key={currentIndex} {...boardCellProps} />
           ))}
         </Row>
       ))}

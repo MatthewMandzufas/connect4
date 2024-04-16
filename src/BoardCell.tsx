@@ -3,6 +3,7 @@ import styled from "styled-components";
 export type BoardCellProps = {
   className?: string;
   player?: 1 | 2;
+  uuid: string;
 };
 
 const StyledBoardCell = styled.div`

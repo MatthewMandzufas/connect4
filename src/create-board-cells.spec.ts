@@ -7,9 +7,28 @@ describe("create-cells", () => {
   });
   it("return a board filled with objects conforming to BoardCellProps type", () => {
     const board = createBoardCells(2, 2);
+
     expect(board).toEqual([
-      [{ player: undefined }, { player: undefined }],
-      [{ player: undefined }, { player: undefined }],
+      [
+        expect.objectContaining({
+          player: undefined,
+          uuid: expect.any(String),
+        }),
+        expect.objectContaining({
+          player: undefined,
+          uuid: expect.any(String),
+        }),
+      ],
+      [
+        expect.objectContaining({
+          player: undefined,
+          uuid: expect.any(String),
+        }),
+        expect.objectContaining({
+          player: undefined,
+          uuid: expect.any(String),
+        }),
+      ],
     ]);
   });
   it("returns a row x column board given the number of rows and column", () => {
