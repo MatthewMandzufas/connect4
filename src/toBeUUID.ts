@@ -6,7 +6,7 @@ const UUID_REGEX =
 
 const toBeUUID = (received: string): MatcherResult => ({
   pass: received.match(UUID_REGEX) !== null,
-  message: () => `${received} is not a UUID.`,
+  message: () => `${received} is not a valid UUID.`,
 });
 
 expect.extend({

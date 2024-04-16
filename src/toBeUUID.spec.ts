@@ -10,5 +10,9 @@ describe("toBeUUID", () => {
         message: expect.any(Function),
       });
     });
+    it("the return message function, returns a valid message", () => {
+      const message = toBeUUID(validUUID).message;
+      expect(message()).toEqual(`${validUUID} is not a valid UUID.`);
+    });
   });
 });
