@@ -6,21 +6,37 @@ type BoardProps = {
   cells: Array<Array<BoardCellProps>>;
 };
 
-const Row = styled.div`
-  display: flex;
+type GridBoardCellProps = {
+  row: number;
+  column: number;
+};
+
+const StyledBoard = styled.div`
+  display: grid;
+  grid-auto-columns: max-content;
+  grid-template-rows: max-content;
+`;
+
+const GridBoardCell = styled(BoardCell)<GridBoardCellProps>`
+  grid-column: ${(props) => props.column};
+  grid-row: ${(props) => props.row};
 `;
 
 export const Board = (props: BoardProps) => {
   return (
-    <>
-      {props.cells.map((row) => (
-        <Row>
-          {row.map((boardCellProps, currentIndex) => (
-            <BoardCell key={currentIndex} {...boardCellProps} />
-          ))}
-        </Row>
-      ))}
-    </>
+    <StyledBoard>
+      {props.cells.map((row, rowIndex) => {
+        return row.map((cell, columnIndex) => (
+          <GridBoardCell
+            player={cell.player}
+            uuid={cell.uuid}
+            key={cell.uuid}
+            column={columnIndex + 1}
+            row={rowIndex + 1}
+          />
+        ));
+      })}
+    </StyledBoard>
   );
 };
 

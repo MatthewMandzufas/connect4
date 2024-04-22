@@ -21,3 +21,7 @@ export const TheOneWithA10x10Grid: Story = {
 export const TheOneWithAllPlayerOneTokens: Story = {
   render: () => <Board cells={createBoardCells(6, 7, () => 1)} />,
 };
+
+export const TheOneWithAllPlayerTwoTokens: Story = {
+  render: () => <Board cells={createBoardCells(6, 7, () => 2)} />,
+};
