@@ -12,3 +12,7 @@ type Story = StoryObj<typeof Round>;
 export const TheOneWithDefaults: Story = {
   render: () => <Round />,
 };
+
+export const TheOneWithARoundNumber: Story = {
+  render: () => <Round roundNumber={4} />,
+};
