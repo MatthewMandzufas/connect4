@@ -8,6 +8,9 @@ const meta: Meta<typeof Board> = {
 
 export default meta;
 
+const randomSelectionStrategy: () => 1 | 2 | undefined = () =>
+  Math.floor(Math.random() * 3) as 1 | 2 | undefined;
+
 type Story = StoryObj<typeof Board>;
 
 export const TheOneWithDefaults: Story = {
@@ -24,4 +27,10 @@ export const TheOneWithAllPlayerOneTokens: Story = {
 
 export const TheOneWithAllPlayerTwoTokens: Story = {
   render: () => <Board cells={createBoardCells(6, 7, () => 2)} />,
+};
+
+export const TheOneWithAllRandomTokens: Story = {
+  render: () => (
+    <Board cells={createBoardCells(6, 7, randomSelectionStrategy)} />
+  ),
 };
