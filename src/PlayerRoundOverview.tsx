@@ -1,20 +1,21 @@
 import styled from "styled-components";
 
-type PlayerOverviewProps = {
+export type PlayerRoundOverviewProps = {
   playerNumber: 1 | 2;
   isActive: boolean;
   remainingDisks: number;
   playerDiskColor: string;
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ playerNumber: 1 | 2 }>`
   background-color: blue;
   display: flex;
   flex-direction: column;
   color: white;
   font-size: 1.2rem;
-  padding-left: 10px;
+  padding: 0 10px 0 10px;
   max-width: 50%;
+  flex: 1;
 `;
 
 const Row = styled.div`
@@ -23,11 +24,12 @@ const Row = styled.div`
 `;
 
 const Token = styled.div<{ isActive: boolean; playerDiskColor: string }>`
-  background-color: ${(props) =>
-    props.isActive ? props.playerDiskColor : "initial"};
+  background-color: ${({ isActive, playerDiskColor }) =>
+    isActive ? playerDiskColor : "initial"};
   border-radius: 50%;
   height: 30px;
-  border: ${(props) => (props.isActive ? "3px white dashed" : "none")};
+  min-width: 30px;
+  border: ${({ isActive }) => (isActive ? "3px white dashed" : "none")};
   width: 30px;
   margin-left: 20px;
 `;
@@ -37,8 +39,8 @@ export const PlayerRoundOverview = ({
   isActive,
   remainingDisks,
   playerDiskColor,
-}: PlayerOverviewProps) => (
-  <Wrapper>
+}: PlayerRoundOverviewProps) => (
+  <Wrapper playerNumber={playerNumber}>
     <Row>
       <p>{`Player Number: ${playerNumber}`}</p>
       <Token isActive={isActive} playerDiskColor={playerDiskColor} />
