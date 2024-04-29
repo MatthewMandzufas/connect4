@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Round } from "@/Round";
+import { Round } from "@/connect-4-ui/Round";
 
 const meta: Meta<typeof Round> = {
   component: Round,

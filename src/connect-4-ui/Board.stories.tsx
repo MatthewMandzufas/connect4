@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Board } from "@/Board";
-import createBoardCells from "./create-board-cells";
+import { Board } from "@/connect-4-ui/Board";
+import createBoardCells from "@/connect-4-ui/create-board-cells";
 
 const meta: Meta<typeof Board> = {
   component: Board,

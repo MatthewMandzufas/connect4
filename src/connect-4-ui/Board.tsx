@@ -1,5 +1,5 @@
-import { BoardCell, BoardCellProps } from "@/BoardCell";
-import createBoardCells from "@/create-board-cells";
+import { BoardCell, BoardCellProps } from "@/connect-4-ui/BoardCell";
+import createBoardCells from "@/connect-4-ui/create-board-cells";
 import styled from "styled-components";
 
 type BoardProps = {

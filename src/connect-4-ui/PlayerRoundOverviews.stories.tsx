@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { PlayerRoundOverviews } from "@/PlayerRoundOverviews";
+import { PlayerRoundOverviews } from "@/connect-4-ui/PlayerRoundOverviews";
 
 const meta: Meta<typeof PlayerRoundOverviews> = {
   component: PlayerRoundOverviews,
