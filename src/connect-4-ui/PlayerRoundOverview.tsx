@@ -16,11 +16,18 @@ const Wrapper = styled.div<{ playerNumber: 1 | 2 }>`
   padding: 0 10px 0 10px;
   max-width: 50%;
   flex: 1;
+  align-items: center;
 `;
 
 const Row = styled.div`
   display: flex;
   align-items: center;
+  gap: 16px;
+  padding-right: 10px;
+`;
+
+const AlignCenterRow = styled.div`
+  flex: 1;
 `;
 
 const Token = styled.div<{ isActive: boolean; playerDiskColor: string }>`
@@ -29,7 +36,7 @@ const Token = styled.div<{ isActive: boolean; playerDiskColor: string }>`
   border-radius: 50%;
   height: 30px;
   min-width: 30px;
-  border: ${({ isActive }) => (isActive ? "3px white dashed" : "none")};
+  outline: ${({ isActive }) => (isActive ? "3px white dashed" : "none")};
   width: 30px;
   margin-left: 20px;
 `;
@@ -41,10 +48,12 @@ export const PlayerRoundOverview = ({
   playerDiskColor,
 }: PlayerRoundOverviewProps) => (
   <Wrapper playerNumber={playerNumber}>
-    <Row>
-      <p>{`Player Number: ${playerNumber}`}</p>
-      <Token isActive={isActive} playerDiskColor={playerDiskColor} />
-    </Row>
-    <p>{`Remaining Disks: ${remainingDisks}`}</p>
+    <AlignCenterRow>
+      <Row>
+        <p>{`Player Number: ${playerNumber}`}</p>
+        <Token isActive={isActive} playerDiskColor={playerDiskColor} />
+      </Row>
+      <p>{`Remaining Disks: ${remainingDisks}`}</p>
+    </AlignCenterRow>
   </Wrapper>
 );
