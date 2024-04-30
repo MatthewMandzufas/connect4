@@ -2,7 +2,7 @@ import { BoardCell, BoardCellProps } from "@/connect-4-ui/BoardCell";
 import createBoardCells from "@/connect-4-ui/create-board-cells";
 import styled from "styled-components";
 
-type BoardProps = {
+export type BoardProps = {
   cells: Array<Array<BoardCellProps>>;
   playerOneColor?: string;
   playerTwoColor?: string;
@@ -13,10 +13,12 @@ type GridBoardCellProps = {
   column: number;
 };
 
-const StyledBoard = styled.div`
+const StyledBoard = styled.div<BoardProps>`
   display: grid;
-  grid-auto-columns: max-content;
-  grid-template-rows: max-content;
+  grid-template-columns: ${({ cells }) => `repeat(${cells[0].length}, 1fr)`};
+  grid-template-rows: ${({ cells }) => `repeat(${cells.length}, 1fr)`};
+  width: min(80vh, 80vw);
+  height: min(80vh, 80vw);
 `;
 
 const GridBoardCell = styled(BoardCell)<GridBoardCellProps>`
@@ -26,7 +28,7 @@ const GridBoardCell = styled(BoardCell)<GridBoardCellProps>`
 
 export const Board = (props: BoardProps) => {
   return (
-    <StyledBoard>
+    <StyledBoard cells={props.cells}>
       {props.cells.map((row, rowIndex) => {
         return row.map((cell, columnIndex) => (
           <GridBoardCell

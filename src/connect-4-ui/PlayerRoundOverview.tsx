@@ -14,7 +14,6 @@ const Wrapper = styled.div<{ playerNumber: 1 | 2 }>`
   color: white;
   font-size: 1.2rem;
   padding: 0 10px 0 10px;
-  max-width: 50%;
   flex: 1;
   align-items: center;
 `;

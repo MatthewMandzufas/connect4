@@ -11,6 +11,7 @@ export type PlayerRoundOverviewsProps = {
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const PlayerRoundOverviews = ({
