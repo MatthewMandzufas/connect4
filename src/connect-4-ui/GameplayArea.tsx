@@ -27,15 +27,13 @@ const StyledButton = styled.button`
 `;
 
 export const GameplayArea = ({ activeGame }: GameplayAreaProps) => {
-  const { gameOverview, board } = activeGame || {};
-
   return (
     <>
       <StyledGameplayArea activeGame={activeGame}>
         {activeGame ? (
           <>
-            <GameOverview {...gameOverview} />
-            <Board {...board} />
+            <GameOverview {...activeGame.gameOverview} />
+            <Board {...activeGame.board} />
           </>
         ) : (
           <StyledButton>Start Game</StyledButton>
