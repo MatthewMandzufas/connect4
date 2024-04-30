@@ -20,3 +20,9 @@ export const TheOneWithPlayer1: Story = {
 export const TheOneWithPlayer2: Story = {
   render: () => <BoardCell player={2} uuid={crypto.randomUUID()} />,
 };
+
+export const TheOneWithPlayer1AndADifferentTokenColour: Story = {
+  render: () => (
+    <BoardCell player={1} uuid={crypto.randomUUID()} playerOneColor="pink" />
+  ),
+};

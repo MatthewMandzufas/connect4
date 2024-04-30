@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 type BoardProps = {
   cells: Array<Array<BoardCellProps>>;
+  playerOneColor?: string;
+  playerTwoColor?: string;
 };
 
 type GridBoardCellProps = {
@@ -33,6 +35,8 @@ export const Board = (props: BoardProps) => {
             key={cell.uuid}
             column={columnIndex + 1}
             row={rowIndex + 1}
+            playerOneColor={props.playerOneColor}
+            playerTwoColor={props.playerTwoColor}
           />
         ));
       })}
@@ -42,4 +46,6 @@ export const Board = (props: BoardProps) => {
 
 Board.defaultProps = {
   cells: createBoardCells(6, 7),
+  playerOneColor: "red",
+  playerTwoColor: "yellow",
 };

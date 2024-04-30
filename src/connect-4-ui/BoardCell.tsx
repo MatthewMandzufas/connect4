@@ -4,6 +4,8 @@ export type BoardCellProps = {
   className?: string;
   player?: 1 | 2;
   uuid: string;
+  playerOneColor?: string;
+  playerTwoColor?: string;
 };
 
 const StyledBoardCell = styled.div`
@@ -12,17 +14,21 @@ const StyledBoardCell = styled.div`
   background: blue;
 `;
 
-const StyledBoardDiskCutout = styled.div<{ $player?: 1 | 2 }>`
+const StyledBoardDiskCutout = styled.div<{
+  $player?: 1 | 2;
+  $playerOneColor?: string;
+  $playerTwoColor?: string;
+}>`
   width: 50px;
   height: 50px;
   border-radius: 50%;
   position: relative;
-  background: ${({ $player }) => {
+  background: ${({ $player, $playerOneColor, $playerTwoColor }) => {
     switch ($player) {
       case 1:
-        return "red";
+        return $playerOneColor;
       case 2:
-        return "yellow";
+        return $playerTwoColor;
       default:
         return "white";
     }
@@ -31,8 +37,22 @@ const StyledBoardDiskCutout = styled.div<{ $player?: 1 | 2 }>`
   left: 5px;
 `;
 
-export const BoardCell = ({ player, className }: BoardCellProps) => (
+export const BoardCell = ({
+  player,
+  className,
+  playerOneColor,
+  playerTwoColor,
+}: BoardCellProps) => (
   <StyledBoardCell className={className}>
-    <StyledBoardDiskCutout $player={player} />
+    <StyledBoardDiskCutout
+      $player={player}
+      $playerOneColor={playerOneColor}
+      $playerTwoColor={playerTwoColor}
+    />
   </StyledBoardCell>
 );
+
+BoardCell.defaultProps = {
+  playerOneColor: "red",
+  playerTwoColor: "yellow",
+};

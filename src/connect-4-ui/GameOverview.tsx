@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { Round } from "@/connect-4-ui/Round";
 import { PlayerRoundOverviewProps } from "@/connect-4-ui/PlayerRoundOverview";
 import { GameStatus } from "@/connect-4-ui/GameStatus";
@@ -11,8 +10,6 @@ type GameOverviewProps = {
   roundNumber: number;
 };
 
-const Wrapper = styled.div``;
-
 const GameOverview = ({
   playerOne,
   playerTwo,
@@ -20,11 +17,11 @@ const GameOverview = ({
   gameRunning,
 }: GameOverviewProps) => {
   return (
-    <Wrapper>
+    <div>
       <Round roundNumber={roundNumber} />
       <PlayerRoundOverviews playerOne={playerOne} playerTwo={playerTwo} />
       <GameStatus gameRunning={gameRunning} />
-    </Wrapper>
+    </div>
   );
 };
 

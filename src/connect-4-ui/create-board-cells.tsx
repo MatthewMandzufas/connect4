@@ -1,4 +1,4 @@
-import { BoardCellProps } from "@/BoardCell";
+import { BoardCellProps } from "@/connect-4-ui/BoardCell";
 
 const createBoardCells = (
   rows: number = 0,

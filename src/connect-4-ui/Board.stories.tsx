@@ -34,3 +34,13 @@ export const TheOneWithAllRandomTokens: Story = {
     <Board cells={createBoardCells(6, 7, randomSelectionStrategy)} />
   ),
 };
+
+export const TheOneWithRandomTokensAndCustomTokenColour: Story = {
+  render: () => (
+    <Board
+      cells={createBoardCells(6, 7, randomSelectionStrategy)}
+      playerOneColor="pink"
+      playerTwoColor="orange"
+    />
+  ),
+};
