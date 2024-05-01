@@ -1,3 +1,3 @@
-function Game() {}
+class Game {}
 
 export default Game;

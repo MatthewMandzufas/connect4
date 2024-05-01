@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-// import Game from "@/connect-4-domain/game";
-import Game from "./game";
+import Game from "@/connect-4-domain/game";
 
 describe("game", () => {
   describe("new game", () => {
