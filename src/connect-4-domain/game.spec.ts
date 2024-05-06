@@ -8,6 +8,11 @@ describe("game", () => {
         const game = new Game();
         expect(game).toBeInstanceOf(Game);
       });
+      it("creates an empty 6x7 game board", () => {
+        const game = new Game();
+        const board = game.getBoard();
+        expect(board).toMatchInlineSnapshot();
+      });
     });
   });
 });
