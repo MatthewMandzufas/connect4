@@ -1,15 +1,15 @@
-function toAsciiTable<T>(grid: Array<Array<T>>): string {
-  const table = grid.reduce((table, currentRow) => {
-    const rowContent = currentRow.reduce((tableRow, currentElement) => {
-      return tableRow.concat(`
-|---|
-| ${currentElement} |
-|---|
-`);
-    }, "");
-    return table.concat(rowContent);
-  }, "");
-  return table;
+function toAsciiTable(grid: Array<Array<string>>): string {
+  const table = grid.reduce((tableRows, currentRow) => {
+    tableRows.push(
+      currentRow.reduce((tableRow, currentElement) => {
+        return tableRow.concat(`| ${currentElement} |`);
+      }, "")
+    );
+    return tableRows;
+  }, []);
+  return grid.length !== 0
+    ? ["", "|---|", table[0], "|---|", ""].join("\n")
+    : "";
 }
 
 export default toAsciiTable;

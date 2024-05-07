@@ -11,7 +11,7 @@ describe("to-ascii-table", () => {
   describe("given a 1 row grid", () => {
     describe("and 1 column", () => {
       it("resolves to a 1x1 ascii table", () => {
-        const asciiTable = toAsciiTable<string>([["1"]]);
+        const asciiTable = toAsciiTable([["1"]]);
         expect(asciiTable).toStrictEqual(`
 |---|
 | 1 |
