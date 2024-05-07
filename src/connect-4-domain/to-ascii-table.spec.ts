@@ -18,6 +18,16 @@ describe("to-ascii-table", () => {
 |---|
 `);
       });
+      describe("with content greater than 1 character in length", () => {
+        it("returns to a 1x1 ascii table", () => {
+          const asciiTable = toAsciiTable([["12"]]);
+          expect(asciiTable).toStrictEqual(`
+|----|
+| 12 |
+|----| 
+`);
+        });
+      });
     });
   });
 });
