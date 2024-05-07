@@ -16,9 +16,8 @@ function toAsciiTable(grid: Array<Array<string>>): string {
     return tableRows;
   }, []);
 
-  const padWidth = new Array(largestWidth + 2).fill("-");
-  const border = ["|", ...padWidth, "|"].join("");
-  return ["", border, table[0], border, ""].join("\n");
+  const border = ["|", "-".repeat(largestWidth + 2), "|"].join("");
+  return ["", border, table[0], border].join("\n");
 }
 
 export default toAsciiTable;

@@ -9,23 +9,32 @@ describe("to-ascii-table", () => {
     });
   });
   describe("given a 1 row grid", () => {
-    describe("and 1 column", () => {
-      it("resolves to a 1x1 ascii table", () => {
-        const asciiTable = toAsciiTable([["1"]]);
-        expect(asciiTable).toStrictEqual(`
+    describe("with 1 column", () => {
+      describe("containing a string", () => {
+        it("and the string is empty", () => {
+          const asciiTable = toAsciiTable([[""]]);
+          expect(asciiTable).toStrictEqual(`
+|--|
+|  |
+|--|`);
+        });
+        describe("with content 1 character in length", () => {
+          it("resolves to a 1x1 ascii table", () => {
+            const asciiTable = toAsciiTable([["1"]]);
+            expect(asciiTable).toStrictEqual(`
 |---|
 | 1 |
-|---|
-`);
-      });
-      describe("with content greater than 1 character in length", () => {
-        it("returns a 1x1 ascii table", () => {
-          const asciiTable = toAsciiTable([["12"]]);
-          expect(asciiTable).toStrictEqual(`
+|---|`);
+          });
+        });
+        describe("with content greater than 1 character in length", () => {
+          it("returns a 1x1 ascii table", () => {
+            const asciiTable = toAsciiTable([["12"]]);
+            expect(asciiTable).toStrictEqual(`
 |----|
 | 12 |
-|----|
-`);
+|----|`);
+          });
         });
       });
     });
