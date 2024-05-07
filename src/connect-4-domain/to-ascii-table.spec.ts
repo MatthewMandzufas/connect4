@@ -11,12 +11,14 @@ describe("to-ascii-table", () => {
   describe("given a 1 row grid", () => {
     describe("with 1 column", () => {
       describe("containing a string", () => {
-        it("and the string is empty", () => {
-          const asciiTable = toAsciiTable([[""]]);
-          expect(asciiTable).toStrictEqual(`
+        describe("and the string is empty", () => {
+          it("returns a 1x1 ascii table", () => {
+            const asciiTable = toAsciiTable([[""]]);
+            expect(asciiTable).toStrictEqual(`
 |--|
 |  |
 |--|`);
+          });
         });
         describe("with content 1 character in length", () => {
           it("resolves to a 1x1 ascii table", () => {
@@ -40,6 +42,15 @@ describe("to-ascii-table", () => {
       describe('containing "undefined"', () => {
         it("returns a 1x1 ascii table", () => {
           const asciiTable = toAsciiTable([[undefined]]);
+          expect(asciiTable).toStrictEqual(`
+|--|
+|  |
+|--|`);
+        });
+      });
+      describe('containing "null"', () => {
+        it("returns a 1x1 ascii table", () => {
+          const asciiTable = toAsciiTable([[null]]);
           expect(asciiTable).toStrictEqual(`
 |--|
 |  |
