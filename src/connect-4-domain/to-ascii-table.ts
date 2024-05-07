@@ -1,4 +1,14 @@
-function toAsciiTable(grid: Array<Array<string | undefined | null>>): string {
+function defaultResolver<T>(value: T): string {
+  if (value === undefined || value === null) {
+    return "";
+  }
+  return `${value}`;
+}
+
+function toAsciiTable<T>(
+  grid: Array<Array<T>>,
+  customerResolver: (value: T) => string = defaultResolver
+): string {
   if (grid.length === 0) {
     return "";
   }
@@ -6,18 +16,16 @@ function toAsciiTable(grid: Array<Array<string | undefined | null>>): string {
   const table = grid.reduce((tableRows, currentRow) => {
     tableRows.push(
       currentRow.reduce((tableRow: string, currentElement) => {
-        if (currentElement === undefined || currentElement === null) {
-          return tableRow.concat("|  |");
-        }
+        const resolvedValue = customerResolver(currentElement);
         largestCellWidth =
-          currentElement.length > largestCellWidth
-            ? currentElement.length
+          resolvedValue.length > largestCellWidth
+            ? resolvedValue.length
             : largestCellWidth;
-        return tableRow.concat(`| ${currentElement} |`);
+        return tableRow.concat(`| ${resolvedValue} |`);
       }, "")
     );
     return tableRows;
-  }, []);
+  }, [] as Array<string>);
 
   const border = ["|", "-".repeat(largestCellWidth + 2), "|"].join("");
   return ["", border, table[0], border].join("\n");
