@@ -2,7 +2,7 @@ function toAsciiTable(grid: Array<Array<string>>): string {
   if (grid.length === 0) {
     return "";
   }
-  let largestWidth = 1;
+  let largestWidth = 0;
   const table = grid.reduce((tableRows, currentRow) => {
     tableRows.push(
       currentRow.reduce((tableRow, currentElement) => {
