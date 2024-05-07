@@ -1,4 +1,4 @@
-function toAsciiTable(grid: Array<Array<string | undefined>>): string {
+function toAsciiTable(grid: Array<Array<string | undefined | null>>): string {
   if (grid.length === 0) {
     return "";
   }
@@ -6,7 +6,7 @@ function toAsciiTable(grid: Array<Array<string | undefined>>): string {
   const table = grid.reduce((tableRows, currentRow) => {
     tableRows.push(
       currentRow.reduce((tableRow: string, currentElement) => {
-        if (currentElement === undefined) {
+        if (currentElement === undefined || currentElement === null) {
           return tableRow.concat("|  |");
         }
         largestCellWidth =

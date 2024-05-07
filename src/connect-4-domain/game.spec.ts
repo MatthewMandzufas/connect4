@@ -12,7 +12,7 @@ describe("game", () => {
         const game = new GameFactory();
         const board = game.getBoard();
 
-        expect(asciiBoard).toMatchInlineSnapshot(`
+        expect(board).toMatchInlineSnapshot(`
           [
             [
               {
