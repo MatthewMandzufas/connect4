@@ -57,6 +57,17 @@ describe("to-ascii-table", () => {
 |--|`);
         });
       });
+      describe("and a custom cell resolver", () => {
+        it("uses the custom cell resolver to evaluate a cells value", () => {
+          const customResolver = (value: unknown) =>
+            value === null ? "💩" : "";
+          const asciiTable = toAsciiTable([[null]], customResolver);
+          expect(asciiTable).toStrictEqual(`
+|----|
+| 💩 |
+|----|`);
+        });
+      });
     });
   });
 });
