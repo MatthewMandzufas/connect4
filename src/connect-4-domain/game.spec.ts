@@ -1,17 +1,159 @@
 import { describe, expect, it } from "vitest";
-import Game from "@/connect-4-domain/game";
+import GameFactory from "@/connect-4-domain/game";
 
 describe("game", () => {
   describe("new game", () => {
     describe("given defaults", () => {
       it("returns an instance of Game", () => {
-        const game = new Game();
-        expect(game).toBeInstanceOf(Game);
+        const game = new GameFactory();
+        expect(game).toBeInstanceOf(GameFactory);
       });
       it("creates an empty 6x7 game board", () => {
-        const game = new Game();
+        const game = new GameFactory();
         const board = game.getBoard();
-        expect(board).toMatchInlineSnapshot();
+
+        expect(asciiBoard).toMatchInlineSnapshot(`
+          [
+            [
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+            ],
+            [
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+            ],
+            [
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+            ],
+            [
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+            ],
+            [
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+            ],
+            [
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+              {
+                "player": undefined,
+              },
+            ],
+          ]
+        `);
       });
     });
   });
