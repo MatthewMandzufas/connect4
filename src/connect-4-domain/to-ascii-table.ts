@@ -1,15 +1,12 @@
 function defaultResolver<T>(value: T): string {
-  if (value === undefined || value === null) {
-    return "";
-  }
-  return `${value}`;
+  return value === undefined || value === null ? "" : `${value}`;
 }
 
 function createBorder(cellWidthPerColumn: Array<number>): string {
   const borderChar = "-";
 
   return cellWidthPerColumn.reduce((borderString, width) => {
-    return borderString.concat(`${borderChar.repeat(width + 2)}|`);
+    return borderString.concat(borderChar.repeat(width + 2), "|");
   }, "|");
 }
 
@@ -43,18 +40,20 @@ function toAsciiTable<T>(
   const resolvedGrid = resolveGridCells(grid, customerResolver);
   const largestCellWidthForEachColumn =
     getLargestCellWidthPerColumn(resolvedGrid);
-  const table = grid.reduce((tableRows, currentRow) => {
+  const table = resolvedGrid.reduce((tableRows, currentRow) => {
     tableRows.push(
       currentRow.reduce((tableRow: string, currentElement) => {
-        const resolvedValue = customerResolver(currentElement);
-        return tableRow.concat(` ${resolvedValue} |`);
+        return tableRow.concat(` ${currentElement} |`);
       }, "|")
     );
     return tableRows;
   }, [] as Array<string>);
 
   const border = createBorder(largestCellWidthForEachColumn);
-  return ["", border, table[0], border].join("\n");
+  return table.reduce((accumulator, currentValue) => {
+    const line = ["", border, currentValue, border].join("\n");
+    return accumulator.concat(line);
+  }, "");
 }
 
 export default toAsciiTable;
