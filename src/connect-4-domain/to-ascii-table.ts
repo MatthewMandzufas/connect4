@@ -50,10 +50,10 @@ function toAsciiTable<T>(
   }, [] as Array<string>);
 
   const border = createBorder(largestCellWidthForEachColumn);
-  return table.reduce((accumulator, currentValue) => {
-    const line = ["", border, currentValue, border].join("\n");
-    return accumulator.concat(line);
-  }, "");
+  return table.reduce((stringRepresentation, currentRow) => {
+    const line = ["", currentRow, border].join("\n");
+    return stringRepresentation.concat(line);
+  }, `\n${border}`);
 }
 
 export default toAsciiTable;
