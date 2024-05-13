@@ -103,6 +103,17 @@ describe("to-ascii-table", () => {
 |---|`);
         });
       });
+      describe("of differing cell value widths", () => {
+        it("resolves to a 2x1 ascii table", () => {
+          const asciiTable = toAsciiTable([[1], [11]]);
+          expect(asciiTable).toStrictEqual(`
+|----|
+| 1  |
+|----|
+| 11 |
+|----|`);
+        });
+      });
     });
   });
 });
