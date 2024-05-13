@@ -60,7 +60,7 @@ describe("to-ascii-table", () => {
       describe("and a custom cell resolver", () => {
         it("uses the custom cell resolver to evaluate a cells value", () => {
           const customResolver = (value: unknown) =>
-            value === null ? "💩" : "";
+            value === null || value === undefined ? "💩" : `${value}`;
           const asciiTable = toAsciiTable([[null]], customResolver);
           expect(asciiTable).toStrictEqual(`
 |----|
@@ -112,6 +112,81 @@ describe("to-ascii-table", () => {
 |----|
 | 11 |
 |----|`);
+        });
+      });
+    });
+    describe("and multiple columns", () => {
+      describe("of the same width", () => {
+        it("resolves to a 2x2 ascii table", () => {
+          const asciiTable = toAsciiTable([
+            [1, 1],
+            [1, 1],
+          ]);
+          expect(asciiTable).toStrictEqual(`
+|---|---|
+| 1 | 1 |
+|---|---|
+| 1 | 1 |
+|---|---|`);
+        });
+      });
+      describe("of varying widths", () => {
+        it("resolves to a 2x2 ascii table", () => {
+          const asciiTable = toAsciiTable([
+            [1, 221],
+            [12, 1],
+          ]);
+          expect(asciiTable).toStrictEqual(`
+|----|-----|
+| 1  | 221 |
+|----|-----|
+| 12 | 1   |
+|----|-----|`);
+        });
+        describe("with a random assortment of cell types", () => {
+          it("resolves to a 4x4 ascii table", () => {
+            const asciiTable = toAsciiTable([
+              ["", 10, undefined, 1234567],
+              [9, 3, 4, "hello!"],
+              ["1", "2", "21", null],
+              [1, 1, 1, 1],
+            ]);
+            expect(asciiTable).toStrictEqual(`
+|---|----|----|---------|
+|   | 10 |    | 1234567 |
+|---|----|----|---------|
+| 9 | 3  | 4  | hello!  |
+|---|----|----|---------|
+| 1 | 2  | 21 |         |
+|---|----|----|---------|
+| 1 | 1  | 1  | 1       |
+|---|----|----|---------|`);
+          });
+          describe("with a custom resolver", () => {
+            it("resolves to a 4x4 ascii table", () => {
+              const customResolver = (value: unknown) =>
+                value === null || value === undefined ? "💩" : `${value}`;
+              const asciiTable = toAsciiTable(
+                [
+                  ["", 10, undefined, 1234567],
+                  [9, 3, 4, "hello!"],
+                  ["1", "2", "21", null],
+                  [1, 1, 1, 1],
+                ],
+                customResolver
+              );
+              expect(asciiTable).toStrictEqual(`
+|---|----|----|---------|
+|   | 10 | 💩 | 1234567 |
+|---|----|----|---------|
+| 9 | 3  | 4  | hello!  |
+|---|----|----|---------|
+| 1 | 2  | 21 | 💩      |
+|---|----|----|---------|
+| 1 | 1  | 1  | 1       |
+|---|----|----|---------|`);
+            });
+          });
         });
       });
     });

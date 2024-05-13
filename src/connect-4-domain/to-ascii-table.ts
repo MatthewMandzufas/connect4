@@ -42,8 +42,13 @@ function toAsciiTable<T>(
     getLargestCellWidthPerColumn(resolvedGrid);
   const table = resolvedGrid.reduce((tableRows, currentRow) => {
     tableRows.push(
-      currentRow.reduce((tableRow: string, currentElement) => {
-        return tableRow.concat(` ${currentElement} |`);
+      currentRow.reduce((tableRow: string, currentElement, currentRowIndex) => {
+        return tableRow.concat(
+          ` ${currentElement.padEnd(
+            largestCellWidthForEachColumn[currentRowIndex],
+            " "
+          )} |`
+        );
       }, "|")
     );
     return tableRows;
