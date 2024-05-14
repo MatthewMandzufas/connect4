@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import toBeDeeplyUnequal from "./to-be-deeply-unequal";
 
 describe("toBeDeeplyUnequal", () => {
   it("should fail when given objects are the same object", () => {
@@ -16,5 +15,13 @@ describe("toBeDeeplyUnequal", () => {
     const arr = [];
     const obj = {};
     expect(obj).toBeDeeplyUnequal(arr);
+  });
+  it("should pass, given null and an object", () => {
+    const obj = {};
+    expect(null).toBeDeeplyUnequal(obj);
+  });
+  it("should pass, given undefined and an object", () => {
+    const obj = {};
+    expect(undefined).toBeDeeplyUnequal(obj);
   });
 });
