@@ -1,9 +1,14 @@
 import { MatcherResult } from "@/vitest";
 
-function toBeDeeplyUnequal(received: object, expected: object): MatcherResult {
+function toBeDeeplyUnequal(
+  this: { isNot: boolean } | void,
+  received: object,
+  expected: object
+): MatcherResult {
+  const { isNot } = this ?? {};
   return {
     pass: received !== expected,
-    message: () => "Objects are deeply equal",
+    message: () => `Objects are deeply ${isNot ? "un" : ""}equal`,
   };
 }
 
