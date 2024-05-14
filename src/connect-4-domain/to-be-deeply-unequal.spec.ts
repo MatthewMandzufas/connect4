@@ -24,4 +24,9 @@ describe("toBeDeeplyUnequal", () => {
     const obj = {};
     expect(undefined).toBeDeeplyUnequal(obj);
   });
+  it("should fail, given two arrays that are the same", () => {
+    const firstArray = [];
+    const secondArray = firstArray;
+    expect(firstArray).not.toBeDeeplyUnequal(secondArray);
+  });
 });
