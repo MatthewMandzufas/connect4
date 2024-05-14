@@ -189,6 +189,17 @@ describe("to-ascii-table", () => {
           });
         });
       });
+      describe("where not all rows have the correct number of columns", () => {
+        it("throws an error", () => {
+          const asciiTable = toAsciiTable([
+            [1, 2, 3],
+            [1, 2],
+          ]);
+          expect(asciiTable).toThrow(
+            "Each row requires the same number of columns!"
+          );
+        });
+      });
     });
   });
 });
