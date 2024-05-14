@@ -46,6 +46,15 @@ describe("game", () => {
           })
         );
       });
+      it("creates a game where player 2 starts with a number of tokens, equal to half the number of cells", () => {
+        const game = new GameFactory();
+        expect(game.getPlayerStats(2)).toEqual(
+          expect.objectContaining({
+            remainingDisks: 21,
+            playerNumber: 2,
+          })
+        );
+      });
     });
   });
 });
