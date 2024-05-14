@@ -55,6 +55,12 @@ describe("game", () => {
           })
         );
       });
+      it("returns a deep copy of the board", () => {
+        const game = new GameFactory();
+        const firstBoard = game.getBoard();
+        const secondBoard = game.getBoard();
+        expect(secondBoard).toBeDeeplyUnequal(firstBoard);
+      });
     });
   });
 });
