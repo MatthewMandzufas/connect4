@@ -37,6 +37,10 @@ function toAsciiTable<T>(
   if (grid.length === 0) {
     return "";
   }
+  const firstRowLength = grid[0].length;
+  if (!grid.every((currentRow) => currentRow.length === firstRowLength)) {
+    throw new Error("Each row requires the same number of columns!");
+  }
   const resolvedGrid = resolveGridCells(grid, customerResolver);
   const largestCellWidthForEachColumn =
     getLargestCellWidthPerColumn(resolvedGrid);
