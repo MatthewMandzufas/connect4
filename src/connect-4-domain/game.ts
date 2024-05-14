@@ -1,6 +1,4 @@
-import { BoardCell } from "@/connect-4-ui/BoardCell";
-
-type BoardCell = {
+export type BoardCell = {
   player: 1 | 2 | undefined;
 };
 
@@ -36,8 +34,6 @@ class GameFactory implements Game {
   }
 
   getBoard() {
-    // TODO: Finish implementation. New instance of Board (copy it over)
-    // TODO: New test case for read-only board? can do this with a spy.
     return this.board;
   }
 }

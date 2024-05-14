@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import GameFactory from "@/connect-4-domain/game";
+import GameFactory, { BoardCell } from "@/connect-4-domain/game";
+import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
+
+function toAsciiTable(board: Array<Array<BoardCell>>): string {
+  const cellResolver = (cell: BoardCell) =>
+    cell.player === undefined ? "" : `${cell.player}`;
+  return _toAsciiTable(board, cellResolver);
+}
 
 describe("game", () => {
   describe("new game", () => {
@@ -11,148 +18,23 @@ describe("game", () => {
       it("creates an empty 6x7 game board", () => {
         const game = new GameFactory();
         const board = game.getBoard();
+        const asciiTable = toAsciiTable(board);
 
-        expect(board).toMatchInlineSnapshot(`
-          [
-            [
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-            ],
-            [
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-            ],
-            [
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-            ],
-            [
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-            ],
-            [
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-            ],
-            [
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-              {
-                "player": undefined,
-              },
-            ],
-          ]
+        expect(asciiTable).toMatchInlineSnapshot(`
+          "
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|"
         `);
       });
     });
