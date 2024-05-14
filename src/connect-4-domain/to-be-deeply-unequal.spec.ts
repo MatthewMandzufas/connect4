@@ -29,9 +29,14 @@ describe("toBeDeeplyUnequal", () => {
     const secondArray = firstArray;
     expect(firstArray).not.toBeDeeplyUnequal(secondArray);
   });
-  it("should passm given two arrays that are different", () => {
+  it("should pass given two arrays that are different", () => {
     const firstArray = [];
     const secondArray = [];
+    expect(firstArray).toBeDeeplyUnequal(secondArray);
+  });
+  it("should pass when objects are unequal at a shallow level", () => {
+    const firstArray = [1, 2];
+    const secondArray = [1, 3];
     expect(firstArray).toBeDeeplyUnequal(secondArray);
   });
 });
