@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MatcherResult } from "@/vitest";
 
-function checkIsPlainObjectOrArray(value) {
+function getIsPlainObjectOrArray(value: any): value is object | any[] {
   return (
     (value !== null &&
       typeof value === "object" &&
@@ -9,26 +10,26 @@ function checkIsPlainObjectOrArray(value) {
   );
 }
 
-function checkIfDeepUnequal(value1, value2) {
+function getIfDeepUnequal(value1: any, value2: any): boolean {
   if (
-    (checkIsPlainObjectOrArray(value1) && !checkIsPlainObjectOrArray(value2)) ||
-    (!checkIsPlainObjectOrArray(value1) && checkIsPlainObjectOrArray(value2)) ||
-    (!checkIsPlainObjectOrArray(value1) && !checkIsPlainObjectOrArray(value2))
+    (getIsPlainObjectOrArray(value1) && !getIsPlainObjectOrArray(value2)) ||
+    (!getIsPlainObjectOrArray(value1) && getIsPlainObjectOrArray(value2)) ||
+    (!getIsPlainObjectOrArray(value1) && !getIsPlainObjectOrArray(value2))
   ) {
     return true;
   }
 
+  if (value1 === value2) return false;
+
   const objectKeys1 = Object.keys(value1);
 
-  for (const key of objectKeys1) {
-    const objectValue1 = value1[key];
-    const objectValue2 = value2[key];
+  const isDeeplyUnequal = objectKeys1.reduce(
+    (isDeepUnequal, currentKey): boolean =>
+      isDeepUnequal && getIfDeepUnequal(value1[currentKey], value2[currentKey]),
+    true
+  );
 
-    if (!checkIfDeepUnequal(objectValue1, objectValue2)) {
-      return false;
-    }
-  }
-  return value1 !== value2;
+  return isDeeplyUnequal;
 }
 
 function toBeDeeplyUnequal(
@@ -36,8 +37,8 @@ function toBeDeeplyUnequal(
   received: object,
   expected: object
 ): MatcherResult {
-  const { isNot } = this ?? {};
-  const areObjectsDifferent = checkIfDeepUnequal(received, expected);
+  const isNot = this ?? {};
+  const areObjectsDifferent = getIfDeepUnequal(received, expected);
   return {
     pass: areObjectsDifferent,
     message: () => `Objects are deeply ${isNot ? "un" : ""}equal`,
