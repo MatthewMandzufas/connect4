@@ -61,6 +61,11 @@ describe("toBeDeeplyUnequal", () => {
     const secondArray = [1, 3];
     expect(firstArray).toBeDeeplyUnequal(secondArray);
   });
+  it("should pass when the first array has an extra value, and arrays are unequal", () => {
+    const firstArray = [1, 2, 3];
+    const secondArray = [1, 2];
+    expect(firstArray).toBeDeeplyUnequal(secondArray);
+  });
   it("should fail when arrays are equal at a shallow level", () => {
     const innerArray: any[] = [];
     const firstArray = [innerArray];
