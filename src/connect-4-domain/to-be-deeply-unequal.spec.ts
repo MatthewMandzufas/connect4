@@ -108,4 +108,9 @@ describe("toBeDeeplyUnequal", () => {
     const secondArray = [innerArray];
     expect(firstArray).not.toBeDeeplyUnequal(secondArray);
   });
+  it("should pass when arrays are unequal at a nested level", () => {
+    const array1 = [[1]];
+    const array2 = [[1]];
+    expect(array1).toBeDeeplyUnequal(array2);
+  });
 });
