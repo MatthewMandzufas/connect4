@@ -11,12 +11,14 @@ interface PlayerStats {
   remainingDisks: number;
 }
 
+type Board = Array<Array<BoardCell>>;
+
 interface Game {
-  getBoard: () => Array<Array<BoardCell>>;
+  getBoard: () => Board;
 }
 
 class GameFactory implements Game {
-  private board: Array<Array<BoardCell>>;
+  private board: Board;
   private players: Record<1 | 2, PlayerStats>;
 
   constructor(
@@ -42,10 +44,7 @@ class GameFactory implements Game {
     };
   }
 
-  #createBoard(boardDimensions: {
-    rows: number;
-    columns: number;
-  }): Array<Array<BoardCell>> {
+  #createBoard(boardDimensions: { rows: number; columns: number }): Board {
     const board = new Array(boardDimensions.rows).fill(undefined).map(() =>
       new Array(boardDimensions.columns).fill(undefined).map(() => {
         return { player: undefined };
@@ -54,8 +53,12 @@ class GameFactory implements Game {
     return board;
   }
 
-  getBoard() {
+  private createDeepBoardClone(): Board {
     return this.board;
+  }
+
+  getBoard() {
+    return this.createDeepBoardClone();
   }
 
   getPlayerStats(playerNumber: 1 | 2): PlayerStats {
