@@ -11,6 +11,11 @@ describe("toBeDeeplyUnequal", () => {
     const secondObject = {};
     expect(firstObject).toBeDeeplyUnequal(secondObject);
   });
+  it("should pass when objects are unequal at a shallow level", () => {
+    const object1 = { a: 1, b: 2 };
+    const object2 = { a: 1, b: 2 };
+    expect(object1).toBeDeeplyUnequal(object2);
+  });
   it("it should pass, given an object and an array", () => {
     const arr = [];
     const obj = {};
