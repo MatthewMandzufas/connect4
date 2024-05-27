@@ -9,33 +9,26 @@ function checkIsPlainObjectOrArray(value) {
   );
 }
 
-function checkIfDeepUnequal(object1, object2) {
+function checkIfDeepUnequal(value1, value2) {
   if (
-    (checkIsPlainObjectOrArray(object1) &&
-      !checkIsPlainObjectOrArray(object2)) ||
-    (!checkIsPlainObjectOrArray(object1) && checkIsPlainObjectOrArray(object2))
+    (checkIsPlainObjectOrArray(value1) && !checkIsPlainObjectOrArray(value2)) ||
+    (!checkIsPlainObjectOrArray(value1) && checkIsPlainObjectOrArray(value2)) ||
+    (!checkIsPlainObjectOrArray(value1) && !checkIsPlainObjectOrArray(value2))
   ) {
     return true;
   }
 
-  if (object1 === object2) return false;
-
-  const objectKeys1 = Object.keys(object1);
-  const objectKeys2 = Object.keys(object2);
-
-  if (objectKeys1.length !== objectKeys2.length) return true;
+  const objectKeys1 = Object.keys(value1);
 
   for (const key of objectKeys1) {
-    const value1 = object1[key];
-    const value2 = object2[key];
+    const objectValue1 = value1[key];
+    const objectValue2 = value2[key];
 
-    const areValuesObjects =
-      checkIsPlainObjectOrArray(value1) && checkIsPlainObjectOrArray(value2);
-
-    if (!areValuesObjects) return value1 === value2;
-    if (areValuesObjects && !checkIfDeepUnequal(value1, value2)) return false;
+    if (!checkIfDeepUnequal(objectValue1, objectValue2)) {
+      return false;
+    }
   }
-  return object1 !== object2;
+  return value1 !== value2;
 }
 
 function toBeDeeplyUnequal(
