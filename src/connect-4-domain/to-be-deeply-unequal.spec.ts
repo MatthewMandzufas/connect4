@@ -33,7 +33,7 @@ describe("toBeDeeplyUnequal", () => {
     const object2 = { a: 1, b: innerArray, c: 3 };
     expect(object1).not.toBeDeeplyUnequal(object2);
   });
-  it("should pass when two objects are deeply unequal", () => {
+  it("should pass when two nested objects are deeply unequal", () => {
     const object1 = {
       a: 1,
       b: {
@@ -47,6 +47,22 @@ describe("toBeDeeplyUnequal", () => {
       },
     };
     expect(object1).toBeDeeplyUnequal(object2);
+  });
+  it("should fail when two nested objects are not deeply unequal", () => {
+    const innerObject = {};
+    const object1 = {
+      a: 1,
+      b: {
+        c: innerObject,
+      },
+    };
+    const object2 = {
+      a: 1,
+      b: {
+        c: innerObject,
+      },
+    };
+    expect(object1).not.toBeDeeplyUnequal(object2);
   });
   it("it should pass, given an object and an array", () => {
     const arr: any[] = [];
