@@ -21,6 +21,12 @@ describe("toBeDeeplyUnequal", () => {
     const object2 = { a: 1, b: 2, c: 3 };
     expect(object1).toBeDeeplyUnequal(object2);
   });
+  it("should fail when one object has an additional key, and shares a reference to a value", () => {
+    const innerArray = [];
+    const object1 = { a: 1, b: innerArray };
+    const object2 = { a: 1, b: innerArray, c: 3 };
+    expect(object1).not.toBeDeeplyUnequal(object2);
+  });
   it("it should pass, given an object and an array", () => {
     const arr = [];
     const obj = {};
