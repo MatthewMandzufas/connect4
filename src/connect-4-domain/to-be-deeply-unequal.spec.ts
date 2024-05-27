@@ -113,4 +113,10 @@ describe("toBeDeeplyUnequal", () => {
     const array2 = [[1]];
     expect(array1).toBeDeeplyUnequal(array2);
   });
+  it("should fail when arrays are not unequal at a nested level", () => {
+    const innerArray: any = [];
+    const array1 = [[innerArray]];
+    const array2 = [[innerArray]];
+    expect(array1).not.toBeDeeplyUnequal(array2);
+  });
 });
