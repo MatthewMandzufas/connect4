@@ -17,7 +17,12 @@ describe("toBeDeeplyUnequal", () => {
     const object2 = { a: 1, b: 2 };
     expect(object1).toBeDeeplyUnequal(object2);
   });
-  it("should pass when one object has an additional key at a shallow level", () => {
+  it("should pass where the first object has an additional key at a shallow level", () => {
+    const object1 = { a: 1, b: 2, c: 3 };
+    const object2 = { a: 1, b: 2 };
+    expect(object1).toBeDeeplyUnequal(object2);
+  });
+  it("should pass where the second object has an additional key at a shallow level", () => {
     const object1 = { a: 1, b: 2 };
     const object2 = { a: 1, b: 2, c: 3 };
     expect(object1).toBeDeeplyUnequal(object2);
