@@ -112,6 +112,30 @@ describe("game", () => {
           );
         });
       });
+      describe("which results in an even number of cells", () => {
+        it("returns an instance of game", () => {
+          const game = new GameFactory({
+            boardDimensions: { rows: 6, columns: 10 },
+          });
+
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|--|--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|--|--|--|"
+          `);
+        });
+      });
     });
   });
 });

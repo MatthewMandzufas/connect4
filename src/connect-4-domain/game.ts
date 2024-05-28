@@ -35,6 +35,13 @@ class GameFactory implements Game {
       boardDimensions: { rows: 6, columns: 7 },
     }
   ) {
+    this.#validateBoard(boardDimensions);
+    const startingDisks = (boardDimensions.rows * boardDimensions.columns) / 2;
+    this.players = this.#createPlayers(startingDisks);
+    this.board = this.#createBoard(boardDimensions);
+  }
+
+  #validateBoard(boardDimensions) {
     if (boardDimensions.rows < 1) {
       throw new InvalidBoardDimensions(
         "The number of rows, must be greater than or equal to 1"
@@ -48,9 +55,6 @@ class GameFactory implements Game {
         `The board must have an even number of cells. Supplied board dimensions: Rows: ${boardDimensions.rows}, Columns: ${boardDimensions.columns}. This results in an odd number of cells (${boardDimensions.rows * boardDimensions.columns})`
       );
     }
-    const startingDisks = (boardDimensions.rows * boardDimensions.columns) / 2;
-    this.players = this.#createPlayers(startingDisks);
-    this.board = this.#createBoard(boardDimensions);
   }
 
   #createPlayers(startingDisks: number): Record<1 | 2, PlayerStats> {
