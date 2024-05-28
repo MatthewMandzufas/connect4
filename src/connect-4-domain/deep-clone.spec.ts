@@ -68,4 +68,9 @@ describe("deepClone", () => {
     expect(clonedObject[symB].c).toStrictEqual(originalObject[symB].c);
     expect(clonedObject[symB][symD]).toStrictEqual(originalObject[symB][symD]);
   });
+  it('should return "null" as is', () => {
+    const original = null;
+    const cloned = deepClone(original);
+    expect(cloned).toBe(original);
+  });
 });
