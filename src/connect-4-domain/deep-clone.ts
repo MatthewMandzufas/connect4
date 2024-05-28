@@ -14,8 +14,15 @@ function deepClone<T>(
 
   visited.set(value, result);
 
-  for (const key of Object.keys(value)) {
-    result[key] = deepClone((value as { [key: string]: any })[key], visited);
+  const stringAndSymbolKeys = [
+    ...Object.keys(value),
+    ...Object.getOwnPropertySymbols(value),
+  ];
+
+  for (const key of stringAndSymbolKeys) {
+    const nestedValue = (value as any)[key];
+    const clonedValue = deepClone<typeof nestedValue>(nestedValue, visited);
+    (result as any)[key] = clonedValue;
   }
 
   return result;
