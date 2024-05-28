@@ -39,6 +39,10 @@ class GameFactory implements Game {
       throw new InvalidBoardDimensions(
         "The number of rows, must be greater than or equal to 1"
       );
+    } else if (boardDimensions.columns < 1) {
+      throw new InvalidBoardDimensions(
+        "The number of columns, must be greater than or equal to 1"
+      );
     }
     const startingDisks = (boardDimensions.rows * boardDimensions.columns) / 2;
     this.players = this.#createPlayers(startingDisks);
