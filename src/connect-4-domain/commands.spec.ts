@@ -1,4 +1,8 @@
 import { describe, expect, it } from "vitest";
+import {
+  createMovePlayerCommand,
+  MovePlayerCommand,
+} from "@/connect-4-domain/commands";
 
 describe("commands", () => {
   describe("createMovePlayerCommand", () => {
