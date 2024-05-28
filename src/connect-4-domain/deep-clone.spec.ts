@@ -51,4 +51,11 @@ describe("deepClone", () => {
     const clonedSymbol = deepClone(originalSymbol);
     expect(originalSymbol).toBe(clonedSymbol);
   });
+  it("should deeply clone objects with circular references", () => {
+    const originalObject: { a: number; b?: object } = { a: 1 };
+    originalObject.b = originalObject;
+    const clonedObject = deepClone(originalObject);
+    expect(clonedObject).not.toBe(originalObject);
+    expect(clonedObject.b).toBe(clonedObject);
+  });
 });
