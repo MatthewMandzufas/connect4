@@ -29,6 +29,7 @@ interface Game {
 class GameFactory implements Game {
   private board: Board;
   private players: Record<1 | 2, PlayerStats>;
+  private activePlayer: 1 | 2;
 
   constructor(
     { boardDimensions }: GameParameters = {
@@ -39,6 +40,7 @@ class GameFactory implements Game {
     const startingDisks = (boardDimensions.rows * boardDimensions.columns) / 2;
     this.players = this.#createPlayers(startingDisks);
     this.board = this.#createBoard(boardDimensions);
+    this.activePlayer = 1;
   }
 
   #validateBoard(boardDimensions: BoardDimension) {
@@ -85,6 +87,10 @@ class GameFactory implements Game {
 
   getPlayerStats(playerNumber: 1 | 2): PlayerStats {
     return this.players[playerNumber];
+  }
+
+  getActivePlayer(): number {
+    return this.activePlayer;
   }
 }
 
