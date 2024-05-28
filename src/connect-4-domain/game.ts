@@ -1,3 +1,5 @@
+import deepClone from "@/connect-4-domain/deep-clone";
+
 export type BoardCell = {
   player: 1 | 2 | undefined;
 };
@@ -53,12 +55,8 @@ class GameFactory implements Game {
     return board;
   }
 
-  private createDeepBoardClone(): Board {
-    return this.board;
-  }
-
   getBoard() {
-    return this.createDeepBoardClone();
+    return deepClone(this.board);
   }
 
   getPlayerStats(playerNumber: 1 | 2): PlayerStats {
