@@ -66,5 +66,21 @@ describe("game", () => {
         () => {}
       );
     });
+    describe("given custom board dimensions", () => {
+      describe("with 0 rows", () => {
+        it("throws an error", () => {
+          expect(
+            () =>
+              new GameFactory({
+                boardDimensions: { rows: 0, columns: 7 },
+              })
+          ).toThrow(
+            new InvalidBoardDimensions(
+              "The number of rows, must be greater than or equal to 1"
+            )
+          );
+        });
+      });
+    });
   });
 });

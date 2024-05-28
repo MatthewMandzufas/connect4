@@ -4,8 +4,13 @@ export type BoardCell = {
   player: 1 | 2 | undefined;
 };
 
-type GameParameters = {
-  boardDimensions: { rows: number; columns: number };
+export type GameParameters = {
+  boardDimensions: BoardDimension;
+};
+
+export type BoardDimension = {
+  rows: number;
+  columns: number;
 };
 
 interface PlayerStats {
