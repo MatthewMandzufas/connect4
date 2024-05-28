@@ -58,4 +58,14 @@ describe("deepClone", () => {
     expect(clonedObject).not.toBe(originalObject);
     expect(clonedObject.b).toBe(clonedObject);
   });
+  it("should properly deeply clone objects that use symbols as keys", () => {
+    const symB: unique symbol = Symbol("b");
+    const symD: unique symbol = Symbol("d");
+    const originalObject: { a: number; [symB]: { c: number; [symD]: number } } =
+      { a: 1, [symB]: { c: 2, [symD]: 4 } };
+    const clonedObject = deepClone(originalObject);
+    expect(clonedObject[symB]).not.toBe(originalObject[symB]);
+    expect(clonedObject[symB].c).toStrictEqual(originalObject[symB].c);
+    expect(clonedObject[symB][symD]).toStrictEqual(originalObject[symB][symD]);
+  });
 });
