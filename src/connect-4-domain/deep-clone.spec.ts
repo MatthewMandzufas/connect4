@@ -46,4 +46,9 @@ describe("deepClone", () => {
     expect(originalFunction(3)).toStrictEqual(clonedFunction(3));
     expect(originalFunction).toBe(clonedFunction);
   });
+  it("should return the original symbol", () => {
+    const originalSymbol = Symbol("1");
+    const clonedSymbol = deepClone(originalSymbol);
+    expect(originalSymbol).toBe(clonedSymbol);
+  });
 });
