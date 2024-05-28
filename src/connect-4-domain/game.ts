@@ -41,7 +41,7 @@ class GameFactory implements Game {
     this.board = this.#createBoard(boardDimensions);
   }
 
-  #validateBoard(boardDimensions) {
+  #validateBoard(boardDimensions: BoardDimension) {
     if (boardDimensions.rows < 1) {
       throw new InvalidBoardDimensions(
         "The number of rows, must be greater than or equal to 1"
