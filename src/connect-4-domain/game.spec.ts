@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import GameFactory, { BoardCell } from "@/connect-4-domain/game";
+import GameFactory, {
+  BoardCell,
+  InvalidBoardDimensions,
+} from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
@@ -77,6 +80,20 @@ describe("game", () => {
           ).toThrow(
             new InvalidBoardDimensions(
               "The number of rows, must be greater than or equal to 1"
+            )
+          );
+        });
+      });
+      describe("with 0 columns", () => {
+        it("throws an error", () => {
+          expect(
+            () =>
+              new GameFactory({
+                boardDimensions: { rows: 6, columns: 0 },
+              })
+          ).toThrow(
+            new InvalidBoardDimensions(
+              "The number of columns, must be greater than or equal to 1"
             )
           );
         });
