@@ -43,6 +43,10 @@ class GameFactory implements Game {
       throw new InvalidBoardDimensions(
         "The number of columns, must be greater than or equal to 1"
       );
+    } else if ((boardDimensions.rows * boardDimensions.columns) % 2 !== 0) {
+      throw new InvalidBoardDimensions(
+        `The board must have an even number of cells. Supplied board dimensions: Rows: ${boardDimensions.rows}, Columns: ${boardDimensions.columns}. This results in an odd number of cells (${boardDimensions.rows * boardDimensions.columns})`
+      );
     }
     const startingDisks = (boardDimensions.rows * boardDimensions.columns) / 2;
     this.players = this.#createPlayers(startingDisks);
