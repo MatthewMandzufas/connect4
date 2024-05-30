@@ -209,6 +209,41 @@ describe("game", () => {
           `);
           expect(game.getActivePlayer()).toBe(1);
         });
+        it("the player is unable to move to a cell, above the last row", () => {
+          const game = new GameFactory({
+            boardDimensions: { rows: 2, columns: 2 },
+          });
+          expect(game.getActivePlayer()).toBe(1);
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|
+            |  |  |
+            |--|--|
+            |  |  |
+            |--|--|"
+          `);
+          const movePlayerCommand = createMovePlayerCommand({
+            player: 1,
+            targetCell: { row: 2, column: 0 },
+          });
+          const event = game.move(movePlayerCommand);
+          expect(event).toEqual({
+            type: "PLAYER_MOVE_FAILED",
+            payload: {
+              message:
+                "Cell at Row: 2, Column: 0 does not exist on the board. The row number must be  >= 0 and <= 1",
+            },
+          });
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|
+            |  |  |
+            |--|--|
+            |  |  |
+            |--|--|"
+          `);
+          expect(game.getActivePlayer()).toBe(1);
+        });
       });
     });
   });
