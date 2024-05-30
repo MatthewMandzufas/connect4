@@ -1,4 +1,5 @@
 import deepClone from "@/connect-4-domain/deep-clone";
+import { MovePlayerCommand } from "./commands";
 
 export class InvalidBoardDimensions extends RangeError {}
 
@@ -19,6 +20,7 @@ interface PlayerStats {
   playerNumber: 1 | 2;
   remainingDisks: number;
 }
+
 
 type Board = Array<Array<BoardCell>>;
 
@@ -92,6 +94,9 @@ class GameFactory implements Game {
   getActivePlayer(): number {
     return this.activePlayer;
   }
+
+  move(moveCommand: MovePlayerCommand): 
+  
 }
 
 export default GameFactory;

@@ -4,6 +4,7 @@ import GameFactory, {
   InvalidBoardDimensions,
 } from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
+import { createMovePlayerCommand } from "@/connect-4-domain/commands";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
   const cellResolver = (cell: BoardCell) =>
