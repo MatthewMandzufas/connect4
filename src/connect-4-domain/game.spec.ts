@@ -315,6 +315,41 @@ describe("game", () => {
           `);
           expect(game.getActivePlayer()).toBe(1);
         });
+        it("the player is unable to move to a cell, where both the row and column are out of bounds", () => {
+          const game = new GameFactory({
+            boardDimensions: { rows: 2, columns: 3 },
+          });
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|
+            |  |  |
+            |--|--|
+            |  |  |
+            |--|--|"
+          `);
+          expect(game.getActivePlayer()).toBe(1);
+          const movePlayerCommand = createMovePlayerCommand({
+            player: 1,
+            targetCell: { row: -1, column: -5 },
+          });
+          const event = game.move(movePlayerCommand);
+          expect(event).toEqual({
+            type: "PLAYER_MOVE_FAILED",
+            payload: {
+              message:
+                "Cell at Row: -1, Column: -5 does not exist on the board. The row number must be between >= 0 and <= 1, and the column number must be between >= 0 and <= 2",
+            },
+          });
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|
+            |  |  |
+            |--|--|
+            |  |  |
+            |--|--|"
+          `);
+          expect(game.getActivePlayer()).toBe(1);
+        });
       });
     });
   });
