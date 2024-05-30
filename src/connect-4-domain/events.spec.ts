@@ -21,4 +21,23 @@ describe("events", () => {
       });
     });
   });
+  describe("createPlayerMovedEvent", () => {
+    it("returns a playerMovedEvent", () => {
+      const playerMovedEvent = createPlayerMovedEvent({
+        player: 1,
+        targetCell: { row: 0, column: 0 },
+      });
+      expect(playerMovedEvent).toBeInstanceOf(PlayerMovedEvent);
+      expect(playerMovedEvent).toEqual({
+        type: "PLAYER_MOVED",
+        payload: {
+          player: 1,
+          targetCell: {
+            row: 0,
+            column: 0,
+          },
+        },
+      });
+    });
+  });
 });
