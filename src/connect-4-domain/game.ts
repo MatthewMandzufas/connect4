@@ -33,6 +33,11 @@ interface Game {
   getBoard: () => Board;
 }
 
+type ValidationResult = {
+  isValid: boolean;
+  message: string;
+};
+
 class GameFactory implements Game {
   private board: Board;
   private players: Record<1 | 2, PlayerStats>;
@@ -100,33 +105,66 @@ class GameFactory implements Game {
     return this.activePlayer;
   }
 
-  move({
-    payload: {
-      player,
-      targetCell: { row, column },
-    },
-  }: MovePlayerCommand): PlayerMoveFailedEvent | PlayerMovedEvent {
+  private validateMove(movePlayerCommand: MovePlayerCommand): ValidationResult {
+    const {
+      payload: {
+        targetCell: { row, column },
+      },
+    } = movePlayerCommand;
+
     if (
       (row < 0 || row > this.board.length - 1) &&
       (column < 0 || column > this.board[0].length - 1)
     ) {
-      return createPlayerMoveFailedEvent({
+      return {
+        isValid: false,
         message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be >= 0 and <= ${this.board.length - 1}, and the column number must be >= 0 and <= ${this.board[0].length - 1}`,
-      });
+      };
     } else if (row < 0 || row > this.board.length - 1) {
-      return createPlayerMoveFailedEvent({
+      return {
+        isValid: false,
         message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be  >= 0 and <= ${this.board.length - 1}`,
-      });
+      };
     } else if (column < 0 || column > this.board[0].length - 1) {
-      return createPlayerMoveFailedEvent({
+      return {
+        isValid: false,
         message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The column number must be  >= 0 and <= ${this.board[0].length - 1}`,
-      });
-    } else {
-      this.board[row][column] = { player };
-      this.activePlayer = this.activePlayer === 1 ? 2 : 1;
-
-      return createPlayerMovedEvent({ player, targetCell: { row, column } });
+      };
     }
+    return {
+      isValid: true,
+      message: "",
+    };
+  }
+
+  private createValidatedMove = (
+    moveFunction: (movePlayerCommand: MovePlayerCommand) => PlayerMovedEvent
+  ): ((
+    movePlayerCommand: MovePlayerCommand
+  ) => PlayerMoveFailedEvent | PlayerMovedEvent) => {
+    return (
+      movePlayerCommand: MovePlayerCommand
+    ): PlayerMoveFailedEvent | PlayerMovedEvent => {
+      const { isValid, message } = this.validateMove(movePlayerCommand);
+
+      return isValid
+        ? moveFunction(movePlayerCommand)
+        : createPlayerMoveFailedEvent({ message });
+    };
+  };
+
+  move = this.createValidatedMove(this._move.bind(this));
+
+  private _move({
+    payload: {
+      player,
+      targetCell: { row, column },
+    },
+  }: MovePlayerCommand): PlayerMovedEvent {
+    this.board[row][column] = { player };
+    this.activePlayer = this.activePlayer === 1 ? 2 : 1;
+
+    return createPlayerMovedEvent({ player, targetCell: { row, column } });
   }
 }
 
