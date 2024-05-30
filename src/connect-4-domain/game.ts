@@ -104,7 +104,14 @@ class GameFactory implements Game {
       targetCell: { row, column },
     },
   }: MovePlayerCommand): PlayerMoveFailedEvent {
-    if (row < 0 || row > this.board.length - 1) {
+    if (
+      (row < 0 || row > this.board.length - 1) &&
+      (column < 0 || column > this.board[0].length - 1)
+    ) {
+      return createPlayerMoveFailedEvent({
+        message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be >= 0 and <= ${this.board.length - 1}, and the column number must be >= 0 and <= ${this.board[0].length - 1}`,
+      });
+    } else if (row < 0 || row > this.board.length - 1) {
       return createPlayerMoveFailedEvent({
         message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be  >= 0 and <= ${this.board.length - 1}`,
       });

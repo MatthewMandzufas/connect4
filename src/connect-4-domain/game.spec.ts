@@ -321,11 +321,11 @@ describe("game", () => {
           });
           expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
             "
-            |--|--|
-            |  |  |
-            |--|--|
-            |  |  |
-            |--|--|"
+            |--|--|--|
+            |  |  |  |
+            |--|--|--|
+            |  |  |  |
+            |--|--|--|"
           `);
           expect(game.getActivePlayer()).toBe(1);
           const movePlayerCommand = createMovePlayerCommand({
@@ -337,16 +337,16 @@ describe("game", () => {
             type: "PLAYER_MOVE_FAILED",
             payload: {
               message:
-                "Cell at Row: -1, Column: -5 does not exist on the board. The row number must be between >= 0 and <= 1, and the column number must be between >= 0 and <= 2",
+                "Cell at Row: -1, Column: -5 does not exist on the board. The row number must be >= 0 and <= 1, and the column number must be >= 0 and <= 2",
             },
           });
           expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
             "
-            |--|--|
-            |  |  |
-            |--|--|
-            |  |  |
-            |--|--|"
+            |--|--|--|
+            |  |  |  |
+            |--|--|--|
+            |  |  |  |
+            |--|--|--|"
           `);
           expect(game.getActivePlayer()).toBe(1);
         });
