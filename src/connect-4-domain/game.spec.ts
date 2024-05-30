@@ -351,6 +351,42 @@ describe("game", () => {
           expect(game.getActivePlayer()).toBe(1);
         });
       });
+      describe("and the cell is on the first row", () => {
+        describe("and the cell is un-occupied", () => {
+          it("the player should be able to move a disk into the cell", () => {
+            const game = new GameFactory({
+              boardDimensions: { rows: 1, columns: 2 },
+            });
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |--|--|
+              |  |  |
+              |--|--|"
+            `);
+            expect(game.getActivePlayer()).toBe(1);
+            const movePlayerCommand = createMovePlayerCommand({
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 0,
+              },
+            });
+            const playerMovedEvent = game.move(movePlayerCommand);
+            expect(playerMovedEvent).toEqual({
+              type: "PLAYER_MOVED",
+              payload: {
+                player: 1,
+                targetCell: {
+                  row: 0,
+                  column: 0,
+                },
+              },
+            });
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot();
+            expect(game.getActivePlayer()).toBe(2);
+          });
+        });
+      });
     });
   });
 });
