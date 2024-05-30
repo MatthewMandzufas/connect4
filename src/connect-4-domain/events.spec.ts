@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
   PlayerMoveFailedEvent,
+  PlayerMovedEvent,
   createPlayerMoveFailedEvent,
+  createPlayerMovedEvent,
 } from "@/connect-4-domain/events";
 
 describe("events", () => {
