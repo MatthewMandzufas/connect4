@@ -244,6 +244,42 @@ describe("game", () => {
           `);
           expect(game.getActivePlayer()).toBe(1);
         });
+
+        it("the player is unable to move to a cell, left of the first column", () => {
+          const game = new GameFactory({
+            boardDimensions: { rows: 2, columns: 2 },
+          });
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|
+            |  |  |
+            |--|--|
+            |  |  |
+            |--|--|"
+          `);
+          expect(game.getActivePlayer()).toBe(1);
+          const movePlayerCommand = createMovePlayerCommand({
+            player: 1,
+            targetCell: { row: 0, column: -1 },
+          });
+          const event = game.move(movePlayerCommand);
+          expect(event).toEqual({
+            type: "PLAYER_MOVE_FAILED",
+            payload: {
+              message:
+                "Cell at Row: 0, Column: -1 does not exist on the board. The column number must be  >= 0 and <= 1",
+            },
+          });
+          expect(game.getActivePlayer()).toBe(1);
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|
+            |  |  |
+            |--|--|
+            |  |  |
+            |--|--|"
+          `);
+        });
       });
     });
   });
