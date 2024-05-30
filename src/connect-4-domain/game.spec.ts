@@ -382,7 +382,12 @@ describe("game", () => {
                 },
               },
             });
-            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot();
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |---|--|
+              | 1 |  |
+              |---|--|"
+            `);
             expect(game.getActivePlayer()).toBe(2);
           });
         });
