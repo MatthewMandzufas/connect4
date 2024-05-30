@@ -1,5 +1,9 @@
 import deepClone from "@/connect-4-domain/deep-clone";
-import { MovePlayerCommand } from "./commands";
+import { MovePlayerCommand } from "@/connect-4-domain/commands";
+import {
+  PlayerMoveFailedEvent,
+  createPlayerMoveFailedEvent,
+} from "@/connect-4-domain/events";
 
 export class InvalidBoardDimensions extends RangeError {}
 
@@ -20,7 +24,6 @@ interface PlayerStats {
   playerNumber: 1 | 2;
   remainingDisks: number;
 }
-
 
 type Board = Array<Array<BoardCell>>;
 
@@ -95,8 +98,15 @@ class GameFactory implements Game {
     return this.activePlayer;
   }
 
-  move(moveCommand: MovePlayerCommand): 
-  
+  move({
+    payload: {
+      player,
+      targetCell: { row, column },
+    },
+  }: MovePlayerCommand): PlayerMoveFailedEvent {
+    const message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be  >= 0 and <= ${this.board.length - 1}`;
+    return createPlayerMoveFailedEvent({ message: message });
+  }
 }
 
 export default GameFactory;
