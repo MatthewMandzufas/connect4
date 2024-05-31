@@ -112,28 +112,32 @@ class GameFactory implements Game {
       },
     } = movePlayerCommand;
 
+    let message;
+    let isValid;
     if (
       (row < 0 || row > this.board.length - 1) &&
       (column < 0 || column > this.board[0].length - 1)
     ) {
-      return {
-        isValid: false,
-        message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be >= 0 and <= ${this.board.length - 1}, and the column number must be >= 0 and <= ${this.board[0].length - 1}`,
-      };
+      isValid = false;
+      message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be >= 0 and <= ${this.board.length - 1}, and the column number must be >= 0 and <= ${this.board[0].length - 1}`;
     } else if (row < 0 || row > this.board.length - 1) {
-      return {
-        isValid: false,
-        message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be  >= 0 and <= ${this.board.length - 1}`,
-      };
+      isValid = false;
+      message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be  >= 0 and <= ${this.board.length - 1}`;
     } else if (column < 0 || column > this.board[0].length - 1) {
-      return {
-        isValid: false,
-        message: `Cell at Row: ${row}, Column: ${column} does not exist on the board. The column number must be  >= 0 and <= ${this.board[0].length - 1}`,
-      };
+      isValid = false;
+      message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The column number must be  >= 0 and <= ${this.board[0].length - 1}`;
+    } else {
+      if (this.board[row][column].player !== undefined) {
+        isValid = false;
+        message = `The cell at Row: ${row}, Column: ${column} is already occupied. Choose another cell.`;
+      } else {
+        isValid = true;
+        message = "";
+      }
     }
     return {
-      isValid: true,
-      message: "",
+      isValid,
+      message,
     };
   }
 
@@ -153,8 +157,6 @@ class GameFactory implements Game {
     };
   };
 
-  // TODO: Create wrapper/utility, that infers return type for us, we don't have to specify
-
   move = this.createValidatedMove(this._move.bind(this));
 
   private _move({
@@ -163,7 +165,7 @@ class GameFactory implements Game {
       targetCell: { row, column },
     },
   }: MovePlayerCommand): PlayerMovedEvent {
-    this.board[row][column] = { player };
+    this.board[row][column].player = player;
     this.activePlayer = this.activePlayer === 1 ? 2 : 1;
 
     return createPlayerMovedEvent({ player, targetCell: { row, column } });

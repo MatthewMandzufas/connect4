@@ -438,7 +438,12 @@ describe("game", () => {
                   "The cell at Row: 0, Column: 0 is already occupied. Choose another cell.",
               },
             });
-            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot();
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |---|--|
+              | 1 |  |
+              |---|--|"
+            `);
           });
         });
       });
