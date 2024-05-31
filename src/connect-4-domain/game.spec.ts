@@ -447,6 +447,47 @@ describe("game", () => {
           });
         });
       });
+      describe("and the cell is on the second row", () => {
+        describe("and the cell below is occupied", () => {
+          it("the play can place a disk into the cell", () => {
+            const game = new GameFactory({
+              boardDimensions: { rows: 2, columns: 2 },
+            });
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |--|--|
+              |  |  |
+              |--|--|
+              |  |  |
+              |--|--|"
+            `);
+            const playerMovedCommand = createMovePlayerCommand({
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 0,
+              },
+            });
+            const playerMovedEvent = game.move(playerMovedCommand);
+            const secondPlayerMovedCommand = createMovePlayerCommand({
+              player: 2,
+              targetCell: {
+                row: 1,
+                column: 0,
+              },
+            });
+            const secondPlayerMovedEvent = game.move(secondPlayerMovedCommand);
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |---|--|
+              | 1 |  |
+              |---|--|
+              | 2 |  |
+              |---|--|"
+            `);
+          });
+        });
+      });
     });
   });
 });
