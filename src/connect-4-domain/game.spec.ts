@@ -539,10 +539,17 @@ describe("game", () => {
         expect(playerMovedEvent).toEqual({
           type: "PLAYER_MOVE_FAILED",
           payload: {
-            message: "It is not player 2's turn. Please wait for your turn",
+            message: "It is not player 2's turn. Please wait for your turn.",
           },
         });
-        expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot();
+        expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+          "
+          |--|--|
+          |  |  |
+          |--|--|
+          |  |  |
+          |--|--|"
+        `);
         expect(game.getActivePlayer()).toBe(1);
       });
     });

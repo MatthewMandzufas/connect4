@@ -108,12 +108,19 @@ class GameFactory implements Game {
   private validateMove(movePlayerCommand: MovePlayerCommand): ValidationResult {
     const {
       payload: {
+        player,
         targetCell: { row, column },
       },
     } = movePlayerCommand;
 
     let message;
     let isValid;
+    if (player !== this.getActivePlayer()) {
+      return {
+        isValid: false,
+        message: `It is not player ${player}'s turn. Please wait for your turn.`,
+      };
+    }
     if (
       (row < 0 || row > this.board.length - 1) &&
       (column < 0 || column > this.board[0].length - 1)
