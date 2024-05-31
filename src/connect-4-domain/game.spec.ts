@@ -468,7 +468,7 @@ describe("game", () => {
                 column: 0,
               },
             });
-            const playerMovedEvent = game.move(playerMovedCommand);
+            game.move(playerMovedCommand);
             const secondPlayerMovedCommand = createMovePlayerCommand({
               player: 2,
               targetCell: {
@@ -476,7 +476,7 @@ describe("game", () => {
                 column: 0,
               },
             });
-            const secondPlayerMovedEvent = game.move(secondPlayerMovedCommand);
+            game.move(secondPlayerMovedCommand);
             expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
               "
               |---|--|
@@ -484,6 +484,36 @@ describe("game", () => {
               |---|--|
               | 2 |  |
               |---|--|"
+            `);
+          });
+        });
+        describe("and the cell below is not occupied", () => {
+          it("The player should not be able to move a disk into the cell", () => {
+            const game = new GameFactory({
+              boardDimensions: { rows: 2, columns: 2 },
+            });
+            const playerMovedCommand = createMovePlayerCommand({
+              player: 1,
+              targetCell: {
+                row: 1,
+                column: 0,
+              },
+            });
+            const playerMovedEvent = game.move(playerMovedCommand);
+            expect(playerMovedEvent).toEqual({
+              type: "PLAYER_MOVE_FAILED",
+              payload: {
+                message:
+                  "The cell at Row: 1, Column: 0 has no cell below it. You cannot place a token here.",
+              },
+            });
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |--|--|
+              |  |  |
+              |--|--|
+              |  |  |
+              |--|--|"
             `);
           });
         });

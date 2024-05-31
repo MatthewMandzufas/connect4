@@ -127,9 +127,19 @@ class GameFactory implements Game {
       isValid = false;
       message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The column number must be  >= 0 and <= ${this.board[0].length - 1}`;
     } else {
-      if (this.board[row][column].player !== undefined) {
+      const isCellOccupied = this.board[row][column].player !== undefined;
+      const isFirstRow = row === 0;
+      const isCellBelowUnoccupied =
+        isFirstRow || this.board[row - 1][column].player === undefined;
+      if (isCellOccupied) {
         isValid = false;
         message = `The cell at Row: ${row}, Column: ${column} is already occupied. Choose another cell.`;
+      } else if (isFirstRow) {
+        isValid = true;
+        message = "";
+      } else if (isCellBelowUnoccupied) {
+        isValid = false;
+        message = `The cell at Row: ${row}, Column: ${column} has no cell below it. You cannot place a token here.`;
       } else {
         isValid = true;
         message = "";
