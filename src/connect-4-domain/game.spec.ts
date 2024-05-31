@@ -5,6 +5,7 @@ import GameFactory, {
 } from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
 import { createMovePlayerCommand } from "@/connect-4-domain/commands";
+import { s } from "vitest/dist/reporters-P7C2ytIv.js";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
   const cellResolver = (cell: BoardCell) =>
@@ -389,6 +390,55 @@ describe("game", () => {
               |---|--|"
             `);
             expect(game.getActivePlayer()).toBe(2);
+          });
+        });
+        describe("and the cell is occupied", () => {
+          it("the player should not be able to move a disk into the cell", () => {
+            const game = new GameFactory({
+              boardDimensions: { rows: 1, columns: 2 },
+            });
+            expect(game.getActivePlayer()).toBe(1);
+            const movePlayerCommand = createMovePlayerCommand({
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 0,
+              },
+            });
+            const playerMovedEvent = game.move(movePlayerCommand);
+            expect(playerMovedEvent).toEqual({
+              type: "PLAYER_MOVED",
+              payload: {
+                player: 1,
+                targetCell: {
+                  row: 0,
+                  column: 0,
+                },
+              },
+            });
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+              "
+              |---|--|
+              | 1 |  |
+              |---|--|"
+            `);
+            expect(game.getActivePlayer()).toBe(2);
+            const secondMovePlayerCommand = createMovePlayerCommand({
+              player: 2,
+              targetCell: {
+                row: 0,
+                column: 0,
+              },
+            });
+            const secondPlayerMovedEvent = game.move(secondMovePlayerCommand);
+            expect(secondPlayerMovedEvent).toEqual({
+              type: "PLAYER_MOVE_FAILED",
+              payload: {
+                message:
+                  "The cell at Row: 0, Column: 0 is already occupied. Choose another cell.",
+              },
+            });
+            expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot();
           });
         });
       });

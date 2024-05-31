@@ -153,6 +153,8 @@ class GameFactory implements Game {
     };
   };
 
+  // TODO: Create wrapper/utility, that infers return type for us, we don't have to specify
+
   move = this.createValidatedMove(this._move.bind(this));
 
   private _move({
