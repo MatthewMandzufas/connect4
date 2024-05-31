@@ -129,7 +129,7 @@ class GameFactory implements Game {
     } else {
       const isCellOccupied = this.board[row][column].player !== undefined;
       const isFirstRow = row === 0;
-      const isCellBelowUnoccupied =
+      const isFirstRowOrCellBelowUnoccupied =
         isFirstRow || this.board[row - 1][column].player === undefined;
       if (isCellOccupied) {
         isValid = false;
@@ -137,7 +137,7 @@ class GameFactory implements Game {
       } else if (isFirstRow) {
         isValid = true;
         message = "";
-      } else if (isCellBelowUnoccupied) {
+      } else if (isFirstRowOrCellBelowUnoccupied) {
         isValid = false;
         message = `The cell at Row: ${row}, Column: ${column} has no cell below it. You cannot place a token here.`;
       } else {

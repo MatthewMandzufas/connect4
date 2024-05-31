@@ -519,5 +519,32 @@ describe("game", () => {
         });
       });
     });
+    describe("give a player is not currently active", () => {
+      it("the inactive player should not be able to place a token", () => {
+        const game = new GameFactory({
+          boardDimensions: {
+            rows: 2,
+            columns: 2,
+          },
+        });
+        expect(game.getActivePlayer()).toBe(1);
+        const playerMovedCommand = createMovePlayerCommand({
+          player: 2,
+          targetCell: {
+            row: 0,
+            column: 0,
+          },
+        });
+        const playerMovedEvent = game.move(playerMovedCommand);
+        expect(playerMovedEvent).toEqual({
+          type: "PLAYER_MOVE_FAILED",
+          payload: {
+            message: "It is not player 2's turn. Please wait for your turn",
+          },
+        });
+        expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot();
+        expect(game.getActivePlayer()).toBe(1);
+      });
+    });
   });
 });
