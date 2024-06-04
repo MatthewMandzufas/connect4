@@ -19,5 +19,14 @@ describe("parse-ascii-table", () => {
         expect(parseAsciiTable(asciiTable)).toEqual([[undefined]]);
       });
     });
+    describe("with a non-empty cell", () => {
+      it("returns a 1x1 grid", () => {
+        const asciiTable = `
+|---|
+| 1 |
+|---|`;
+        expect(parseAsciiTable(asciiTable)).toEqual([["1"]]);
+      });
+    });
   });
 });
