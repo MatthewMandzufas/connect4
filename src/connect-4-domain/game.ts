@@ -27,7 +27,14 @@ interface PlayerStats {
   remainingDisks: number;
 }
 
-type Board = Array<Array<BoardCell>>;
+export type PlayerMove = {
+  player: 1 | 2;
+  targetCell: {
+    row: number;
+    column: number;
+  };
+};
+export type Board = Array<Array<BoardCell>>;
 
 interface Game {
   getBoard: () => Board;
