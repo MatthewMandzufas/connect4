@@ -5,7 +5,6 @@ import GameFactory, {
 } from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
 import { createMovePlayerCommand } from "@/connect-4-domain/commands";
-import { s } from "vitest/dist/reporters-P7C2ytIv.js";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
   const cellResolver = (cell: BoardCell) =>
@@ -519,7 +518,7 @@ describe("game", () => {
         });
       });
     });
-    describe("give a player is not currently active", () => {
+    describe("given a player is not currently active", () => {
       it("the inactive player should not be able to place a token", () => {
         const game = new GameFactory({
           boardDimensions: {

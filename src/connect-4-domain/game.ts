@@ -105,6 +105,26 @@ class GameFactory implements Game {
     return this.activePlayer;
   }
 
+  #getIsRowOnBoard(row: number): boolean {
+    return row < 0 || row > this.board.length - 1;
+  }
+
+  #getIsColumnOnBoard(column: number): boolean {
+    return column < 0 || column > this.board[0].length - 1;
+  }
+
+  #getIsMoveOnBoard(row: number, column: number): boolean {
+    return this.#getIsColumnOnBoard(column) && this.#getIsRowOnBoard(row);
+  }
+
+  #getIsCellOccupied(row: number, column: number): boolean {
+    return this.board[row][column].player !== undefined;
+  }
+
+  #getIsFirstRowOrCellBelowIsUnoccupied(row: number, column: number): boolean {
+    return row === 0 || this.board[row - 1][column].player === undefined;
+  }
+
   private validateMove(movePlayerCommand: MovePlayerCommand): ValidationResult {
     const {
       payload: {
@@ -113,43 +133,30 @@ class GameFactory implements Game {
       },
     } = movePlayerCommand;
 
-    let message;
-    let isValid;
+    let message = "";
+    let isValid = false;
     if (player !== this.getActivePlayer()) {
       return {
         isValid: false,
         message: `It is not player ${player}'s turn. Please wait for your turn.`,
       };
     }
-    if (
-      (row < 0 || row > this.board.length - 1) &&
-      (column < 0 || column > this.board[0].length - 1)
-    ) {
-      isValid = false;
+    if (this.#getIsMoveOnBoard(row, column)) {
       message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be >= 0 and <= ${this.board.length - 1}, and the column number must be >= 0 and <= ${this.board[0].length - 1}`;
-    } else if (row < 0 || row > this.board.length - 1) {
-      isValid = false;
+    } else if (this.#getIsRowOnBoard(row)) {
       message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The row number must be  >= 0 and <= ${this.board.length - 1}`;
-    } else if (column < 0 || column > this.board[0].length - 1) {
-      isValid = false;
+    } else if (this.#getIsColumnOnBoard(column)) {
       message = `Cell at Row: ${row}, Column: ${column} does not exist on the board. The column number must be  >= 0 and <= ${this.board[0].length - 1}`;
     } else {
-      const isCellOccupied = this.board[row][column].player !== undefined;
       const isFirstRow = row === 0;
-      const isFirstRowOrCellBelowUnoccupied =
-        isFirstRow || this.board[row - 1][column].player === undefined;
-      if (isCellOccupied) {
-        isValid = false;
+      if (this.#getIsCellOccupied(row, column)) {
         message = `The cell at Row: ${row}, Column: ${column} is already occupied. Choose another cell.`;
       } else if (isFirstRow) {
         isValid = true;
-        message = "";
-      } else if (isFirstRowOrCellBelowUnoccupied) {
-        isValid = false;
+      } else if (this.#getIsFirstRowOrCellBelowIsUnoccupied(row, column)) {
         message = `The cell at Row: ${row}, Column: ${column} has no cell below it. You cannot place a token here.`;
       } else {
         isValid = true;
-        message = "";
       }
     }
     return {
