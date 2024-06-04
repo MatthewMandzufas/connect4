@@ -112,5 +112,23 @@ describe("parse-ascii-table", () => {
         ["12", "10"],
       ]);
     });
+    describe("and a custom cell resolver", () => {
+      it("returns a 2x2 grid with resolved values", () => {
+        const customResolver = (value: string): number | undefined => {
+          const parsedValue = Number.parseInt(value);
+          return Number.isNaN(parsedValue) ? undefined : parsedValue;
+        };
+        const asciiTable = `
+|----|----|
+|  1 |    |
+|----|----|
+| 12 | 10 |
+|----|----|`;
+        expect(parseAsciiTable(asciiTable, customResolver)).toEqual([
+          [1, undefined],
+          [12, 10],
+        ]);
+      });
+    });
   });
 });
