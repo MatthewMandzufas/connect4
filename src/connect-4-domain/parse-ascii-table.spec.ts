@@ -36,6 +36,15 @@ describe("parse-ascii-table", () => {
           expect(parseAsciiTable(asciiTable)).toEqual([["1"]]);
         });
       });
+      describe("with leading whitespace", () => {
+        it("returns a 1x1 grid without trimming the leading whitespace", () => {
+          const asciiTable = `
+|----|
+|  1 |
+|----|`;
+          expect(parseAsciiTable(asciiTable)).toEqual([[" 1"]]);
+        });
+      });
       describe("and a custom cell-resolver", () => {
         it("returns a 1x1 grid with a resolved value", () => {
           const customResolver = (value: string) => Number(value);
