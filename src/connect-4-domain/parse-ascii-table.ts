@@ -1,4 +1,7 @@
-function parseAsciiTable(asciiTable: string): Array<Array<undefined | string>> {
+function parseAsciiTable<T>(
+  asciiTable: string,
+  customResolver: (value: string) => T = (value: string) => value as T
+): Array<Array<T>> {
   if (asciiTable.length === 0) {
     return [];
   }
@@ -6,18 +9,18 @@ function parseAsciiTable(asciiTable: string): Array<Array<undefined | string>> {
   const asciiTableRows = asciiTable.split("\n").slice(1);
   const gridFormat = asciiTableRows.reduce(
     (
-      grid: Array<Array<undefined | string>>,
+      grid: Array<Array<T>>,
       currentRow: string,
       currentIndex: number
-    ): Array<Array<undefined | string>> => {
+    ): Array<Array<T>> => {
       if (currentIndex % 2 === 0) {
         return grid;
       }
       const rowCells = currentRow.split("|");
       if (rowCells[1].trim().length === 0) {
-        grid.push([undefined]);
+        grid.push([undefined as T]);
       } else {
-        grid.push([rowCells[1].trim()]);
+        grid.push([customResolver(rowCells[1].trim())]);
       }
 
       return grid;
