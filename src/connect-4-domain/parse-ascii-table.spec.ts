@@ -84,10 +84,19 @@ describe("parse-ascii-table", () => {
   describe("given an ascii table with 1 row and 2 columns", () => {
     it("returns a 1x2 asciiTable", () => {
       const asciiTable = `
-    |---|---|
-    | 1 | 2 |
-    |---|---|`;
+|---|---|
+| 1 | 2 |
+|---|---|`;
       expect(parseAsciiTable(asciiTable)).toEqual([["1", "2"]]);
+    });
+    describe("where cells hold values of different lengths", () => {
+      it("returns a 1x2 grid", () => {
+        const asciiTable = `
+|----|---|
+| 12 | 1 |
+|----|---|`;
+        expect(parseAsciiTable(asciiTable)).toEqual([["12", "1"]]);
+      });
     });
   });
 });
