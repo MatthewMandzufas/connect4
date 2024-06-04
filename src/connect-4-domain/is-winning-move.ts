@@ -4,15 +4,9 @@ function isVerticalWin(
   board: Board,
   playerMove: PlayerMove
 ): { isWin: boolean } {
-  const isWin = board.reduce(
-    (
-      isWinningMove: boolean,
-      currentRow: BoardCell[],
-      currentRowIndex: number
-    ): boolean => {
-      if (playerMove.targetCell.row === currentRowIndex) {
-        return isWinningMove;
-      }
+  const threeCellsBelowPlayerMove = board.slice(-4, -1);
+  const isWin = threeCellsBelowPlayerMove.reduce(
+    (isWinningMove: boolean, currentRow: BoardCell[]): boolean => {
       return (
         currentRow[playerMove.targetCell.column].player === playerMove.player &&
         isWinningMove
