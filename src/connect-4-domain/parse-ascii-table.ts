@@ -20,8 +20,18 @@ function parseAsciiTable<T>(
       if (currentIndex % 2 === 0) {
         return grid;
       }
+
       const rowCells = currentRow.split("|");
-      grid.push([customResolver(rowCells[1].trimEnd().slice(1))]);
+      const rowCellsWithoutStartAndEnd = rowCells.slice(1, rowCells.length - 1);
+      const gridRow = rowCellsWithoutStartAndEnd.reduce(
+        (row: Array<T>, currentCell: string): Array<T> => {
+          const trimmedVariable = currentCell.slice(1).trimEnd();
+          row.push(customResolver(trimmedVariable));
+          return row;
+        },
+        []
+      );
+      grid.push(gridRow);
 
       return grid;
     },
