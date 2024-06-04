@@ -8,4 +8,16 @@ describe("parse-ascii-table", () => {
       expect(parseAsciiTable(asciiTable)).toEqual([]);
     });
   });
+  describe("given a table with 1 row and 1 column", () => {
+    describe("with an empty cell", () => {
+      it("returns a 1x1 grid", () => {
+        const asciiTable = `
+|--|
+|  |
+|--|`;
+
+        expect(parseAsciiTable(asciiTable)).toEqual([[undefined]]);
+      });
+    });
+  });
 });
