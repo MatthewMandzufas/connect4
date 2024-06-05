@@ -170,6 +170,29 @@ describe("is-winning-move", () => {
           );
         });
       });
+      describe("and there are less than 3 columns to the right of the target cell", () => {
+        it("does not detect the win", () => {
+          const asciiTable = `
+|---|---|---|---|
+|   |   |   | 1 |
+|---|---|---|---|
+|   |   |   | 2 |
+|---|---|---|---|`;
+          const playerMove = {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 2,
+            },
+          } as PlayerMove;
+
+          const game = parseAsciiTable(asciiTable, customResolver);
+
+          expect(isWinningMove(game, playerMove)).toEqual(
+            expect.objectContaining({ isWin: false })
+          );
+        });
+      });
     });
   });
 });
