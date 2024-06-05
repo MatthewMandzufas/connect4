@@ -149,6 +149,27 @@ describe("is-winning-move", () => {
           });
         });
       });
+      describe("and there are 3 of the active players tokens to the right of the target cell", () => {
+        it("detects the win", () => {
+          const table = `
+|---|---|---|---|
+|   | 1 | 1 | 1 | 
+|---|---|---|---|
+|   | 2 | 2 | 2 |
+|---|---|---|---|`;
+          const playerMove = {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 0,
+            },
+          } as PlayerMove;
+          const board = parseAsciiTable(table, customResolver);
+          expect(isWinningMove(board, playerMove)).toEqual(
+            expect.objectContaining({ isWin: true })
+          );
+        });
+      });
     });
   });
 });
