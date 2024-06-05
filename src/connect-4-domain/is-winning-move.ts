@@ -28,11 +28,40 @@ function isVerticalWin(
   };
 }
 
+function isHorizontalWin(
+  board: Board,
+  playerMove: PlayerMove
+): { isWin: boolean } {
+  if (board[0].length < 4) {
+    return {
+      isWin: false,
+    };
+  }
+  const targetRow = board[playerMove.targetCell.row];
+  const targetColumn = playerMove.targetCell.column;
+  const player = playerMove.player;
+  const isWin =
+    targetRow[targetColumn - 1].player === player &&
+    targetRow[targetColumn - 2].player === player &&
+    targetRow[targetColumn - 3].player === player;
+  return {
+    isWin,
+  };
+}
+
 function isWinningMove(
   board: Board,
   playerMove: PlayerMove
 ): { isWin: boolean } {
-  return isVerticalWin(board, playerMove);
+  let isWin = false;
+  if (isVerticalWin(board, playerMove).isWin) {
+    isWin = true;
+  } else if (isHorizontalWin(board, playerMove).isWin) {
+    isWin = true;
+  }
+  return {
+    isWin,
+  };
 }
 
 export default isWinningMove;
