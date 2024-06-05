@@ -100,5 +100,32 @@ describe("is-winning-move", () => {
         });
       });
     });
+    describe("results in a horizontal win", () => {
+      describe("and there are 3 active player tokens to the left of the target cell", () => {
+        it("detects the win", () => {
+          const asciiTable = `
+|---|---|---|---|
+| 1 | 1 | 1 |   |
+|---|---|---|---|
+| 2 | 2 | 2 |   |
+|---|---|---|---|`;
+          const board = parseAsciiTable(asciiTable, customResolver);
+
+          const playerMove = {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 3,
+            },
+          } as PlayerMove;
+
+          expect(isWinningMove(board, playerMove)).toEqual(
+            expect.objectContaining({
+              isWin: true,
+            })
+          );
+        });
+      });
+    });
   });
 });
