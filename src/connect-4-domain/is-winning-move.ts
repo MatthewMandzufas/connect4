@@ -51,6 +51,9 @@ function getIsRightSideHorizontalWin(
   board: Board,
   playerMove: PlayerMove
 ): boolean {
+  if (board[0].length - playerMove.targetCell.column < 4) {
+    return false;
+  }
   const targetRow = board[playerMove.targetCell.row];
   const targetColumn = playerMove.targetCell.column;
   const player = playerMove.player;
