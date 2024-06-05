@@ -32,11 +32,12 @@ function isHorizontalWin(
   board: Board,
   playerMove: PlayerMove
 ): { isWin: boolean } {
-  if (board[0].length < 4) {
+  if (board[0].length < 4 || playerMove.targetCell.column < 3) {
     return {
       isWin: false,
     };
   }
+
   const targetRow = board[playerMove.targetCell.row];
   const targetColumn = playerMove.targetCell.column;
   const player = playerMove.player;
