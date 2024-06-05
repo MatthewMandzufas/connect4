@@ -126,6 +126,29 @@ describe("is-winning-move", () => {
           );
         });
       });
+      describe("and there are less than 3 columns to the left of the target cell", () => {
+        describe("and there are no player tokens to the right of the target cell", () => {
+          it("does not detect a win", () => {
+            const playerMove = {
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 1,
+              },
+            } as PlayerMove;
+            const asciiTable = `
+|---|---|---|---|
+| 1 |   |   |   |
+|---|---|---|---|
+| 2 |   |   |   | 
+|---|---|---|---|`;
+            const board = parseAsciiTable(asciiTable, customResolver);
+            expect(isWinningMove(board, playerMove)).toEqual(
+              expect.objectContaining({ isWin: false })
+            );
+          });
+        });
+      });
     });
   });
 });
