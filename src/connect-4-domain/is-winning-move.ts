@@ -28,42 +28,6 @@ function isVerticalWin(
   };
 }
 
-function getIsLeftSideHorizontalWin(
-  board: Board,
-  playerMove: PlayerMove
-): boolean {
-  if (playerMove.targetCell.column < 3) {
-    return false;
-  }
-
-  const targetRow = board[playerMove.targetCell.row];
-  const targetColumn = playerMove.targetCell.column;
-  const player = playerMove.player;
-  const isWin =
-    targetRow[targetColumn - 1].player === player &&
-    targetRow[targetColumn - 2].player === player &&
-    targetRow[targetColumn - 3].player === player;
-
-  return isWin;
-}
-
-function getIsRightSideHorizontalWin(
-  board: Board,
-  playerMove: PlayerMove
-): boolean {
-  if (board[0].length - playerMove.targetCell.column < 4) {
-    return false;
-  }
-  const targetRow = board[playerMove.targetCell.row];
-  const targetColumn = playerMove.targetCell.column;
-  const player = playerMove.player;
-  const isWin =
-    targetRow[targetColumn + 1].player === player &&
-    targetRow[targetColumn + 2].player === player &&
-    targetRow[targetColumn + 3].player === player;
-  return isWin;
-}
-
 function isHorizontalWin(
   board: Board,
   playerMove: PlayerMove
@@ -73,9 +37,22 @@ function isHorizontalWin(
       isWin: false,
     };
   }
-  const isWin =
-    getIsLeftSideHorizontalWin(board, playerMove) ||
-    getIsRightSideHorizontalWin(board, playerMove);
+  const targetRow = board[playerMove.targetCell.row].filter(
+    (cell, currentIndex) => currentIndex !== playerMove.targetCell.column
+  );
+
+  let isWin = false;
+  for (let i = 0; i < targetRow.length - 1; i++) {
+    if (i + 2 < targetRow.length) {
+      if (
+        playerMove.player === targetRow[i].player &&
+        playerMove.player === targetRow[i + 1].player &&
+        playerMove.player === targetRow[i + 2].player
+      ) {
+        isWin = true;
+      }
+    }
+  }
 
   return {
     isWin,
