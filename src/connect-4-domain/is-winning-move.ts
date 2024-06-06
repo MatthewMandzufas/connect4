@@ -1,5 +1,7 @@
 import { Board, BoardCell, PlayerMove } from "@/connect-4-domain/game";
 
+type CellPlayerNumber = 1 | 2 | undefined;
+
 function isVerticalWin(
   board: Board,
   playerMove: PlayerMove
@@ -28,6 +30,25 @@ function isVerticalWin(
   };
 }
 
+function getIsThreeHorizontalInARow(
+  targetRow: Array<CellPlayerNumber>,
+  playerMove: PlayerMove
+): boolean {
+  let isWin = false;
+  for (let i = 0; i < targetRow.length - 1; i++) {
+    if (i + 2 < targetRow.length) {
+      if (
+        playerMove.player === targetRow[i] &&
+        playerMove.player === targetRow[i + 1] &&
+        playerMove.player === targetRow[i + 2]
+      ) {
+        isWin = true;
+      }
+    }
+  }
+  return isWin;
+}
+
 function isHorizontalWin(
   board: Board,
   playerMove: PlayerMove
@@ -37,23 +58,23 @@ function isHorizontalWin(
       isWin: false,
     };
   }
-  const targetRow = board[playerMove.targetCell.row].filter(
-    (cell, currentIndex) => currentIndex !== playerMove.targetCell.column
+
+  const targetRow = board[playerMove.targetCell.row].reduce(
+    (
+      accumulator: Array<CellPlayerNumber>,
+      currentCell: BoardCell,
+      currentIndex: number
+    ): Array<CellPlayerNumber> => {
+      if (currentIndex !== playerMove.targetCell.column) {
+        if (Math.abs(currentIndex - playerMove.targetCell.column) < 4)
+          accumulator.push(currentCell.player);
+      }
+      return accumulator;
+    },
+    []
   );
 
-  let isWin = false;
-  for (let i = 0; i < targetRow.length - 1; i++) {
-    if (i + 2 < targetRow.length) {
-      if (
-        playerMove.player === targetRow[i].player &&
-        playerMove.player === targetRow[i + 1].player &&
-        playerMove.player === targetRow[i + 2].player
-      ) {
-        isWin = true;
-      }
-    }
-  }
-
+  const isWin = getIsThreeHorizontalInARow(targetRow, playerMove);
   return {
     isWin,
   };
