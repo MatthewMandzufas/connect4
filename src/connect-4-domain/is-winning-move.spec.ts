@@ -214,6 +214,30 @@ describe("is-winning-move", () => {
           );
         });
       });
+      describe("and there are 3 of the active players tokens in a row, not successive with the target cell", () => {
+        it("does not detect the win", () => {
+          const asciiTable = `
+|---|---|---|---|---|---|---|
+|   | 2 | 1 | 2 | 1 | 1 | 1 |
+|---|---|---|---|---|---|---|
+|   | 2 | 2 | 1 | 2 | 1 | 2 |
+|---|---|---|---|---|---|---|
+`;
+          const playerMove = {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 0,
+            },
+          } as PlayerMove;
+          const board = parseAsciiTable(asciiTable, customResolver);
+          expect(isWinningMove(board, playerMove)).toEqual(
+            expect.objectContaining({
+              isWin: false,
+            })
+          );
+        });
+      });
     });
   });
 });
