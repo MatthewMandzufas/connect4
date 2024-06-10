@@ -296,7 +296,7 @@ describe("is-winning-move", () => {
     describe("that is bottom-left to top-right", () => {
       describe("given the board and the next players move", () => {
         describe("and the target cell is at the top right of 3 successive active player cells", () => {
-          it.skip("detects the win", () => {
+          it("detects the win", () => {
             const playerMove = {
               player: 1,
               targetCell: {
