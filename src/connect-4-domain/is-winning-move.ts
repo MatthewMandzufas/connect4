@@ -100,18 +100,41 @@ function isHorizontalWin(
   };
 }
 
+function isDiagonalWin(
+  board: Board,
+  playerMove: PlayerMove
+): { isWin: boolean } {
+  if (board.length < 4 || board[0].length < 4) {
+    return {
+      isWin: false,
+    };
+  }
+  const targetRow = playerMove.targetCell.row;
+  const targetColumn = playerMove.targetCell.column;
+
+  const tokensToTheLeft = [
+    board[targetRow - 1][targetColumn - 1],
+    board[targetRow - 2][targetColumn - 2],
+    board[targetRow - 3][targetColumn - 3],
+  ];
+
+  for (const currentCell of tokensToTheLeft) {
+    if (currentCell.player !== playerMove.player) {
+      return { isWin: false };
+    }
+  }
+  return { isWin: true };
+}
+
 function isWinningMove(
   board: Board,
   playerMove: PlayerMove
 ): { isWin: boolean } {
-  let isWin = false;
-  if (isVerticalWin(board, playerMove).isWin) {
-    isWin = true;
-  } else if (isHorizontalWin(board, playerMove).isWin) {
-    isWin = true;
-  }
   return {
-    isWin,
+    isWin:
+      isVerticalWin(board, playerMove).isWin ||
+      isHorizontalWin(board, playerMove).isWin ||
+      isDiagonalWin(board, playerMove).isWin,
   };
 }
 
