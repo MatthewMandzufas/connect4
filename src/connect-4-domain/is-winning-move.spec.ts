@@ -206,7 +206,7 @@ describe("is-winning-move", () => {
           })
         );
       });
-      describe("and the column does not contain 3 moving player tokens, separated by an unoccupied cell", () => {
+      describe("and the column contains 3 moving player tokens, separated by an unoccupied cell", () => {
         it("does not detect the win", () => {
           const playerMove = {
             player: 1,
@@ -320,6 +320,32 @@ describe("is-winning-move", () => {
               expect.objectContaining({
                 isWin: true,
               })
+            );
+          });
+        });
+
+        describe("where 2 of the moving players tokens are on the left and 1 on the right", () => {
+          it("detects the win", () => {
+            const asciiTable = `
+|---|---|---|---|
+| 1 |   |   |   |
+|---|---|---|---|
+|   | 1 |   |   |
+|---|---|---|---|
+|   |   |   |   |
+|---|---|---|---|
+|   |   |   | 1 |
+|---|---|---|---|`;
+            const playerMove = {
+              player: 1,
+              targetCell: {
+                row: 2,
+                column: 2,
+              },
+            } satisfies PlayerMove;
+            const board = parseAsciiTable(asciiTable, customResolver);
+            expect(isWinningMove(board, playerMove)).toEqual(
+              expect.objectContaining({ isWin: false })
             );
           });
         });

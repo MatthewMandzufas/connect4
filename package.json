@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test:watch": "vitest --verbose"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "react": "^18.2.0",
