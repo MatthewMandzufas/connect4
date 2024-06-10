@@ -30,25 +30,6 @@ function isVerticalWin(
   };
 }
 
-function getIsThreeHorizontalInARow(
-  targetRow: Array<CellPlayerNumber>,
-  playerMove: PlayerMove
-): boolean {
-  let isWin = false;
-  for (let i = 0; i < targetRow.length - 1; i++) {
-    if (i + 2 < targetRow.length) {
-      if (
-        playerMove.player === targetRow[i] &&
-        playerMove.player === targetRow[i + 1] &&
-        playerMove.player === targetRow[i + 2]
-      ) {
-        isWin = true;
-      }
-    }
-  }
-  return isWin;
-}
-
 function isHorizontalWin(
   board: Board,
   playerMove: PlayerMove
@@ -58,6 +39,7 @@ function isHorizontalWin(
       isWin: false,
     };
   }
+  const player = playerMove.player;
 
   const targetRow = board[playerMove.targetCell.row].reduce(
     (
@@ -73,8 +55,8 @@ function isHorizontalWin(
     },
     []
   );
-
-  const isWin = getIsThreeHorizontalInARow(targetRow, playerMove);
+  const threeInARow = new RegExp(`${player}${player}${player}`);
+  const isWin = threeInARow.test(targetRow.join(""));
   return {
     isWin,
   };
