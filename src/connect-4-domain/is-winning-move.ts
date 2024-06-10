@@ -9,11 +9,16 @@ function isVerticalWin(
       isWin: false,
     };
   }
-  const threeCellsBelowPlayerMove = board.slice(
-    playerMove.targetCell.row - 4,
-    playerMove.targetCell.row - 1
+  const upToThreeCellsBelowPlayerMove = board.slice(
+    Math.max(playerMove.targetCell.row - 3, 0),
+    playerMove.targetCell.row
   );
-  const isWin = threeCellsBelowPlayerMove.reduce(
+  if (upToThreeCellsBelowPlayerMove.length < 3) {
+    return {
+      isWin: false,
+    };
+  }
+  const isWin = upToThreeCellsBelowPlayerMove.reduce(
     (isWinningMove: boolean, currentRow: BoardCell[]): boolean => {
       return (
         currentRow[playerMove.targetCell.column].player === playerMove.player &&
