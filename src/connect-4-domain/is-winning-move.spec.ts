@@ -1,7 +1,7 @@
-import { expect, describe, it } from "vitest";
-import parseAsciiTable from "./parse-ascii-table";
-import isWinningMove from "@/connect-4-domain/is-winning-move";
 import { BoardCell, PlayerMove } from "@/connect-4-domain/game";
+import isWinningMove from "@/connect-4-domain/is-winning-move";
+import { describe, expect, it } from "vitest";
+import parseAsciiTable from "./parse-ascii-table";
 
 const customResolver = (value: string): BoardCell => {
   const playerNumber = Number.parseInt(value);
@@ -206,6 +206,34 @@ describe("is-winning-move", () => {
           })
         );
       });
+      describe("and the column does not contain 3 moving player tokens, separated by an unoccupied cell", () => {
+        it("does not detect the win", () => {
+          const playerMove = {
+            player: 1,
+            targetCell: {
+              row: 2,
+              column: 0,
+            },
+          } as PlayerMove;
+          const asciiTable = `
+|---|
+| 1 |
+|---|
+| 1 |
+|---|
+|   |
+|---|
+|   |
+|---|
+| 1 |
+|---|`;
+          const board = parseAsciiTable(asciiTable, customResolver);
+          expect(isWinningMove(board, playerMove)).toEqual(
+            expect.objectContaining({ isWin: false })
+          );
+        });
+      });
+
       describe("and the winning column does not touch the board ceiling", () => {
         it("detects the win", () => {
           const playerMove = {
@@ -263,5 +291,40 @@ describe("is-winning-move", () => {
         );
       });
     });
+  });
+  describe("check diagonal wins", () => {
+    describe("that is bottom-left to top-right", () => {
+      describe("given the board and the next players move", () => {
+        describe("and the target cell is at the top right of 3 successive active player cells", () => {
+          it.skip("detects the win", () => {
+            const playerMove = {
+              player: 1,
+              targetCell: {
+                row: 3,
+                column: 3,
+              },
+            } as PlayerMove;
+
+            const asciiTable = `
+|---|---|---|---|
+| 1 |   |   |   |
+|---|---|---|---|
+|   | 1 |   |   |
+|---|---|---|---|
+|   |   | 1 |   |
+|---|---|---|---|
+|   |   |   |   |
+|---|---|---|---|`;
+            const board = parseAsciiTable(asciiTable, customResolver);
+            expect(isWinningMove(board, playerMove)).toEqual(
+              expect.objectContaining({
+                isWin: true,
+              })
+            );
+          });
+        });
+      });
+    });
+    describe.todo("that is top-left to bottom-right", () => {});
   });
 });
