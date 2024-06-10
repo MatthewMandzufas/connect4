@@ -1,7 +1,5 @@
 import { Board, BoardCell, PlayerMove } from "@/connect-4-domain/game";
 
-type CellPlayerNumber = 1 | 2 | undefined;
-
 function isVerticalWin(
   board: Board,
   playerMove: PlayerMove
