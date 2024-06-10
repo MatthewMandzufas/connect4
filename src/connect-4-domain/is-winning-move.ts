@@ -30,6 +30,50 @@ function isVerticalWin(
   };
 }
 
+function getCellsToLeftOfTarget(board: Board, playerMove: PlayerMove) {
+  const leftStartIndex = Math.max(playerMove.targetCell.column - 3, 0);
+  return board[playerMove.targetCell.row].slice(
+    leftStartIndex,
+    playerMove.targetCell.column
+  );
+}
+
+function getCellsToRightOfTarget(board: Board, playerMove: PlayerMove) {
+  const rightEndIndex = Math.min(
+    playerMove.targetCell.column + 3,
+    board[0].length - 1
+  );
+
+  return board[playerMove.targetCell.row].slice(
+    playerMove.targetCell.column + 1,
+    rightEndIndex + 1
+  );
+}
+
+function getIsCellOccupiedByPlayer(
+  targetCell: BoardCell,
+  currentPlayer: 1 | 2
+): boolean {
+  return targetCell.player === currentPlayer;
+}
+
+function getIsThreeActivePlayerTokensInARow(
+  targetRow: Array<BoardCell>,
+  player: 1 | 2
+): boolean {
+  let numberOfSuccessivePlayerCells = 0;
+  let index = 0;
+  do {
+    if (getIsCellOccupiedByPlayer(targetRow[index], player)) {
+      numberOfSuccessivePlayerCells++;
+    } else {
+      numberOfSuccessivePlayerCells = 0;
+    }
+    index++;
+  } while (numberOfSuccessivePlayerCells !== 3 && index < targetRow.length);
+  return numberOfSuccessivePlayerCells === 3;
+}
+
 function isHorizontalWin(
   board: Board,
   playerMove: PlayerMove
@@ -39,24 +83,15 @@ function isHorizontalWin(
       isWin: false,
     };
   }
-  const player = playerMove.player;
 
-  const targetRow = board[playerMove.targetCell.row].reduce(
-    (
-      accumulator: Array<CellPlayerNumber>,
-      currentCell: BoardCell,
-      currentIndex: number
-    ): Array<CellPlayerNumber> => {
-      if (currentIndex !== playerMove.targetCell.column) {
-        if (Math.abs(currentIndex - playerMove.targetCell.column) < 4)
-          accumulator.push(currentCell.player);
-      }
-      return accumulator;
-    },
-    []
+  const leftCells = getCellsToLeftOfTarget(board, playerMove);
+  const rightCells = getCellsToRightOfTarget(board, playerMove);
+  const targetRow = [...leftCells, ...rightCells];
+  const isWin = getIsThreeActivePlayerTokensInARow(
+    targetRow,
+    playerMove.player
   );
-  const threeInARow = new RegExp(`${player}${player}${player}`);
-  const isWin = threeInARow.test(targetRow.join(""));
+
   return {
     isWin,
   };
