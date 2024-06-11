@@ -100,6 +100,24 @@ function isHorizontalWin(
   };
 }
 
+function getTLBRDiagonalCells(
+  board: Board,
+  playerMove: PlayerMove
+): Array<BoardCell> {
+  const {
+    targetCell: { row, column },
+  } = playerMove;
+  const startIndex = Math.max(row - 3, column - 3, 0);
+  const endIndex = Math.min(row + 3, column + 3, board[0].length, board.length);
+  const cellsToCheck = [];
+  for (let i = startIndex; i < endIndex; i++) {
+    if (i !== row) {
+      cellsToCheck.push(board[i][i]);
+    }
+  }
+  return cellsToCheck;
+}
+
 function isDiagonalWin(
   board: Board,
   playerMove: PlayerMove
@@ -109,21 +127,16 @@ function isDiagonalWin(
       isWin: false,
     };
   }
-  const targetRow = playerMove.targetCell.row;
-  const targetColumn = playerMove.targetCell.column;
 
-  const tokensToTheLeft = [
-    board[targetRow - 1][targetColumn - 1],
-    board[targetRow - 2][targetColumn - 2],
-    board[targetRow - 3][targetColumn - 3],
-  ];
+  const TLBRDiagonalCells = getTLBRDiagonalCells(board, playerMove);
+  const isWin = getIsThreeActivePlayerTokensInARow(
+    TLBRDiagonalCells,
+    playerMove.player
+  );
 
-  for (const currentCell of tokensToTheLeft) {
-    if (currentCell.player !== playerMove.player) {
-      return { isWin: false };
-    }
-  }
-  return { isWin: true };
+  return {
+    isWin,
+  };
 }
 
 function isWinningMove(
