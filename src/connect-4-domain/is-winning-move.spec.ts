@@ -460,6 +460,32 @@ describe("is-winning-move", () => {
               );
             });
           });
+          describe("where the board is 3x3", () => {
+            it("does not detect a win", () => {
+              const asciiTable = `
+|---|---|---|
+|   |   |   |
+|---|---|---|
+|   | 1 |   |
+|---|---|---|
+|   |   | 1 |   
+|---|---|---|
+`;
+              const playerMove = {
+                player: 1,
+                targetCell: {
+                  row: 0,
+                  column: 0,
+                },
+              } satisfies PlayerMove;
+              const board = parseAsciiTable(asciiTable, customResolver);
+              expect(isWinningMove(board, playerMove)).toEqual(
+                expect.objectContaining({
+                  isWin: false,
+                })
+              );
+            });
+          });
         });
       });
     });
