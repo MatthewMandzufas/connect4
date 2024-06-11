@@ -64,6 +64,9 @@ function getIsThreeActivePlayerTokensInARow(
   targetRow: Array<BoardCell>,
   player: 1 | 2
 ): boolean {
+  if (targetRow.length === 0) {
+    return false;
+  }
   let numberOfSuccessivePlayerCells = 0;
   let index = 0;
   do {
@@ -100,7 +103,7 @@ function isHorizontalWin(
   };
 }
 
-function getTLBRDiagonalCells(
+function getBLTRDiagonalCells(
   board: Board,
   playerMove: PlayerMove
 ): Array<BoardCell> {
@@ -129,8 +132,30 @@ function getTLBRDiagonalCells(
     }
     i++;
   } while (i < endIndex);
-
   return cellsToCheck;
+}
+
+function getBRTLDiagonalCells(
+  board: Board,
+  playerMove: PlayerMove
+): Array<BoardCell> {
+  const {
+    targetCell: { row, column },
+  } = playerMove;
+
+  const columnOffset = column + Math.min(row, board[0].length - 1 - column);
+  const rowOffset = row - Math.min(row, board[0].length - 1 - column);
+
+  let i = 0;
+  const cells = [];
+  do {
+    if (row !== i + rowOffset) {
+      cells.push(board[i + rowOffset][columnOffset - i]);
+    }
+    i++;
+  } while (i + rowOffset < board.length && columnOffset - i >= 0);
+
+  return cells;
 }
 
 function isDiagonalWin(
@@ -143,11 +168,15 @@ function isDiagonalWin(
     };
   }
 
-  const TLBRDiagonalCells = getTLBRDiagonalCells(board, playerMove);
-  const isWin = getIsThreeActivePlayerTokensInARow(
-    TLBRDiagonalCells,
-    playerMove.player
-  );
+  const isWin =
+    getIsThreeActivePlayerTokensInARow(
+      getBLTRDiagonalCells(board, playerMove),
+      playerMove.player
+    ) ||
+    getIsThreeActivePlayerTokensInARow(
+      getBRTLDiagonalCells(board, playerMove),
+      playerMove.player
+    );
 
   return {
     isWin,
