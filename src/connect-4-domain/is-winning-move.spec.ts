@@ -460,6 +460,37 @@ describe("is-winning-move", () => {
               );
             });
           });
+          describe('where the diagonal does not "touch" the board', () => {
+            it("detects the win", () => {
+              const asciiTable = `
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+|---|---|---|---|---|---|
+|   | 1 |   |   |   |   |
+|---|---|---|---|---|---|
+|   |   | 1 |   |   |   |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+|---|---|---|---|---|---|
+|   |   |   |   | 1 |   |
+|---|---|---|---|---|---|
+|   |   |   |   |   |   |
+|---|---|---|---|---|---|`;
+              const playerMove = {
+                player: 1,
+                targetCell: {
+                  row: 3,
+                  column: 3,
+                },
+              } satisfies PlayerMove;
+              const board = parseAsciiTable(asciiTable, customResolver);
+              expect(isWinningMove(board, playerMove)).toEqual(
+                expect.objectContaining({
+                  isWin: true,
+                })
+              );
+            });
+          });
           describe("where the board is 3x3", () => {
             it("does not detect a win", () => {
               const asciiTable = `
