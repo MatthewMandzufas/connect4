@@ -107,19 +107,21 @@ function getTLBRDiagonalCells(
   const {
     targetCell: { row, column },
   } = playerMove;
-  const startIndex = Math.max(row - 3, column - 3, 0);
-  const endIndex = Math.min(
-    row + 3,
-    column + 3,
-    board[0].length - 1,
-    board.length - 1
+
+  const slicedBoard = board.slice(
+    Math.max(row - 3, 0),
+    Math.min(row + 3, board[0].length) + 1
   );
+  const columnOffset = column - row > 0 ? column - row : 0;
   const cellsToCheck = [];
-  for (let i = startIndex; i <= endIndex; i++) {
+
+  const endIndex = Math.min(slicedBoard.length, slicedBoard[0].length) - 1;
+  for (let i = 0; i <= endIndex; i++) {
     if (i !== row) {
-      cellsToCheck.push(board[i][i]);
+      cellsToCheck.push(slicedBoard[i][i + columnOffset]);
     }
   }
+
   return cellsToCheck;
 }
 
