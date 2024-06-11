@@ -117,11 +117,10 @@ function getTLBRDiagonalCells(
   const rowOffset = Math.max(row - column, 0);
   const cellsToCheck = [];
 
-  const endIndex =
-    Math.min(
-      slicedBoard.length - columnOffset,
-      slicedBoard[0].length - rowOffset
-    ) - 1;
+  const endIndex = Math.min(
+    slicedBoard.length - columnOffset,
+    slicedBoard[0].length - rowOffset
+  );
 
   let i = 0;
   do {
@@ -129,7 +128,7 @@ function getTLBRDiagonalCells(
       cellsToCheck.push(slicedBoard[i + rowOffset][i + columnOffset]);
     }
     i++;
-  } while (i <= endIndex);
+  } while (i < endIndex);
 
   return cellsToCheck;
 }
