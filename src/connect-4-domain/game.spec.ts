@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { createMovePlayerCommand } from "@/connect-4-domain/commands";
 import GameFactory, {
   BoardCell,
   InvalidBoardDimensions,
 } from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
-import { createMovePlayerCommand } from "@/connect-4-domain/commands";
+import { describe, expect, it } from "vitest";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
   const cellResolver = (cell: BoardCell) =>
@@ -65,10 +65,68 @@ describe("game", () => {
         const secondBoard = game.getBoard();
         expect(secondBoard).toBeDeeplyUnequal(firstBoard);
       });
-      it.todo(
-        "changes made to the game do not affect copies of the board",
-        () => {}
-      );
+      it("changes made to the game do not affect copies of the board", () => {
+        const game = new GameFactory();
+        const board = game.getBoard();
+        expect(toAsciiTable(board)).toMatchInlineSnapshot(`
+          "
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|"
+        `);
+        const movePlayerCommand = createMovePlayerCommand({
+          player: 1,
+          targetCell: {
+            row: 0,
+            column: 0,
+          },
+        });
+        game.move(movePlayerCommand);
+        expect(toAsciiTable(board)).toMatchInlineSnapshot(`
+          "
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|
+          |  |  |  |  |  |  |  |
+          |--|--|--|--|--|--|--|"
+        `);
+        const boardAfterMove = game.getBoard();
+        expect(toAsciiTable(boardAfterMove)).toMatchInlineSnapshot(`
+          "
+          |---|--|--|--|--|--|--|
+          | 1 |  |  |  |  |  |  |
+          |---|--|--|--|--|--|--|
+          |   |  |  |  |  |  |  |
+          |---|--|--|--|--|--|--|
+          |   |  |  |  |  |  |  |
+          |---|--|--|--|--|--|--|
+          |   |  |  |  |  |  |  |
+          |---|--|--|--|--|--|--|
+          |   |  |  |  |  |  |  |
+          |---|--|--|--|--|--|--|
+          |   |  |  |  |  |  |  |
+          |---|--|--|--|--|--|--|"
+        `);
+        expect(boardAfterMove).toBeDeeplyUnequal(board);
+      });
     });
     describe("given custom board dimensions", () => {
       describe("with 0 rows", () => {
