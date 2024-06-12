@@ -611,4 +611,13 @@ describe("game", () => {
       });
     });
   });
+  describe("getting the status of a game", () => {
+    describe("given a player has not yet won", () => {
+      it("reports the status as in progress", () => {
+        const game = new GameFactory();
+        const gameStatus = game.getStatus();
+        expect(gameStatus).toEqual("IN_PROGRESS");
+      });
+    });
+  });
 });
