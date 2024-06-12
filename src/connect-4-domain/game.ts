@@ -58,6 +58,7 @@ type ValidationResult = {
 enum Status {
   IN_PROGRESS = "IN_PROGRESS",
   PLAYER_ONE_WIN = "PLAYER_ONE_WIN",
+  PLAYER_TWO_WIN = "PLAYER_TWO_WIN",
 }
 
 class GameFactory implements Game {
@@ -220,12 +221,13 @@ class GameFactory implements Game {
     const isWinningMove = getIsWinningMove(this.getBoard(), {
       player,
       targetCell: { row, column },
-    });
+    }).isWin;
     this.board[row][column].player = player;
     this.activePlayer = this.activePlayer === 1 ? 2 : 1;
 
     if (isWinningMove) {
-      this.status = Status.PLAYER_ONE_WIN;
+      this.status =
+        player === 1 ? Status.PLAYER_ONE_WIN : Status.PLAYER_TWO_WIN;
     }
 
     return createPlayerMovedEvent({ player, targetCell: { row, column } });
