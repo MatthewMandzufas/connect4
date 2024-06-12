@@ -59,6 +59,7 @@ enum Status {
   IN_PROGRESS = "IN_PROGRESS",
   PLAYER_ONE_WIN = "PLAYER_ONE_WIN",
   PLAYER_TWO_WIN = "PLAYER_TWO_WIN",
+  DRAW = "DRAW",
 }
 
 class GameFactory implements Game {
@@ -229,7 +230,6 @@ class GameFactory implements Game {
       this.status =
         player === 1 ? Status.PLAYER_ONE_WIN : Status.PLAYER_TWO_WIN;
     }
-
     return createPlayerMovedEvent({ player, targetCell: { row, column } });
   }
 }
