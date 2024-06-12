@@ -634,7 +634,7 @@ describe("game", () => {
     });
     describe("given the game is won", () => {
       describe("and a player attempts a move", () => {
-        it("returns a PlayerMoveFailedEvent", () => {
+        it("returns a PlayerMoveFailed", () => {
           const game = new GameFactory({
             boardDimensions: {
               rows: 1,
@@ -719,7 +719,7 @@ describe("game", () => {
           expect(game.move(player2Move)).toEqual({
             type: "PLAYER_MOVE_FAILED",
             payload: {
-              message: "The game has already been won",
+              message: "The game has already been won.",
             },
           });
         });
@@ -727,7 +727,102 @@ describe("game", () => {
     });
     describe("given the game is drawn", () => {
       describe("and a player attempts a move", () => {
-        it.todo("returns a PlayerMoveFailedEvent", () => {});
+        it("returns a PlayerMoveFailed", () => {
+          const game = new GameFactory({
+            boardDimensions: {
+              rows: 1,
+              columns: 8,
+            },
+          });
+          const payloads = [
+            {
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 0,
+              },
+            },
+            {
+              player: 2,
+              targetCell: {
+                row: 0,
+                column: 7,
+              },
+            },
+            {
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 1,
+              },
+            },
+            {
+              player: 2,
+              targetCell: {
+                row: 0,
+                column: 6,
+              },
+            },
+            {
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 2,
+              },
+            },
+            {
+              player: 2,
+              targetCell: {
+                row: 0,
+                column: 5,
+              },
+            },
+            {
+              player: 1,
+              targetCell: {
+                row: 0,
+                column: 4,
+              },
+            },
+            {
+              player: 2,
+              targetCell: {
+                row: 0,
+                column: 3,
+              },
+            },
+          ] satisfies MovePlayerCommandPayload[];
+          payloads.forEach(
+            R.pipe<
+              [MovePlayerCommandPayload],
+              MovePlayerCommand,
+              PlayerMovedEvent | PlayerMoveFailedEvent
+            >(createMovePlayerCommand, game.move)
+          );
+          expect(
+            R.pipe<[], Board, string>(() => game.getBoard(), toAsciiTable)()
+          ).toMatchInlineSnapshot(`
+            "
+            |---|---|---|---|---|---|---|---|
+            | 1 | 1 | 1 | 2 | 1 | 2 | 2 | 2 |
+            |---|---|---|---|---|---|---|---|"
+          `);
+          expect(game.getStatus()).toBe("DRAW");
+
+          const player2Move = createMovePlayerCommand({
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 4,
+            },
+          });
+          expect(game.move(player2Move)).toEqual({
+            type: "PLAYER_MOVE_FAILED",
+            payload: {
+              message: "The game has already resulted in a draw.",
+            },
+          });
+        });
       });
     });
   });
