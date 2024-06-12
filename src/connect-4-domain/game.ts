@@ -213,11 +213,6 @@ class GameFactory implements Game {
     return this.status;
   }
 
-  private decrementPlayerRemainingDisks(playerNumber: 1 | 2) {
-    this.players[playerNumber].remainingDisks =
-      this.players[playerNumber].remainingDisks - 1;
-  }
-
   private _move({
     payload: {
       player,
@@ -230,11 +225,17 @@ class GameFactory implements Game {
     }).isWin;
     this.board[row][column].player = player;
     this.activePlayer = this.activePlayer === 1 ? 2 : 1;
-    this.decrementPlayerRemainingDisks(player);
+    this.players[player].remainingDisks =
+      this.players[player].remainingDisks - 1;
 
     if (isWinningMove) {
       this.status =
         player === 1 ? Status.PLAYER_ONE_WIN : Status.PLAYER_TWO_WIN;
+    } else if (
+      this.getPlayerStats(player).remainingDisks === 0 &&
+      this.getPlayerStats(player === 1 ? player : 2).remainingDisks === 0
+    ) {
+      this.status = Status.DRAW;
     }
     return createPlayerMovedEvent({ player, targetCell: { row, column } });
   }

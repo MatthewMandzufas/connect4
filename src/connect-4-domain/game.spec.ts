@@ -803,7 +803,7 @@ describe("game", () => {
       });
     });
     describe("and the game results in a draw", () => {
-      it.todo("reports the status as a draw", () => {
+      it("reports the status as a draw", () => {
         const game = new GameFactory({
           boardDimensions: {
             rows: 1,
