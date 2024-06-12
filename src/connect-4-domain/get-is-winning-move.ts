@@ -183,7 +183,7 @@ function isDiagonalWin(
   };
 }
 
-function isWinningMove(
+function getIsWinningMove(
   board: Board,
   playerMove: PlayerMove
 ): { isWin: boolean } {
@@ -195,4 +195,4 @@ function isWinningMove(
   };
 }
 
-export default isWinningMove;
+export default getIsWinningMove;

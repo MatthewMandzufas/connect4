@@ -1,5 +1,5 @@
 import { BoardCell, PlayerMove } from "@/connect-4-domain/game";
-import isWinningMove from "@/connect-4-domain/is-winning-move";
+import getIsWinningMove from "@/connect-4-domain/get-is-winning-move";
 import { describe, expect, it } from "vitest";
 import parseAsciiTable from "./parse-ascii-table";
 
@@ -15,7 +15,7 @@ const customResolver = (value: string): BoardCell => {
   };
 };
 
-describe("is-winning-move", () => {
+describe("get-is-winning-move", () => {
   describe("check horizontal wins", () => {
     describe("given a board and the next players move", () => {
       describe("and there are 3 active player tokens to the left of the target cell", () => {
@@ -36,7 +36,7 @@ describe("is-winning-move", () => {
             },
           } as PlayerMove;
 
-          expect(isWinningMove(board, playerMove)).toEqual(
+          expect(getIsWinningMove(board, playerMove)).toEqual(
             expect.objectContaining({
               isWin: true,
             })
@@ -61,7 +61,7 @@ describe("is-winning-move", () => {
 | 2 |   |   |   | 
 |---|---|---|---|`;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({ isWin: false })
             );
           });
@@ -83,7 +83,7 @@ describe("is-winning-move", () => {
             },
           } as PlayerMove;
           const board = parseAsciiTable(table, customResolver);
-          expect(isWinningMove(board, playerMove)).toEqual(
+          expect(getIsWinningMove(board, playerMove)).toEqual(
             expect.objectContaining({ isWin: true })
           );
         });
@@ -106,7 +106,7 @@ describe("is-winning-move", () => {
 
           const game = parseAsciiTable(asciiTable, customResolver);
 
-          expect(isWinningMove(game, playerMove)).toEqual(
+          expect(getIsWinningMove(game, playerMove)).toEqual(
             expect.objectContaining({ isWin: false })
           );
         });
@@ -127,7 +127,7 @@ describe("is-winning-move", () => {
             },
           } as PlayerMove;
           const game = parseAsciiTable(asciiTable, customResolver);
-          expect(isWinningMove(game, playerMove)).toEqual(
+          expect(getIsWinningMove(game, playerMove)).toEqual(
             expect.objectContaining({ isWin: true })
           );
         });
@@ -148,7 +148,7 @@ describe("is-winning-move", () => {
             },
           } as PlayerMove;
           const game = parseAsciiTable(asciiTable, customResolver);
-          expect(isWinningMove(game, playerMove)).toEqual(
+          expect(getIsWinningMove(game, playerMove)).toEqual(
             expect.objectContaining({ isWin: true })
           );
         });
@@ -170,7 +170,7 @@ describe("is-winning-move", () => {
             },
           } as PlayerMove;
           const board = parseAsciiTable(asciiTable, customResolver);
-          expect(isWinningMove(board, playerMove)).toEqual(
+          expect(getIsWinningMove(board, playerMove)).toEqual(
             expect.objectContaining({
               isWin: false,
             })
@@ -200,7 +200,7 @@ describe("is-winning-move", () => {
             column: 0,
           },
         } as PlayerMove;
-        expect(isWinningMove(board, playerMove)).toEqual(
+        expect(getIsWinningMove(board, playerMove)).toEqual(
           expect.objectContaining({
             isWin: true,
           })
@@ -228,7 +228,7 @@ describe("is-winning-move", () => {
 | 1 |
 |---|`;
           const board = parseAsciiTable(asciiTable, customResolver);
-          expect(isWinningMove(board, playerMove)).toEqual(
+          expect(getIsWinningMove(board, playerMove)).toEqual(
             expect.objectContaining({ isWin: false })
           );
         });
@@ -256,7 +256,7 @@ describe("is-winning-move", () => {
 |   |   |
 |---|---|`;
           const board = parseAsciiTable(asciiTable, customResolver);
-          expect(isWinningMove(board, playerMove)).toEqual(
+          expect(getIsWinningMove(board, playerMove)).toEqual(
             expect.objectContaining({
               isWin: true,
             })
@@ -284,7 +284,7 @@ describe("is-winning-move", () => {
 |   |
 |---|`;
         const board = parseAsciiTable(asciiTable, customResolver);
-        expect(isWinningMove(board, playerMove)).toEqual(
+        expect(getIsWinningMove(board, playerMove)).toEqual(
           expect.objectContaining({
             isWin: false,
           })
@@ -316,7 +316,7 @@ describe("is-winning-move", () => {
 |   |   |   |   |
 |---|---|---|---|`;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -344,7 +344,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({ isWin: true })
             );
           });
@@ -369,7 +369,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -396,7 +396,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -425,7 +425,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -454,7 +454,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -485,7 +485,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -511,7 +511,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: false,
               })
@@ -539,7 +539,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: false,
               })
@@ -571,7 +571,7 @@ describe("is-winning-move", () => {
 |   |   |   |   |
 |---|---|---|---|`;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -599,7 +599,7 @@ describe("is-winning-move", () => {
 | 1 |   |   |   |
 |---|---|---|---|`;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -627,7 +627,7 @@ describe("is-winning-move", () => {
 | 1 |   |   |   |
 |---|---|---|---|`;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -655,7 +655,7 @@ describe("is-winning-move", () => {
 | 1 |   |   |   |
 |---|---|---|---|`;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -684,7 +684,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -715,7 +715,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: true,
               })
@@ -742,7 +742,7 @@ describe("is-winning-move", () => {
               },
             } satisfies PlayerMove;
             const board = parseAsciiTable(asciiTable, customResolver);
-            expect(isWinningMove(board, playerMove)).toEqual(
+            expect(getIsWinningMove(board, playerMove)).toEqual(
               expect.objectContaining({
                 isWin: false,
               })
