@@ -14,6 +14,92 @@ function toAsciiTable(board: Array<Array<BoardCell>>): string {
 
 describe("game", () => {
   describe("new game", () => {
+    it("creates a game where player 1 starts with a number of tokens, equal to half the number of cells", () => {
+      const game = new GameFactory();
+      expect(game.getPlayerStats(1)).toEqual(
+        expect.objectContaining({
+          remainingDisks: 21,
+          playerNumber: 1,
+        })
+      );
+    });
+    it("creates a game where player 2 starts with a number of tokens, equal to half the number of cells", () => {
+      const game = new GameFactory();
+      expect(game.getPlayerStats(2)).toEqual(
+        expect.objectContaining({
+          remainingDisks: 21,
+          playerNumber: 2,
+        })
+      );
+    });
+    it("returns a deep copy of the board", () => {
+      const game = new GameFactory();
+      const firstBoard = game.getBoard();
+      const secondBoard = game.getBoard();
+      expect(secondBoard).toBeDeeplyUnequal(firstBoard);
+    });
+    it("changes made to the game do not affect copies of the board", () => {
+      const game = new GameFactory();
+      const board = game.getBoard();
+      expect(toAsciiTable(board)).toMatchInlineSnapshot(`
+        "
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|"
+      `);
+      const movePlayerCommand = createMovePlayerCommand({
+        player: 1,
+        targetCell: {
+          row: 0,
+          column: 0,
+        },
+      });
+      game.move(movePlayerCommand);
+      expect(toAsciiTable(board)).toMatchInlineSnapshot(`
+        "
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|"
+      `);
+      const boardAfterMove = game.getBoard();
+      expect(toAsciiTable(boardAfterMove)).toMatchInlineSnapshot(`
+        "
+        |---|--|--|--|--|--|--|
+        | 1 |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|"
+      `);
+      expect(boardAfterMove).toBeDeeplyUnequal(board);
+    });
     describe("given defaults", () => {
       it("returns an instance of Game", () => {
         const game = new GameFactory();
@@ -40,92 +126,6 @@ describe("game", () => {
           |  |  |  |  |  |  |  |
           |--|--|--|--|--|--|--|"
         `);
-      });
-      it("creates a game where player 1 starts with a number of tokens, equal to half the number of cells", () => {
-        const game = new GameFactory();
-        expect(game.getPlayerStats(1)).toEqual(
-          expect.objectContaining({
-            remainingDisks: 21,
-            playerNumber: 1,
-          })
-        );
-      });
-      it("creates a game where player 2 starts with a number of tokens, equal to half the number of cells", () => {
-        const game = new GameFactory();
-        expect(game.getPlayerStats(2)).toEqual(
-          expect.objectContaining({
-            remainingDisks: 21,
-            playerNumber: 2,
-          })
-        );
-      });
-      it("returns a deep copy of the board", () => {
-        const game = new GameFactory();
-        const firstBoard = game.getBoard();
-        const secondBoard = game.getBoard();
-        expect(secondBoard).toBeDeeplyUnequal(firstBoard);
-      });
-      it("changes made to the game do not affect copies of the board", () => {
-        const game = new GameFactory();
-        const board = game.getBoard();
-        expect(toAsciiTable(board)).toMatchInlineSnapshot(`
-          "
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|"
-        `);
-        const movePlayerCommand = createMovePlayerCommand({
-          player: 1,
-          targetCell: {
-            row: 0,
-            column: 0,
-          },
-        });
-        game.move(movePlayerCommand);
-        expect(toAsciiTable(board)).toMatchInlineSnapshot(`
-          "
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|
-          |  |  |  |  |  |  |  |
-          |--|--|--|--|--|--|--|"
-        `);
-        const boardAfterMove = game.getBoard();
-        expect(toAsciiTable(boardAfterMove)).toMatchInlineSnapshot(`
-          "
-          |---|--|--|--|--|--|--|
-          | 1 |  |  |  |  |  |  |
-          |---|--|--|--|--|--|--|
-          |   |  |  |  |  |  |  |
-          |---|--|--|--|--|--|--|
-          |   |  |  |  |  |  |  |
-          |---|--|--|--|--|--|--|
-          |   |  |  |  |  |  |  |
-          |---|--|--|--|--|--|--|
-          |   |  |  |  |  |  |  |
-          |---|--|--|--|--|--|--|
-          |   |  |  |  |  |  |  |
-          |---|--|--|--|--|--|--|"
-        `);
-        expect(boardAfterMove).toBeDeeplyUnequal(board);
       });
     });
     describe("given custom board dimensions", () => {
