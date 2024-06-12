@@ -787,5 +787,61 @@ describe("game", () => {
         expect(gameStatus).toEqual("PLAYER_TWO_WIN");
       });
     });
+    describe("and the game results in a draw", () => {
+      it("reports the status as a draw", () => {
+        const game = new GameFactory({
+          boardDimensions: {
+            rows: 1,
+            columns: 4,
+          },
+        });
+        const payloads = [
+          {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 0,
+            },
+          },
+          {
+            player: 2,
+            targetCell: {
+              row: 0,
+              column: 3,
+            },
+          },
+          {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 1,
+            },
+          },
+          {
+            player: 2,
+            targetCell: {
+              row: 0,
+              column: 2,
+            },
+          },
+        ] satisfies MovePlayerCommandPayload[];
+        payloads.forEach(
+          R.pipe<
+            [MovePlayerCommandPayload],
+            MovePlayerCommand,
+            PlayerMovedEvent | PlayerMoveFailedEvent
+          >(createMovePlayerCommand, game.move)
+        );
+        expect(R.pipe<[], Board, string>(() => game.getBoard(), toAsciiTable)())
+          .toMatchInlineSnapshot(`
+            "
+            |---|---|---|---|
+            | 1 | 1 | 2 | 2 |
+            |---|---|---|---|"
+          `);
+        const gameStatus = game.getStatus();
+        expect(gameStatus).toEqual("DRAW");
+      });
+    });
   });
 });
