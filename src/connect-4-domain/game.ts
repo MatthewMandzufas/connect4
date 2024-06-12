@@ -161,6 +161,15 @@ class GameFactory implements Game {
 
     let message = "";
     let isValid = false;
+    if (
+      this.getStatus() === Status.PLAYER_ONE_WIN ||
+      this.getStatus() === Status.PLAYER_TWO_WIN
+    ) {
+      return {
+        isValid: false,
+        message: "The game has already been won",
+      };
+    }
     if (player !== this.getActivePlayer()) {
       return {
         isValid: false,
