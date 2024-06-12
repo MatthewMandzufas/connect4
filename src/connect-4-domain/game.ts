@@ -1,5 +1,5 @@
-import deepClone from "@/connect-4-domain/deep-clone";
 import { MovePlayerCommand } from "@/connect-4-domain/commands";
+import deepClone from "@/connect-4-domain/deep-clone";
 import {
   PlayerMoveFailedEvent,
   PlayerMovedEvent,
@@ -27,6 +27,8 @@ interface PlayerStats {
   remainingDisks: number;
 }
 
+type PlayerNumber = 1 | 2;
+
 export type PlayerMove = {
   player: 1 | 2;
   targetCell: {
@@ -38,6 +40,12 @@ export type Board = Array<Array<BoardCell>>;
 
 interface Game {
   getBoard: () => Board;
+  getPlayerStats: (playerNumber: PlayerNumber) => PlayerStats;
+  getActivePlayer: () => PlayerNumber;
+  getStatus: () => Status;
+  move: (
+    movePlayerCommand: MovePlayerCommand
+  ) => PlayerMoveFailedEvent | PlayerMovedEvent;
 }
 
 type ValidationResult = {
@@ -45,10 +53,15 @@ type ValidationResult = {
   message: string;
 };
 
+enum Status {
+  IN_PROGRESS = "IN_PROGRESS",
+}
+
 class GameFactory implements Game {
   private board: Board;
   private players: Record<1 | 2, PlayerStats>;
   private activePlayer: 1 | 2;
+  private status: Status;
 
   constructor(
     { boardDimensions }: GameParameters = {
@@ -60,6 +73,7 @@ class GameFactory implements Game {
     this.players = this.#createPlayers(startingDisks);
     this.board = this.#createBoard(boardDimensions);
     this.activePlayer = 1;
+    this.status = Status.IN_PROGRESS;
   }
 
   #validateBoard(boardDimensions: BoardDimension) {
@@ -108,7 +122,7 @@ class GameFactory implements Game {
     return this.players[playerNumber];
   }
 
-  getActivePlayer(): number {
+  getActivePlayer(): PlayerNumber {
     return this.activePlayer;
   }
 
@@ -189,6 +203,10 @@ class GameFactory implements Game {
   };
 
   move = this.createValidatedMove(this._move.bind(this));
+
+  getStatus(): Status {
+    return this.status;
+  }
 
   private _move({
     payload: {
