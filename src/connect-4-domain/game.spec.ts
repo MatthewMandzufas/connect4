@@ -1,10 +1,17 @@
-import { createMovePlayerCommand } from "@/connect-4-domain/commands";
+import {
+  MovePlayerCommand,
+  MovePlayerCommandPayload,
+  createMovePlayerCommand,
+} from "@/connect-4-domain/commands";
 import GameFactory, {
+  Board,
   BoardCell,
   InvalidBoardDimensions,
 } from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
+import * as R from "ramda";
 import { describe, expect, it } from "vitest";
+import { PlayerMoveFailedEvent, PlayerMovedEvent } from "./events";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
   const cellResolver = (cell: BoardCell) =>
@@ -617,6 +624,84 @@ describe("game", () => {
         const game = new GameFactory();
         const gameStatus = game.getStatus();
         expect(gameStatus).toEqual("IN_PROGRESS");
+      });
+    });
+    describe("and player one has won", () => {
+      it("reports the status as player one win", () => {
+        const game = new GameFactory({
+          boardDimensions: {
+            rows: 1,
+            columns: 8,
+          },
+        });
+        const payloads = [
+          {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 0,
+            },
+          },
+          {
+            player: 2,
+            targetCell: {
+              row: 0,
+              column: 7,
+            },
+          },
+          {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 1,
+            },
+          },
+          {
+            player: 2,
+            targetCell: {
+              row: 0,
+              column: 6,
+            },
+          },
+          {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 2,
+            },
+          },
+          {
+            player: 2,
+            targetCell: {
+              row: 0,
+              column: 5,
+            },
+          },
+          {
+            player: 1,
+            targetCell: {
+              row: 0,
+              column: 3,
+            },
+          },
+        ] satisfies MovePlayerCommandPayload[];
+        payloads.forEach(
+          R.pipe<
+            [MovePlayerCommandPayload],
+            MovePlayerCommand,
+            PlayerMovedEvent | PlayerMoveFailedEvent
+          >(createMovePlayerCommand, game.move)
+        );
+        expect(
+          R.pipe<[], Board, string>(() => game.getBoard(), toAsciiTable)()
+        ).toMatchInlineSnapshot(`
+          "
+          |---|---|---|---|--|---|---|---|
+          | 1 | 1 | 1 | 1 |  | 2 | 2 | 2 |
+          |---|---|---|---|--|---|---|---|"
+        `);
+        const gameStatus = game.getStatus();
+        expect(gameStatus).toEqual("PLAYER_ONE_WIN");
       });
     });
   });
