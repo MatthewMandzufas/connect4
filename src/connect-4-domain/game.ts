@@ -167,7 +167,12 @@ class GameFactory implements Game {
     ) {
       return {
         isValid: false,
-        message: "The game has already been won",
+        message: "The game has already been won.",
+      };
+    } else if (this.getStatus() === Status.DRAW) {
+      return {
+        isValid: false,
+        message: "The game has already resulted in a draw.",
       };
     }
     if (player !== this.getActivePlayer()) {
@@ -242,7 +247,7 @@ class GameFactory implements Game {
         player === 1 ? Status.PLAYER_ONE_WIN : Status.PLAYER_TWO_WIN;
     } else if (
       this.getPlayerStats(player).remainingDisks === 0 &&
-      this.getPlayerStats(player === 1 ? player : 2).remainingDisks === 0
+      this.getPlayerStats(player === 1 ? 2 : 1).remainingDisks === 0
     ) {
       this.status = Status.DRAW;
     }

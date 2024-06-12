@@ -834,7 +834,7 @@ describe("game", () => {
         expect(gameStatus).toEqual("IN_PROGRESS");
       });
     });
-    describe("and player one has won", () => {
+    describe("given player one has won", () => {
       it("reports the status as player one win", () => {
         const game = new GameFactory({
           boardDimensions: {
@@ -911,7 +911,7 @@ describe("game", () => {
         expect(gameStatus).toEqual("PLAYER_ONE_WIN");
       });
     });
-    describe("and player two has won", () => {
+    describe("given player two has won", () => {
       it("reports the status as player one win", () => {
         const game = new GameFactory({
           boardDimensions: {
@@ -995,7 +995,7 @@ describe("game", () => {
         expect(gameStatus).toEqual("PLAYER_TWO_WIN");
       });
     });
-    describe("and the game results in a draw", () => {
+    describe("given the game is drawn", () => {
       it("reports the status as a draw", () => {
         const game = new GameFactory({
           boardDimensions: {
