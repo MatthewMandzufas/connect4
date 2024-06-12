@@ -213,6 +213,11 @@ class GameFactory implements Game {
     return this.status;
   }
 
+  private decrementPlayerRemainingDisks(playerNumber: 1 | 2) {
+    this.players[playerNumber].remainingDisks =
+      this.players[playerNumber].remainingDisks - 1;
+  }
+
   private _move({
     payload: {
       player,
@@ -225,6 +230,7 @@ class GameFactory implements Game {
     }).isWin;
     this.board[row][column].player = player;
     this.activePlayer = this.activePlayer === 1 ? 2 : 1;
+    this.decrementPlayerRemainingDisks(player);
 
     if (isWinningMove) {
       this.status =
