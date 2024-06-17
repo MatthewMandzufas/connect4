@@ -1,4 +1,4 @@
-import { Board } from "@/connect-4-domain/game";
+import { Board, BoardCell } from "@/connect-4-domain/game";
 import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
 import { describe, expect, it } from "vitest";
 import parseAsciiTable from "./parse-ascii-table";
