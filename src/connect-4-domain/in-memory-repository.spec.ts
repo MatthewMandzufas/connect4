@@ -21,6 +21,16 @@ describe("in-memory-repository", () => {
       const repository = new InMemoryRepository();
       expect(repository).toBeInstanceOf(InMemoryRepository);
     });
+    it("it loads a previously saved board", () => {
+      const repository = new InMemoryRepository();
+      const asciiTable = `
+|---|---|---|---|
+|   |   |   |   |
+|---|---|---|---|`;
+      const board: Board = parseAsciiTable(asciiTable, customResolver);
+      const boardId = repository.save(board);
+      expect(repository.load(boardId)).toBe(board);
+    });
   });
   describe("given a store", () => {
     it("saves a board", () => {
