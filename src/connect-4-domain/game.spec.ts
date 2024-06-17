@@ -8,6 +8,7 @@ import GameFactory, {
   BoardCell,
   InvalidBoardDimensions,
 } from "@/connect-4-domain/game";
+import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
 import * as R from "ramda";
 import { describe, expect, it, vi } from "vitest";
@@ -238,14 +239,18 @@ describe("game", () => {
     });
     describe("persisting a game", () => {
       describe("given a custom repository", () => {
-        it.todo("saves the game", () => {
+        it("saves the game", () => {
           const repository = new InMemoryRepository();
-          const repositorySpy = vi.spyOn(repository, "saveGame");
+          const repositorySpy = vi.spyOn(repository, "save");
           const game = new GameFactory({ repository });
           expect(toAsciiTable(game.getBoard())).toEqual(
-            toAsciiTable(repositorySpy.lastCall[0])
+            toAsciiTable(repositorySpy.mock.calls[0][0])
           );
-          expect(toAsciiTable(repository.loadGame())).toEqual(
+          const boardId = repositorySpy.mock.results[0].value;
+          expect(repository.load(boardId)).not.toBe(undefined);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
+          expect(toAsciiTable(repository.load(boardId))).toEqual(
             toAsciiTable(game.getBoard())
           );
         });
