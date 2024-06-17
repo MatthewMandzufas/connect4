@@ -10,7 +10,7 @@ import GameFactory, {
 } from "@/connect-4-domain/game";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
 import * as R from "ramda";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { PlayerMoveFailedEvent, PlayerMovedEvent } from "./events";
 
 function toAsciiTable(board: Array<Array<BoardCell>>): string {
@@ -134,6 +134,7 @@ describe("game", () => {
           |--|--|--|--|--|--|--|"
         `);
       });
+      it.todo("saves a copy of the board in memory", () => {});
     });
     describe("given custom board dimensions", () => {
       describe("with 0 rows", () => {
@@ -234,6 +235,21 @@ describe("game", () => {
     it("returns the currently active player", () => {
       const game = new GameFactory();
       expect(game.getActivePlayer()).toBe(1);
+    });
+    describe("persisting a game", () => {
+      describe("given a custom repository", () => {
+        it.todo("saves the game", () => {
+          const repository = new InMemoryRepository();
+          const repositorySpy = vi.spyOn(repository, "saveGame");
+          const game = new GameFactory({ repository });
+          expect(toAsciiTable(game.getBoard())).toEqual(
+            toAsciiTable(repositorySpy.lastCall[0])
+          );
+          expect(toAsciiTable(repository.loadGame())).toEqual(
+            toAsciiTable(game.getBoard())
+          );
+        });
+      });
     });
   });
   describe("making a move", () => {
