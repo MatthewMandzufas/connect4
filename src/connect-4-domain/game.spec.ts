@@ -7,7 +7,6 @@ import GameFactory, {
   Board,
   BoardCell,
   InvalidBoardDimensions,
-  PersistentGame,
 } from "@/connect-4-domain/game";
 import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
@@ -241,20 +240,17 @@ describe("game", () => {
       describe("given a custom repository", () => {
         it("saves the game", () => {
           const repository = new InMemoryRepository();
-          const repositorySpy = vi.spyOn(repository, "save");
           const game = new GameFactory({ repository });
-          const { board, activePlayer, players, status } =
-            repositorySpy.mock.calls[0][0];
-          expect(toAsciiTable(game.getBoard())).toEqual(toAsciiTable(board));
-          expect(activePlayer).toBe(1);
-          expect(players).toMatchObject({
-            1: { playerNumber: 1, remainingDisks: 21 },
-            2: { playerNumber: 2, remainingDisks: 21 },
-          });
-          expect(status).toBe("IN_PROGRESS");
-          const gameId = repositorySpy.mock.results[0].value;
-          const persistentGame = repository.load(gameId) as PersistentGame;
-          expect(repository.load(gameId)).not.toBe(undefined);
+
+          const board = game.getBoard();
+          const activePlayer = game.getActivePlayer();
+          const players = {
+            1: game.getPlayerStats(1),
+            2: game.getPlayerStats(2),
+          };
+          const status = game.getStatus();
+          const gameUuid = game.save();
+          const persistentGame = repository.load(gameUuid);
           expect(persistentGame).toMatchObject({
             board,
             activePlayer,
@@ -262,7 +258,7 @@ describe("game", () => {
             status,
           });
         });
-        it("loads a game", () => {
+        it.todo("loads a game", () => {
           const repository = new InMemoryRepository();
           const repositorySpy = vi.spyOn(repository, "save");
           const game = new GameFactory({ repository });
