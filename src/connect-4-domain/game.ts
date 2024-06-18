@@ -14,7 +14,7 @@ export class InvalidBoardDimensions extends RangeError {}
 
 export interface GameRepository {
   save: (persistentGame: PersistentGame, uuid?: GameUuid) => GameUuid;
-  load: (boardId: GameUuid) => Board | undefined | PersistentGame;
+  load: (gameUuid: GameUuid) => undefined | PersistentGame;
 }
 
 export type BoardCell = {
@@ -98,7 +98,12 @@ class GameFactory implements Game {
     this.activePlayer = 1;
     this.status = Status.IN_PROGRESS;
     this.repository = repository;
-    this.repository?.save(this.board);
+    this.repository?.save({
+      board: this.getBoard(),
+      activePlayer: this.activePlayer,
+      players: this.players,
+      status: this.status,
+    });
   }
 
   #validateBoard(boardDimensions: BoardDimension) {

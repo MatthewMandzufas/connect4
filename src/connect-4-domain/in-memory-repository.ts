@@ -1,13 +1,13 @@
-import { Board, GameRepository, PersistentGame } from "@/connect-4-domain/game";
+import { GameRepository, PersistentGame } from "@/connect-4-domain/game";
 
 export type GameUuid = `${string}-${string}-${string}-${string}-${string}`;
 
-type BoardMap = Map<GameUuid, Board | PersistentGame>;
+type BoardMap = Map<GameUuid, PersistentGame>;
 
 export default class InMemoryRepository implements GameRepository {
   private store: BoardMap;
 
-  constructor(store: BoardMap = new Map<GameUuid, Board>()) {
+  constructor(store: BoardMap = new Map<GameUuid, PersistentGame>()) {
     this.store = store;
   }
 
@@ -19,7 +19,7 @@ export default class InMemoryRepository implements GameRepository {
     return uuid;
   }
 
-  load(boardId: GameUuid): Board | undefined | PersistentGame {
-    return this.store.get(boardId);
+  load(gameId: GameUuid): undefined | PersistentGame {
+    return this.store.get(gameId);
   }
 }
