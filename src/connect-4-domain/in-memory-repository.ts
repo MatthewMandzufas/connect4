@@ -11,10 +11,9 @@ export default class InMemoryRepository implements GameRepository {
     this.store = store;
   }
 
-  save(board: Board): BoardUuid {
-    const boardId = crypto.randomUUID();
-    this.store.set(boardId, board);
-    return boardId;
+  save(board: Board, uuid: BoardUuid = crypto.randomUUID()): BoardUuid {
+    this.store.set(uuid, board);
+    return uuid;
   }
 
   load(boardId: BoardUuid): Board | undefined {

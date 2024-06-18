@@ -13,7 +13,7 @@ import { BoardUuid } from "@/connect-4-domain/in-memory-repository";
 export class InvalidBoardDimensions extends RangeError {}
 
 export interface GameRepository {
-  save: (board: Board) => BoardUuid;
+  save: (board: Board, uuid?: BoardUuid) => BoardUuid;
   load: (boardId: BoardUuid) => Board | undefined;
 }
 
