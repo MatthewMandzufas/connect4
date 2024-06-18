@@ -63,6 +63,7 @@ interface Game {
     movePlayerCommand: MovePlayerCommand
   ) => PlayerMoveFailedEvent | PlayerMovedEvent;
   load: (gameId: GameUuid) => void;
+  save: () => GameUuid;
 }
 
 type ValidationResult = {
@@ -99,12 +100,22 @@ class GameFactory implements Game {
     this.activePlayer = 1;
     this.status = Status.IN_PROGRESS;
     this.repository = repository;
-    this.repository?.save({
-      board: this.getBoard(),
-      activePlayer: this.activePlayer,
-      players: this.players,
-      status: this.status,
-    });
+  }
+
+  save(): GameUuid {
+    const gameUuid = crypto.randomUUID();
+    if (this.repository !== undefined) {
+      this.repository.save(
+        {
+          board: this.getBoard(),
+          activePlayer: this.activePlayer,
+          players: this.players,
+          status: this.status,
+        },
+        gameUuid
+      );
+    }
+    return gameUuid;
   }
 
   load(gameId: GameUuid) {
