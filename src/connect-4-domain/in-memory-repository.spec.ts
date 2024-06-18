@@ -47,7 +47,7 @@ describe("in-memory-repository", () => {
     it("it loads a previously saved game", () => {
       const repository = new InMemoryRepository();
       const persistentGame = createPersistentGame();
-      const boardId = repository.save2(persistentGame);
+      const boardId = repository.save(persistentGame);
       expect(repository.load(boardId)).toMatchObject(persistentGame);
     });
     it("returns undefined when loading a non-existant game", () => {
@@ -61,7 +61,7 @@ describe("in-memory-repository", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
-      const boardId = repository.save2(persistentGame);
+      const boardId = repository.save(persistentGame);
       expect(store.get(boardId)).toMatchObject(persistentGame);
     });
     it("saves the game with a user-provided uuid", () => {
@@ -69,7 +69,7 @@ describe("in-memory-repository", () => {
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
       const uuid = crypto.randomUUID();
-      const boardId = repository.save2(persistentGame, uuid);
+      const boardId = repository.save(persistentGame, uuid);
       expect(uuid).toBe(boardId);
       expect(store.get(boardId)).toMatchObject(persistentGame);
     });
@@ -77,7 +77,7 @@ describe("in-memory-repository", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
-      const boardId = repository.save2(persistentGame);
+      const boardId = repository.save(persistentGame);
       expect(repository.load(boardId)).toMatchObject(persistentGame);
     });
   });
