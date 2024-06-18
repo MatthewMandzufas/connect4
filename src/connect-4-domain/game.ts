@@ -8,13 +8,13 @@ import {
 } from "@/connect-4-domain/events";
 
 import getIsWinningMove from "@/connect-4-domain/get-is-winning-move";
-import { BoardUuid } from "@/connect-4-domain/in-memory-repository";
+import { GameUuid } from "@/connect-4-domain/in-memory-repository";
 
 export class InvalidBoardDimensions extends RangeError {}
 
 export interface GameRepository {
-  save: (board: Board, uuid?: BoardUuid) => BoardUuid;
-  load: (boardId: BoardUuid) => Board | undefined;
+  save: (board: Board, uuid?: GameUuid) => GameUuid;
+  load: (boardId: GameUuid) => Board | undefined | PersistentGame;
 }
 
 export type BoardCell = {
@@ -36,7 +36,14 @@ interface PlayerStats {
   remainingDisks: number;
 }
 
-type PlayerNumber = 1 | 2;
+export type PersistentGame = {
+  board: Board;
+  activePlayer: PlayerNumber;
+  players: Record<PlayerNumber, PlayerStats>;
+  status: Status;
+};
+
+export type PlayerNumber = 1 | 2;
 
 export type PlayerMove = {
   player: 1 | 2;
@@ -62,7 +69,7 @@ type ValidationResult = {
   message: string;
 };
 
-enum Status {
+export enum Status {
   IN_PROGRESS = "IN_PROGRESS",
   PLAYER_ONE_WIN = "PLAYER_ONE_WIN",
   PLAYER_TWO_WIN = "PLAYER_TWO_WIN",

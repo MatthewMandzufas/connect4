@@ -1,4 +1,9 @@
-import { Board, BoardCell } from "@/connect-4-domain/game";
+import {
+  Board,
+  BoardCell,
+  PersistentGame,
+  Status,
+} from "@/connect-4-domain/game";
 import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
 import { describe, expect, it } from "vitest";
 import parseAsciiTable from "./parse-ascii-table";
@@ -28,14 +33,14 @@ describe("in-memory-repository", () => {
 |   |   |   |   |
 |---|---|---|---|`;
       const board: Board = parseAsciiTable(asciiTable, customResolver);
-      const persistentGame = {
+      const persistentGame: PersistentGame = {
         board,
         activePlayer: 1,
         players: {
           1: { playerNumber: 1, remainingDisks: 2 },
           2: { playerNumber: 2, remainingDisks: 2 },
         },
-        status: "IN_PROGRESS",
+        status: "IN_PROGRESS" as Status,
       };
       const boardId = repository.save2(persistentGame);
       expect(repository.load(boardId)).toMatchObject(persistentGame);
