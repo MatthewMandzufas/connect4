@@ -8,15 +8,22 @@ import {
 } from "@/connect-4-domain/events";
 
 import getIsWinningMove from "@/connect-4-domain/get-is-winning-move";
+import { BoardUuid } from "@/connect-4-domain/in-memory-repository";
 
 export class InvalidBoardDimensions extends RangeError {}
+
+export interface GameRepository {
+  save: (board: Board) => BoardUuid;
+  load: (boardId: BoardUuid) => Board | undefined;
+}
 
 export type BoardCell = {
   player: 1 | 2 | undefined;
 };
 
 export type GameParameters = {
-  boardDimensions: BoardDimension;
+  boardDimensions?: BoardDimension;
+  repository?: GameRepository;
 };
 
 export type BoardDimension = {
@@ -67,9 +74,13 @@ class GameFactory implements Game {
   private players: Record<1 | 2, PlayerStats>;
   private activePlayer: 1 | 2;
   private status: Status;
+  private repository: GameRepository | undefined;
 
   constructor(
-    { boardDimensions }: GameParameters = {
+    {
+      boardDimensions = { rows: 6, columns: 7 },
+      repository,
+    }: GameParameters = {
       boardDimensions: { rows: 6, columns: 7 },
     }
   ) {
@@ -79,6 +90,8 @@ class GameFactory implements Game {
     this.board = this.#createBoard(boardDimensions);
     this.activePlayer = 1;
     this.status = Status.IN_PROGRESS;
+    this.repository = repository;
+    this.repository?.save(this.board);
   }
 
   #validateBoard(boardDimensions: BoardDimension) {

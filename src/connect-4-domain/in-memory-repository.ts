@@ -1,13 +1,8 @@
-import { Board } from "@/connect-4-domain/game";
+import { Board, GameRepository } from "@/connect-4-domain/game";
 
-type BoardUuid = `${string}-${string}-${string}-${string}-${string}`;
+export type BoardUuid = `${string}-${string}-${string}-${string}-${string}`;
 
 type BoardMap = Map<BoardUuid, Board>;
-
-interface GameRepository {
-  save: (board: Board) => BoardUuid;
-  load: (boardId: BoardUuid) => Board | undefined;
-}
 
 export default class InMemoryRepository implements GameRepository {
   private store: BoardMap;
