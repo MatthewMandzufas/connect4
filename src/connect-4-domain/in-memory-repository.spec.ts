@@ -67,15 +67,11 @@ describe("in-memory-repository", () => {
     it("saves the board with a user-provided uuid", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
-      const asciiTable = `
-      |---|---|---|---|
-      |   |   |   |   | 
-      |---|---|---|---|`;
-      const board = parseAsciiTable(asciiTable, customResolver);
+      const persistentGame = createPersistentGame();
       const uuid = crypto.randomUUID();
-      const boardId = repository.save(board, uuid);
+      const boardId = repository.save2(persistentGame, uuid);
       expect(uuid).toBe(boardId);
-      expect(store.get(boardId)).toBe(board);
+      expect(store.get(boardId)).toMatchObject(persistentGame);
     });
     it("loads a saved board", () => {
       const store = new Map();
