@@ -20,6 +20,24 @@ const customResolver = (value: string): BoardCell => {
   };
 };
 
+function createPersistentGame() {
+  const asciiTable = `
+      |---|---|---|---|
+      |   |   |   |   | 
+      |---|---|---|---|`;
+  const board: Board = parseAsciiTable(asciiTable, customResolver);
+  const persistentGame: PersistentGame = {
+    board,
+    activePlayer: 1,
+    players: {
+      1: { playerNumber: 1, remainingDisks: 2 },
+      2: { playerNumber: 2, remainingDisks: 2 },
+    },
+    status: "IN_PROGRESS" as Status,
+  };
+  return persistentGame;
+}
+
 describe("in-memory-repository", () => {
   describe("given defaults", () => {
     it("creates an in memory repository", () => {
@@ -28,20 +46,7 @@ describe("in-memory-repository", () => {
     });
     it("it loads a previously saved game", () => {
       const repository = new InMemoryRepository();
-      const asciiTable = `
-|---|---|---|---|
-|   |   |   |   |
-|---|---|---|---|`;
-      const board: Board = parseAsciiTable(asciiTable, customResolver);
-      const persistentGame: PersistentGame = {
-        board,
-        activePlayer: 1,
-        players: {
-          1: { playerNumber: 1, remainingDisks: 2 },
-          2: { playerNumber: 2, remainingDisks: 2 },
-        },
-        status: "IN_PROGRESS" as Status,
-      };
+      const persistentGame = createPersistentGame();
       const boardId = repository.save2(persistentGame);
       expect(repository.load(boardId)).toMatchObject(persistentGame);
     });
@@ -52,16 +57,12 @@ describe("in-memory-repository", () => {
     });
   });
   describe("given a store", () => {
-    it("saves a board", () => {
+    it("saves a game", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
-      const asciiTable = `
-      |---|---|---|---|
-      |   |   |   |   | 
-      |---|---|---|---|`;
-      const board: Board = parseAsciiTable(asciiTable, customResolver);
-      const boardId = repository.save(board);
-      expect(store.get(boardId)).toBe(board);
+      const persistentGame = createPersistentGame();
+      const boardId = repository.save2(persistentGame);
+      expect(store.get(boardId)).toMatchObject(persistentGame);
     });
     it("saves the board with a user-provided uuid", () => {
       const store = new Map();
