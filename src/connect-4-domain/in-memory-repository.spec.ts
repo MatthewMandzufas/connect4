@@ -45,10 +45,10 @@ describe("in-memory-repository", () => {
       const boardId = repository.save2(persistentGame);
       expect(repository.load(boardId)).toMatchObject(persistentGame);
     });
-    it("returns undefined when loading a non-existant board", () => {
+    it("returns undefined when loading a non-existant game", () => {
       const repository = new InMemoryRepository();
-      const boardId = crypto.randomUUID();
-      expect(repository.load(boardId)).toBe(undefined);
+      const gameId = crypto.randomUUID();
+      expect(repository.load(gameId)).toBe(undefined);
     });
   });
   describe("given a store", () => {
