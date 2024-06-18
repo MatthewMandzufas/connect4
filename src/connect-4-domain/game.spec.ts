@@ -7,6 +7,7 @@ import GameFactory, {
   Board,
   BoardCell,
   InvalidBoardDimensions,
+  PersistentGame,
 } from "@/connect-4-domain/game";
 import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
@@ -242,22 +243,26 @@ describe("game", () => {
           const repository = new InMemoryRepository();
           const repositorySpy = vi.spyOn(repository, "save");
           const game = new GameFactory({ repository });
-          expect(toAsciiTable(game.getBoard())).toEqual(
-            toAsciiTable(repositorySpy.mock.calls[0][0])
-          );
-          const boardId = repositorySpy.mock.results[0].value;
-          expect(repository.load(boardId)).not.toBe(undefined);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-          expect(toAsciiTable(repository.load(boardId))).toEqual(
-            toAsciiTable(game.getBoard())
-          );
+          const { board, activePlayer, players, status } =
+            repositorySpy.mock.calls[0][0];
+          expect(toAsciiTable(game.getBoard())).toEqual(toAsciiTable(board));
+          expect(activePlayer).toBe(1);
+          expect(players).toMatchObject({
+            1: { playerNumber: 1, remainingDisks: 21 },
+            2: { playerNumber: 2, remainingDisks: 21 },
+          });
+          expect(status).toBe("IN_PROGRESS");
+          const gameId = repositorySpy.mock.results[0].value;
+          const persistentGame = repository.load(gameId) as PersistentGame;
+          expect(repository.load(gameId)).not.toBe(undefined);
+          expect(persistentGame).toMatchObject({
+            board,
+            activePlayer,
+            players,
+            status,
+          });
         });
-        it.todo("loads a game", () => {
-          const game = new GameFactory();
-
-          // expect(game.getBoard()).toEqual();
-        });
+        it.todo("loads a game", () => {});
       });
     });
   });
