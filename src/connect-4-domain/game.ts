@@ -62,6 +62,7 @@ interface Game {
   move: (
     movePlayerCommand: MovePlayerCommand
   ) => PlayerMoveFailedEvent | PlayerMovedEvent;
+  load: (gameId: GameUuid) => void;
 }
 
 type ValidationResult = {
@@ -104,6 +105,17 @@ class GameFactory implements Game {
       players: this.players,
       status: this.status,
     });
+  }
+
+  load(gameId: GameUuid) {
+    const gameStateToLoad = this.repository?.load(gameId);
+    if (gameStateToLoad !== undefined) {
+      const { board, activePlayer, players, status } = gameStateToLoad;
+      this.board = board;
+      this.activePlayer = activePlayer;
+      this.players = players;
+      this.status = status;
+    }
   }
 
   #validateBoard(boardDimensions: BoardDimension) {
