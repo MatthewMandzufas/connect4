@@ -21,15 +21,24 @@ describe("in-memory-repository", () => {
       const repository = new InMemoryRepository();
       expect(repository).toBeInstanceOf(InMemoryRepository);
     });
-    it("it loads a previously saved board", () => {
+    it("it loads a previously saved game", () => {
       const repository = new InMemoryRepository();
       const asciiTable = `
 |---|---|---|---|
 |   |   |   |   |
 |---|---|---|---|`;
       const board: Board = parseAsciiTable(asciiTable, customResolver);
-      const boardId = repository.save(board);
-      expect(repository.load(boardId)).toBe(board);
+      const persistentGame = {
+        board,
+        activePlayer: 1,
+        players: {
+          1: { playerNumber: 1, remainingDisks: 2 },
+          2: { playerNumber: 2, remainingDisks: 2 },
+        },
+        status: "IN_PROGRESS",
+      };
+      const boardId = repository.save2(persistentGame);
+      expect(repository.load(boardId)).toMatchObject(persistentGame);
     });
     it("returns undefined when loading a non-existant board", () => {
       const repository = new InMemoryRepository();
