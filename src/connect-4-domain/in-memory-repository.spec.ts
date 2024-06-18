@@ -64,7 +64,7 @@ describe("in-memory-repository", () => {
       const boardId = repository.save2(persistentGame);
       expect(store.get(boardId)).toMatchObject(persistentGame);
     });
-    it("saves the board with a user-provided uuid", () => {
+    it("saves the game with a user-provided uuid", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
@@ -73,16 +73,12 @@ describe("in-memory-repository", () => {
       expect(uuid).toBe(boardId);
       expect(store.get(boardId)).toMatchObject(persistentGame);
     });
-    it("loads a saved board", () => {
+    it("loads a saved game", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
-      const asciiTable = `
-        |---|---|---|---|
-        |   |   |   |   | 
-        |---|---|---|---|`;
-      const board: Board = parseAsciiTable(asciiTable, customResolver);
-      const boardId = repository.save(board);
-      expect(repository.load(boardId)).toBe(board);
+      const persistentGame = createPersistentGame();
+      const boardId = repository.save2(persistentGame);
+      expect(repository.load(boardId)).toMatchObject(persistentGame);
     });
   });
 });
