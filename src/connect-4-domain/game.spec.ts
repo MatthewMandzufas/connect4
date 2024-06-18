@@ -296,6 +296,16 @@ describe("game", () => {
           });
           expect(game.getStatus()).toEqual("IN_PROGRESS");
         });
+        describe("and an invalid gameUuid", () => {
+          it("throws an error", () => {
+            const repository = new InMemoryRepository();
+            const game = new GameFactory({ repository });
+            const invalidGameUuid = crypto.randomUUID();
+            expect(() => game.load(invalidGameUuid)).toThrow(
+              "The provided GameUuid was invalid."
+            );
+          });
+        });
       });
     });
   });
