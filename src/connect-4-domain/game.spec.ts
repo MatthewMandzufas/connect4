@@ -135,7 +135,19 @@ describe("game", () => {
           |--|--|--|--|--|--|--|"
         `);
       });
-      it.todo("saves a copy of the board in memory", () => {});
+      it.todo("loads a game", () => {
+        expect(toAsciiTable(game.load(boardId))).toBe(
+          toAsciiTable(game.getBoard())
+        );
+      });
+      it.todo("saves the game", () => {
+        const game = new GameFactory();
+        expect(toAsciiTable(game.getBoard())).toBe(
+          toAsciiTable(repositorySpy.mock.calls[0][0])
+        );
+        expect(savedBoard).not.toBe(undefined);
+        expect(toAsciiTable(savedBoard)).toBe(toAsciiTable(game.getBoard()));
+      });
     });
     describe("given custom board dimensions", () => {
       describe("with 0 rows", () => {
