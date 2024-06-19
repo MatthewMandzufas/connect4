@@ -8,7 +8,9 @@ import {
 } from "@/connect-4-domain/events";
 
 import getIsWinningMove from "@/connect-4-domain/get-is-winning-move";
-import { GameUuid } from "@/connect-4-domain/in-memory-repository";
+import InMemoryRepository, {
+  GameUuid,
+} from "@/connect-4-domain/in-memory-repository";
 
 export class InvalidBoardDimensions extends RangeError {}
 
@@ -83,14 +85,15 @@ class GameFactory implements Game {
   private players: Record<1 | 2, PlayerStats>;
   private activePlayer: 1 | 2;
   private status: Status;
-  private repository: GameRepository | undefined;
+  private repository: GameRepository;
 
   constructor(
     {
       boardDimensions = { rows: 6, columns: 7 },
-      repository,
+      repository = new InMemoryRepository(),
     }: GameParameters = {
       boardDimensions: { rows: 6, columns: 7 },
+      repository: new InMemoryRepository(),
     }
   ) {
     this.#validateBoard(boardDimensions);
@@ -104,17 +107,15 @@ class GameFactory implements Game {
 
   save(): GameUuid {
     const gameUuid = crypto.randomUUID();
-    if (this.repository !== undefined) {
-      this.repository.save(
-        {
-          board: this.getBoard(),
-          activePlayer: this.activePlayer,
-          players: this.players,
-          status: this.status,
-        },
-        gameUuid
-      );
-    }
+    this.repository.save(
+      {
+        board: this.getBoard(),
+        activePlayer: this.activePlayer,
+        players: this.players,
+        status: this.status,
+      },
+      gameUuid
+    );
     return gameUuid;
   }
 
