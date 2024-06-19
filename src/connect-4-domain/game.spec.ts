@@ -295,6 +295,40 @@ describe("game", () => {
           });
         });
       });
+      describe("given defaults", () => {
+        it("uses a default in-memory-repository to save a game", () => {
+          const game = new GameFactory();
+
+          const gameUuid = game.save();
+          game.load(gameUuid);
+          expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+            "
+            |--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|
+            |  |  |  |  |  |  |  |
+            |--|--|--|--|--|--|--|"
+          `);
+          expect(game.getActivePlayer()).toBe(1);
+          expect(game.getPlayerStats(1)).toMatchObject({
+            playerNumber: 1,
+            remainingDisks: 21,
+          });
+          expect(game.getPlayerStats(2)).toMatchObject({
+            playerNumber: 2,
+            remainingDisks: 21,
+          });
+          expect(game.getStatus()).toBe("IN_PROGRESS");
+        });
+      });
     });
   });
   describe("making a move", () => {
