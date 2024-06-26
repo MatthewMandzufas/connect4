@@ -1,6 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
 import { Board } from "@/connect-4-ui/Board";
 import createBoardCells from "@/connect-4-ui/create-board-cells";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Board> = {
   component: Board,
@@ -43,4 +44,8 @@ export const TheOneWithRandomTokensAndCustomTokenColour: Story = {
       playerTwoColor="orange"
     />
   ),
+};
+
+export const TheOneWithAClickHandler: Story = {
+  render: () => <Board onClick={action("Clicked")} />,
 };

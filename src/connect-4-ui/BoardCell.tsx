@@ -3,9 +3,10 @@ import styled from "styled-components";
 export type BoardCellProps = {
   className?: string;
   player?: 1 | 2;
-  uuid: string;
+  uuid?: string;
   playerOneColor?: string;
   playerTwoColor?: string;
+  onClick?: () => void;
 };
 
 const StyledBoardCell = styled.div`
@@ -59,10 +60,12 @@ const StyledBoardDiskCutout = styled.div<{
 export const BoardCell = ({
   player,
   className,
-  playerOneColor,
-  playerTwoColor,
+  playerOneColor = "red",
+  playerTwoColor = "yellow",
+  uuid = crypto.randomUUID(),
+  onClick,
 }: BoardCellProps) => (
-  <StyledBoardCell className={className}>
+  <StyledBoardCell className={className} onClick={onClick}>
     <AspectRatioBox>
       <ContentWrapper>
         <StyledBoardDiskCutout
@@ -74,8 +77,3 @@ export const BoardCell = ({
     </AspectRatioBox>
   </StyledBoardCell>
 );
-
-BoardCell.defaultProps = {
-  playerOneColor: "red",
-  playerTwoColor: "yellow",
-};
