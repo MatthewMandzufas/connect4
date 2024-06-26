@@ -2,16 +2,16 @@ import { BoardCell, BoardCellProps } from "@/connect-4-ui/BoardCell";
 import createBoardCells from "@/connect-4-ui/create-board-cells";
 import styled from "styled-components";
 
-type ClickHandler = (row: number, column: number) => void;
+type ClickHandler = ({ row, column }: GridBoardCellProps) => void;
 
 export type BoardProps = {
-  cells: Array<Array<BoardCellProps>>;
+  cells?: Array<Array<BoardCellProps>>;
   playerOneColor?: string;
   playerTwoColor?: string;
   onClick?: ClickHandler;
 };
 
-type GridBoardCellProps = {
+export type GridBoardCellProps = {
   row: number;
   column: number;
 };
@@ -34,7 +34,7 @@ function createHandleBoardCellClick(
   onClick: ClickHandler
 ) {
   return function handleBoardCellClick() {
-    onClick(row, column);
+    onClick({ row, column });
   };
 }
 

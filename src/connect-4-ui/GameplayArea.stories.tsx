@@ -1,5 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react";
 import { GameplayArea } from "@/connect-4-ui/GameplayArea";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react";
 import createBoardCells from "./create-board-cells";
 
 const meta: Meta<typeof GameplayArea> = {
@@ -40,4 +41,8 @@ export const TheOneWithAGameInProgress: Story = {
       }}
     />
   ),
+};
+
+export const TheOneWithAStartGameClickHandler: Story = {
+  render: () => <GameplayArea onStartGameClick={action("Start Game!")} />,
 };
