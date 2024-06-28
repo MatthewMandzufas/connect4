@@ -111,28 +111,19 @@ function getBLTRDiagonalCells(
     targetCell: { row, column },
   } = playerMove;
 
-  const slicedBoard = board.slice(
-    Math.max(row - 3, 0),
-    Math.min(row + 3, board[0].length) + 1
-  );
-
-  const columnOffset = Math.max(column - row, 0);
-  const rowOffset = Math.max(row - column, 0);
-  const cellsToCheck = [];
-
-  const endIndex = Math.min(
-    slicedBoard.length - columnOffset,
-    slicedBoard[0].length - rowOffset
-  );
+  const rowOffset = row - Math.min(row, column);
+  const columnOffset = column - Math.min(row, column);
 
   let i = 0;
+  const cells = [];
   do {
-    if (i + rowOffset !== row) {
-      cellsToCheck.push(slicedBoard[i + rowOffset][i + columnOffset]);
+    if (row !== i + rowOffset) {
+      cells.push(board[i + rowOffset][columnOffset + i]);
     }
     i++;
-  } while (i < endIndex);
-  return cellsToCheck;
+  } while (i + rowOffset < board.length && i + columnOffset < board[0].length);
+
+  return cells;
 }
 
 function getBRTLDiagonalCells(

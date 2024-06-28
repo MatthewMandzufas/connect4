@@ -11,8 +11,12 @@ function createHandleStartGameClick(
     gameOverview: GameOverviewProps;
     board: BoardProps;
   }) => void,
-  handleBoardCellClick: (
-    game: GameFactory
+  createHandleBoardCellClick: (
+    game: GameFactory,
+    setActiveGame: (activeGame: {
+      gameOverview: GameOverviewProps;
+      board: BoardProps;
+    }) => void
   ) => ({ row, column }: GridBoardCellProps) => void
 ): () => void {
   return function handleStartGameClick(): void {
@@ -39,13 +43,19 @@ function createHandleStartGameClick(
         cells: game.getBoard(),
         playerOneColor: "red",
         playerTwoColor: "yellow",
-        onClick: handleBoardCellClick(game),
+        onClick: createHandleBoardCellClick(game, setActiveGame),
       } satisfies BoardProps,
     });
   };
 }
 
-function createHandleBoardCellClick(game: GameFactory) {
+function createHandleBoardCellClick(
+  game: GameFactory,
+  setActiveGame: (activeGame: {
+    gameOverview: GameOverviewProps;
+    board: BoardProps;
+  }) => void
+) {
   return function handleBoardCellClick({
     row,
     column,
@@ -58,7 +68,30 @@ function createHandleBoardCellClick(game: GameFactory) {
       },
     });
     game.move(movePlayerCommand);
-    console.log(movePlayerCommand);
+    setActiveGame({
+      gameOverview: {
+        roundNumber: 1,
+        playerOne: {
+          playerNumber: 1,
+          isActive: game.getActivePlayer() === 1,
+          remainingDisks: game.getPlayerStats(1).remainingDisks,
+          playerDiskColor: "red",
+        },
+        playerTwo: {
+          playerNumber: 2,
+          isActive: game.getActivePlayer() === 2,
+          remainingDisks: game.getPlayerStats(2).remainingDisks,
+          playerDiskColor: "yellow",
+        },
+        gameRunning: game.getStatus() === "IN_PROGRESS",
+      },
+      board: {
+        cells: game.getBoard(),
+        playerOneColor: "red",
+        playerTwoColor: "yellow",
+        onClick: createHandleBoardCellClick(game, setActiveGame),
+      } satisfies BoardProps,
+    });
   };
 }
 

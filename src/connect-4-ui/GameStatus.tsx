@@ -15,7 +15,7 @@ const StyledGameStatus = styled.div`
 
 export const GameStatus = ({ gameRunning }: GameStatusProps) => {
   return (
-    <StyledGameStatus>{`Game Status: ${gameRunning === true ? "Running" : "Not-Running"}`}</StyledGameStatus>
+    <StyledGameStatus>{`Game Status: ${gameRunning === true ? "In-Progress" : "Complete"}`}</StyledGameStatus>
   );
 };
 

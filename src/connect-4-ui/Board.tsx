@@ -5,7 +5,7 @@ import styled from "styled-components";
 type ClickHandler = ({ row, column }: GridBoardCellProps) => void;
 
 export type BoardProps = {
-  cells?: Array<Array<BoardCellProps>>;
+  cells: Array<Array<BoardCellProps>>;
   playerOneColor?: string;
   playerTwoColor?: string;
   onClick?: ClickHandler;
@@ -64,7 +64,7 @@ export const Board = (
             uuid={cell.uuid}
             key={cell.uuid}
             column={columnIndex + 1}
-            row={rowIndex + 1}
+            row={cells.length - rowIndex}
             playerOneColor={playerOneColor}
             playerTwoColor={playerTwoColor}
           />
