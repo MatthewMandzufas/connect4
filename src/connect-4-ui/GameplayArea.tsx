@@ -10,10 +10,12 @@ export type GameplayAreaProps = {
   onStartGameClick?: () => void;
 };
 
-const StyledGameplayArea = styled.div<GameplayAreaProps>`
+const StyledGameplayArea = styled.div<{
+  $activeGame?: GameplayAreaProps["activeGame"];
+}>`
   display: flex;
-  justify-content: ${({ activeGame }) =>
-    activeGame === undefined ? "center" : "space-evenly"};
+  justify-content: ${({ $activeGame }) =>
+    $activeGame === undefined ? "center" : "space-evenly"};
   height: 100vh;
   align-items: center;
   background-color: aquamarine;
@@ -33,7 +35,7 @@ export const GameplayArea = ({
 }: GameplayAreaProps) => {
   return (
     <>
-      <StyledGameplayArea activeGame={activeGame}>
+      <StyledGameplayArea $activeGame={activeGame}>
         {activeGame ? (
           <>
             <GameOverview {...activeGame.gameOverview} />

@@ -16,10 +16,10 @@ export type GridBoardCellProps = {
   column: number;
 };
 
-const StyledBoard = styled.div<BoardProps>`
+const StyledBoard = styled.div<{ $cells: BoardProps["cells"] }>`
   display: grid;
-  grid-template-columns: ${({ cells }) => `repeat(${cells[0].length}, 1fr)`};
-  grid-template-rows: ${({ cells }) => `repeat(${cells.length}, 1fr)`};
+  grid-template-columns: ${({ $cells }) => `repeat(${$cells[0].length}, 1fr)`};
+  grid-template-rows: ${({ $cells }) => `repeat(${$cells.length}, 1fr)`};
   width: min(80vh, 80vw);
   height: min(80vh, 80vw);
 `;
@@ -52,7 +52,7 @@ export const Board = (
   }
 ) => {
   return (
-    <StyledBoard cells={cells}>
+    <StyledBoard $cells={cells}>
       {cells.map((row, rowIndex) => {
         return row.map((cell, columnIndex) => (
           <GridBoardCell
@@ -62,7 +62,7 @@ export const Board = (
             )}
             player={cell.player}
             uuid={cell.uuid}
-            key={cell.uuid}
+            key={`${rowIndex}-${columnIndex}-${cell.uuid}`}
             column={columnIndex + 1}
             row={cells.length - rowIndex}
             playerOneColor={playerOneColor}

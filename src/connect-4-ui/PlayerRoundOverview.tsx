@@ -7,7 +7,7 @@ export type PlayerRoundOverviewProps = {
   playerDiskColor: string;
 };
 
-const Wrapper = styled.div<{ playerNumber: 1 | 2 }>`
+const Wrapper = styled.div`
   background-color: blue;
   display: flex;
   flex-direction: column;
@@ -29,13 +29,13 @@ const AlignCenterRow = styled.div`
   flex: 1;
 `;
 
-const Token = styled.div<{ isActive: boolean; playerDiskColor: string }>`
-  background-color: ${({ isActive, playerDiskColor }) =>
-    isActive ? playerDiskColor : "initial"};
+const Token = styled.div<{ $isActive: boolean; $playerDiskColor: string }>`
+  background-color: ${({ $isActive, $playerDiskColor }) =>
+    $isActive ? $playerDiskColor : "initial"};
   border-radius: 50%;
   height: 30px;
   min-width: 30px;
-  outline: ${({ isActive }) => (isActive ? "3px white dashed" : "none")};
+  outline: ${({ $isActive }) => ($isActive ? "3px white dashed" : "none")};
   width: 30px;
   margin-left: 20px;
 `;
@@ -46,11 +46,11 @@ export const PlayerRoundOverview = ({
   remainingDisks,
   playerDiskColor,
 }: PlayerRoundOverviewProps) => (
-  <Wrapper playerNumber={playerNumber}>
+  <Wrapper>
     <AlignCenterRow>
       <Row>
         <p>{`Player Number: ${playerNumber}`}</p>
-        <Token isActive={isActive} playerDiskColor={playerDiskColor} />
+        <Token $isActive={isActive} $playerDiskColor={playerDiskColor} />
       </Row>
       <p>{`Remaining Disks: ${remainingDisks}`}</p>
     </AlignCenterRow>
