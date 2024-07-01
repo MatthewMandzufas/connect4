@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createMovePlayerCommand } from "./connect-4-domain/commands";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
+import "./global.css";
 
 function createHandleStartGameClick(
   setGame: (game: GameFactory) => void,
@@ -29,20 +30,20 @@ function createHandleStartGameClick(
           playerNumber: 1,
           isActive: game.getActivePlayer() === 1,
           remainingDisks: game.getPlayerStats(1).remainingDisks,
-          playerDiskColor: "red",
+          playerDiskColor: "#FF5733",
         },
         playerTwo: {
           playerNumber: 2,
           isActive: game.getActivePlayer() === 2,
           remainingDisks: game.getPlayerStats(2).remainingDisks,
-          playerDiskColor: "yellow",
+          playerDiskColor: "#fdfd96",
         },
         gameRunning: Status.IN_PROGRESS,
       },
       board: {
         cells: game.getBoard(),
-        playerOneColor: "red",
-        playerTwoColor: "yellow",
+        playerOneColor: "#FF5733",
+        playerTwoColor: "#fdfd96",
         onClick: createHandleBoardCellClick(game, setActiveGame),
       } satisfies BoardProps,
     });
@@ -75,20 +76,20 @@ function createHandleBoardCellClick(
           playerNumber: 1,
           isActive: game.getActivePlayer() === 1,
           remainingDisks: game.getPlayerStats(1).remainingDisks,
-          playerDiskColor: "red",
+          playerDiskColor: "#FF5733",
         },
         playerTwo: {
           playerNumber: 2,
           isActive: game.getActivePlayer() === 2,
           remainingDisks: game.getPlayerStats(2).remainingDisks,
-          playerDiskColor: "yellow",
+          playerDiskColor: "#fdfd96",
         },
         gameRunning: game.getStatus(),
       },
       board: {
         cells: game.getBoard(),
-        playerOneColor: "red",
-        playerTwoColor: "yellow",
+        playerOneColor: "#FF5733",
+        playerTwoColor: "#fdfd96",
         onClick: createHandleBoardCellClick(game, setActiveGame),
       } satisfies BoardProps,
     });

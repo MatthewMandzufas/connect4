@@ -6,12 +6,13 @@ export type GameStatusProps = {
 };
 
 const StyledGameStatus = styled.div`
-  background-color: blue;
-  color: white;
+  background-color: #2772db;
+  color: #f5ebeb;
   font-size: 2rem;
   text-align: center;
   padding: 10px 0px;
   border-radius: 0px 0px 20px 20px;
+  font-family: monospace;
 `;
 
 export const GameStatus = ({ gameRunning }: GameStatusProps) => {
@@ -21,10 +22,10 @@ export const GameStatus = ({ gameRunning }: GameStatusProps) => {
       currentStatus = "Draw";
       break;
     case Status.PLAYER_ONE_WIN:
-      currentStatus = "Player 1 has Won!";
+      currentStatus = "Player 1 Won!";
       break;
     case Status.PLAYER_TWO_WIN:
-      currentStatus = "Player 2 has Won!";
+      currentStatus = "Player 2 Won!";
       break;
   }
   return <StyledGameStatus>{`Game Status: ${currentStatus}`}</StyledGameStatus>;

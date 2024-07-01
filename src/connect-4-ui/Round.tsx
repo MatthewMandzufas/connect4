@@ -5,11 +5,12 @@ export type RoundProps = {
 };
 
 const StyledRoundNumber = styled.div`
-  background-color: blue;
-  color: white;
+  background-color: #2772db;
+  color: #f5ebeb;
   font-size: 2rem;
   text-align: center;
   padding: 10px 0px;
+  font-family: monospace;
   border-radius: 20px 20px 0 0;
 `;
 

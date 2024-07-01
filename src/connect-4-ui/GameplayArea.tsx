@@ -18,7 +18,7 @@ const StyledGameplayArea = styled.div<{
     $activeGame === undefined ? "center" : "space-evenly"};
   height: 100vh;
   align-items: center;
-  background-color: aquamarine;
+  background-color: #070f4e;
   flex-wrap: wrap;
 `;
 

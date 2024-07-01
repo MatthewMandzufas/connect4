@@ -15,7 +15,7 @@ const StyledBoardCell = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: blue;
+  background: #2772db;
 `;
 
 const AspectRatioBox = styled.div`
@@ -45,6 +45,7 @@ const StyledBoardDiskCutout = styled.div<{
   height: 100%;
   width: 100%;
   border-radius: 50%;
+  outline: 5px solid #070f4e;
   background: ${({ $player, $playerOneColor, $playerTwoColor }) => {
     switch ($player) {
       case 1:
@@ -52,7 +53,7 @@ const StyledBoardDiskCutout = styled.div<{
       case 2:
         return $playerTwoColor;
       default:
-        return "white";
+        return "#f5ebeb";
     }
   }};
 `;
@@ -62,6 +63,7 @@ export const BoardCell = ({
   className,
   playerOneColor = "red",
   playerTwoColor = "yellow",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   uuid = crypto.randomUUID(),
   onClick,
 }: BoardCellProps) => (

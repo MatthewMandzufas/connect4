@@ -8,14 +8,15 @@ export type PlayerRoundOverviewProps = {
 };
 
 const Wrapper = styled.div`
-  background-color: blue;
+  background-color: #2772db;
   display: flex;
   flex-direction: column;
-  color: white;
+  color: #f5ebeb;
   font-size: 1.2rem;
   padding: 0 10px 0 10px;
   flex: 1;
   align-items: center;
+  font-family: monospace;
 `;
 
 const Row = styled.div`
@@ -35,7 +36,7 @@ const Token = styled.div<{ $isActive: boolean; $playerDiskColor: string }>`
   border-radius: 50%;
   height: 30px;
   min-width: 30px;
-  outline: ${({ $isActive }) => ($isActive ? "3px white dashed" : "none")};
+  outline: ${({ $isActive }) => ($isActive ? "3px #f5ebeb dashed" : "none")};
   width: 30px;
   margin-left: 20px;
 `;
