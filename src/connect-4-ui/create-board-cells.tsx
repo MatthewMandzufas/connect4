@@ -1,11 +1,11 @@
-import { BoardCellProps } from "@/connect-4-ui/BoardCell";
+import { BoardCell } from "./create-game-api";
 
 const createBoardCells = (
   rows: number = 0,
   columns: number = 0,
   selectionStrategy: () => 1 | 2 | undefined = () => undefined
-): Array<Array<BoardCellProps>> => {
-  const cells: Array<Array<BoardCellProps>> = [];
+): Array<Array<BoardCell>> => {
+  const cells: Array<Array<BoardCell>> = [];
 
   for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
     cells[rowIndex] = [];

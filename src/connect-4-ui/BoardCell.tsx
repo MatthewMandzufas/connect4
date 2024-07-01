@@ -6,7 +6,7 @@ export type BoardCellProps = {
   uuid?: string;
   playerOneColor?: string;
   playerTwoColor?: string;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 const StyledBoardCell = styled.div`

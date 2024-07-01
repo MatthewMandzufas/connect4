@@ -1,4 +1,4 @@
-import { Board, BoardProps } from "@/connect-4-ui/Board";
+import { Board, BoardProps, GridBoardCellProps } from "@/connect-4-ui/Board";
 import GameOverview, { GameOverviewProps } from "@/connect-4-ui/GameOverview";
 import styled from "styled-components";
 
@@ -8,6 +8,7 @@ export type GameplayAreaProps = {
     board: BoardProps;
   };
   onStartGameClick?: () => void;
+  onBoardCellClick: ({ row, column }: GridBoardCellProps) => void;
 };
 
 const StyledGameplayArea = styled.div<{
@@ -32,6 +33,7 @@ const StyledButton = styled.button`
 export const GameplayArea = ({
   activeGame,
   onStartGameClick,
+  onBoardCellClick,
 }: GameplayAreaProps) => {
   return (
     <>
@@ -39,7 +41,7 @@ export const GameplayArea = ({
         {activeGame ? (
           <>
             <GameOverview {...activeGame.gameOverview} />
-            <Board {...activeGame.board} />
+            <Board {...activeGame.board} onBoardCellClick={onBoardCellClick} />
           </>
         ) : (
           <StyledButton onClick={onStartGameClick}>Start Game</StyledButton>

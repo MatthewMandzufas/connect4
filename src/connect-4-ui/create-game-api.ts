@@ -4,13 +4,14 @@ import GameFactory, {
   BoardCell as DomainBoardCell,
 } from "@/connect-4-domain/game";
 
-type MoveResult = {
+export type MoveResult = {
   isSuccess: boolean;
   error?: Array<string>;
 };
 
-type BoardCell = {
+export type BoardCell = {
   player?: Player;
+  uuid?: string;
   handlePlayerMove: (player: Player) => MoveResult;
 };
 
@@ -23,7 +24,7 @@ enum Status {
 
 type Player = 1 | 2;
 
-interface GameApi {
+export interface GameApi {
   getActivePlayer: () => Player;
   getRemainingDisks: (player: Player) => number;
   getGameStatus: () => Status;
@@ -60,10 +61,10 @@ const createRowMapper =
 export default function createGameApi(game: GameFactory): GameApi {
   const rowMapper = createRowMapper(game);
   const gameApi = {
-    getActivePlayer: game.getActivePlayer,
+    getActivePlayer: () => game.getActivePlayer(),
     getRemainingDisks: (player: Player) =>
       game.getPlayerStats(player).remainingDisks,
-    getGameStatus: game.getStatus,
+    getGameStatus: () => game.getStatus(),
     getBoard: () => game.getBoard().map(rowMapper),
   };
   return gameApi;
