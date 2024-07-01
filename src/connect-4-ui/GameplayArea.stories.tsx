@@ -1,3 +1,4 @@
+import { Status } from "@/connect-4-domain/game";
 import { GameplayArea } from "@/connect-4-ui/GameplayArea";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
@@ -36,7 +37,7 @@ export const TheOneWithAGameInProgress: Story = {
             playerDiskColor: "yellow",
           },
           roundNumber: 1,
-          gameRunning: false,
+          gameRunning: Status.IN_PROGRESS,
         },
       }}
     />

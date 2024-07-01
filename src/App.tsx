@@ -1,4 +1,4 @@
-import GameFactory from "@/connect-4-domain/game";
+import GameFactory, { Status } from "@/connect-4-domain/game";
 import { GameplayArea } from "@/connect-4-ui/GameplayArea";
 import { useState } from "react";
 import { createMovePlayerCommand } from "./connect-4-domain/commands";
@@ -37,7 +37,7 @@ function createHandleStartGameClick(
           remainingDisks: game.getPlayerStats(2).remainingDisks,
           playerDiskColor: "yellow",
         },
-        gameRunning: true,
+        gameRunning: Status.IN_PROGRESS,
       },
       board: {
         cells: game.getBoard(),
@@ -83,7 +83,7 @@ function createHandleBoardCellClick(
           remainingDisks: game.getPlayerStats(2).remainingDisks,
           playerDiskColor: "yellow",
         },
-        gameRunning: game.getStatus() === "IN_PROGRESS",
+        gameRunning: game.getStatus(),
       },
       board: {
         cells: game.getBoard(),

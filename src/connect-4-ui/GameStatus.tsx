@@ -1,7 +1,8 @@
+import { Status } from "@/connect-4-domain/game";
 import styled from "styled-components";
 
 export type GameStatusProps = {
-  gameRunning: boolean;
+  gameRunning: Status;
 };
 
 const StyledGameStatus = styled.div`
@@ -14,11 +15,21 @@ const StyledGameStatus = styled.div`
 `;
 
 export const GameStatus = ({ gameRunning }: GameStatusProps) => {
-  return (
-    <StyledGameStatus>{`Game Status: ${gameRunning === true ? "In-Progress" : "Complete"}`}</StyledGameStatus>
-  );
+  let currentStatus = "In-Progress";
+  switch (gameRunning) {
+    case Status.DRAW:
+      currentStatus = "Draw";
+      break;
+    case Status.PLAYER_ONE_WIN:
+      currentStatus = "Player 1 has Won!";
+      break;
+    case Status.PLAYER_TWO_WIN:
+      currentStatus = "Player 2 has Won!";
+      break;
+  }
+  return <StyledGameStatus>{`Game Status: ${currentStatus}`}</StyledGameStatus>;
 };
 
 GameStatus.defaultProps = {
-  gameRunning: false,
+  gameRunning: Status.IN_PROGRESS,
 };

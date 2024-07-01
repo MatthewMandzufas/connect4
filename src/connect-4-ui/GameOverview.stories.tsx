@@ -1,5 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Status } from "@/connect-4-domain/game";
 import GameOverview from "@/connect-4-ui/GameOverview";
+import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof GameOverview> = {
   component: GameOverview,
@@ -25,7 +26,7 @@ export const TheOneWithPlayerOneActiveAndGameRunning: Story = {
         playerDiskColor: "yellow",
       }}
       roundNumber={1}
-      gameRunning={true}
+      gameRunning={Status.IN_PROGRESS}
     />
   ),
 };
@@ -46,12 +47,12 @@ export const TheOneWithPlayerTwoActiveAndGameRunning: Story = {
         playerDiskColor: "yellow",
       }}
       roundNumber={1}
-      gameRunning={true}
+      gameRunning={Status.IN_PROGRESS}
     />
   ),
 };
 
-export const TheOneWithPlayerOneActiveAndGameNotRunning: Story = {
+export const TheOneWithPlayerOneActiveAndGameIsADraw: Story = {
   render: () => (
     <GameOverview
       playerOne={{
@@ -67,7 +68,7 @@ export const TheOneWithPlayerOneActiveAndGameNotRunning: Story = {
         playerDiskColor: "yellow",
       }}
       roundNumber={1}
-      gameRunning={false}
+      gameRunning={Status.DRAW}
     />
   ),
 };
@@ -88,7 +89,7 @@ export const TheOneWithRandomValues: Story = {
         playerDiskColor: "tan",
       }}
       roundNumber={9}
-      gameRunning={true}
+      gameRunning={Status.PLAYER_ONE_WIN}
     />
   ),
 };
