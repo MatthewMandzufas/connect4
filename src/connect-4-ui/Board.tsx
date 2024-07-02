@@ -19,8 +19,8 @@ const StyledBoard = styled.div<{ $cells: BoardProps["cells"] }>`
   display: grid;
   grid-template-columns: ${({ $cells }) => `repeat(${$cells[0].length}, 1fr)`};
   grid-template-rows: ${({ $cells }) => `repeat(${$cells.length}, 1fr)`};
-  width: min(80vh, 80vw);
-  height: min(80vh, 80vw);
+  width: min(70vh, 70vw);
+  height: min(70vh, 70vw);
   outline: solid 8px #142d4c;
 `;
 

@@ -3,6 +3,7 @@ import { GameStatus } from "@/connect-4-ui/GameStatus";
 import { PlayerRoundOverviewProps } from "@/connect-4-ui/PlayerRoundOverview";
 import { PlayerRoundOverviews } from "@/connect-4-ui/PlayerRoundOverviews";
 import { Round } from "@/connect-4-ui/Round";
+import styled from "styled-components";
 
 export type GameOverviewProps = {
   playerOne: PlayerRoundOverviewProps & { playerNumber: 1 };
@@ -11,6 +12,11 @@ export type GameOverviewProps = {
   roundNumber: number;
 };
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const GameOverview = ({
   playerOne,
   playerTwo,
@@ -18,11 +24,11 @@ const GameOverview = ({
   gameRunning,
 }: GameOverviewProps) => {
   return (
-    <div>
+    <Wrapper>
       <Round roundNumber={roundNumber} />
       <PlayerRoundOverviews playerOne={playerOne} playerTwo={playerTwo} />
       <GameStatus gameRunning={gameRunning} />
-    </div>
+    </Wrapper>
   );
 };
 
