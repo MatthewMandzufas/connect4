@@ -122,8 +122,10 @@ function getBLTRDiagonalCells(
     }
     i++;
   } while (i + rowOffset < board.length && i + columnOffset < board[0].length);
-
-  return cells;
+  return cells.splice(
+    Math.max(0, column - 3),
+    Math.min(cells.length + 1, column + 3)
+  );
 }
 
 function getBRTLDiagonalCells(
