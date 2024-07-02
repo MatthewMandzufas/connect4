@@ -546,6 +546,37 @@ describe("get-is-winning-move", () => {
             );
           });
         });
+        describe("and there are 4 active player tokens separated by one space in the middle", () => {
+          it("does not detect the win", () => {
+            const asciiTable = `
+|---|---|---|---|---|---|---|
+| 1 |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|
+|   | 1 |   |   |   |   |   |
+|---|---|---|---|---|---|---|
+|   |   | 1 |   |   |   |   |
+|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|
+|   |   |   |   | 1 |   |   |
+|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|`;
+            const board = parseAsciiTable(asciiTable, customResolver);
+            const playerMove = {
+              player: 1,
+              targetCell: {
+                row: 5,
+                column: 5,
+              },
+            } satisfies PlayerMove;
+            expect(getIsWinningMove(board, playerMove)).toEqual(
+              expect.objectContaining({
+                isWin: false,
+              })
+            );
+          });
+        });
       });
     });
     describe("that is top-left to bottom-right", () => {
