@@ -1,5 +1,5 @@
 import GameFactory, { Status } from "@/connect-4-domain/game";
-import { GameplayArea } from "@/connect-4-ui/GameplayArea";
+import { GameplayArea, GameplayAreaProps } from "@/connect-4-ui/GameplayArea";
 import { MutableRefObject, useRef, useState } from "react";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
@@ -85,8 +85,35 @@ function createHandleBoardCellClick(
   };
 }
 
+function createHandleSaveGame(
+  setSavedGame: (activeGame: GameplayAreaProps["activeGame"]) => void,
+  activeGame: GameplayAreaProps["activeGame"]
+): () => void {
+  return function handleSaveGame(): void {
+    setSavedGame(activeGame);
+    alert("Game Saved!");
+  };
+}
+
+function createHandleLoadGame(
+  setActiveGame: (activeGame: {
+    gameOverview: GameOverviewProps;
+    board: BoardProps;
+  }) => void,
+  savedGame: GameplayAreaProps["activeGame"]
+): () => void {
+  return function handleLoadGame(): void {
+    setActiveGame(savedGame);
+    alert("Game Loaded!");
+  };
+}
+
 const App = () => {
   const [activeGame, setActiveGame] = useState<{
+    gameOverview: GameOverviewProps;
+    board: BoardProps;
+  }>();
+  const [savedGame, setSavedGame] = useState<{
     gameOverview: GameOverviewProps;
     board: BoardProps;
   }>();
@@ -101,6 +128,8 @@ const App = () => {
         setActiveGame,
         gameApiRef.current
       )}
+      onSaveGameClick={createHandleSaveGame(setSavedGame, activeGame)}
+      onLoadGameClick={createHandleLoadGame(setActiveGame, savedGame)}
     />
   );
 };

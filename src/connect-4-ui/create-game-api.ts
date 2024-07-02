@@ -3,6 +3,7 @@ import { EventTypes } from "@/connect-4-domain/events";
 import GameFactory, {
   BoardCell as DomainBoardCell,
 } from "@/connect-4-domain/game";
+import { GameUuid } from "@/connect-4-domain/in-memory-repository";
 
 export type MoveResult = {
   isSuccess: boolean;
@@ -29,6 +30,8 @@ export interface GameApi {
   getRemainingDisks: (player: Player) => number;
   getGameStatus: () => Status;
   getBoard: () => Array<Array<BoardCell>>;
+  saveGame: () => GameUuid;
+  loadGame: (gameId: GameUuid) => void;
 }
 
 const createRowMapper =
@@ -66,6 +69,8 @@ export default function createGameApi(game: GameFactory): GameApi {
       game.getPlayerStats(player).remainingDisks,
     getGameStatus: () => game.getStatus(),
     getBoard: () => game.getBoard().map(rowMapper),
+    saveGame: () => game.save(),
+    loadGame: (gameId: GameUuid) => game.load(gameId),
   };
   return gameApi;
 }

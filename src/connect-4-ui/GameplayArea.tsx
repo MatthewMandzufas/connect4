@@ -4,6 +4,8 @@ import styled from "styled-components";
 import GamePlayAreaMenu from "./GamePlayAreaMenu";
 import MenuButton from "./MenuButton";
 
+export type GameUuid = `${string}-${string}-${string}-${string}-${string}`;
+
 export type GameplayAreaProps = {
   activeGame?: {
     gameOverview: GameOverviewProps;
@@ -11,6 +13,8 @@ export type GameplayAreaProps = {
   };
   onStartGameClick?: () => void;
   onBoardCellClick?: ({ row, column }: GridBoardCellProps) => void;
+  onSaveGameClick?: () => void;
+  onLoadGameClick?: (gameId: GameUuid) => void;
 };
 
 const StyledGameplayArea = styled.div<{
@@ -51,11 +55,15 @@ export const GameplayArea = ({
   activeGame,
   onStartGameClick = () => {},
   onBoardCellClick = () => {},
+  onSaveGameClick = () => {},
+  onLoadGameClick = () => {},
 }: GameplayAreaProps) => {
   return (
     <>
       <GamePlayAreaMenu>
         <MenuButton text={"New Game"} onClick={onStartGameClick} />
+        <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
+        <MenuButton text={"Load Game"} onClick={onLoadGameClick} />
       </GamePlayAreaMenu>
       <StyledGameplayArea $activeGame={activeGame}>
         {activeGame ? (

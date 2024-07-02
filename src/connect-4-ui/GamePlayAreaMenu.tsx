@@ -5,7 +5,7 @@ const StyledMenu = styled.menu`
   background-color: #d5eeff;
   position: sticky;
   top: 0;
-  height: 60px;
+  height: 70px;
   display: flex;
   align-items: center;
   margin-top: -2px;
