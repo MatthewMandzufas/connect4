@@ -18,10 +18,12 @@ const StyledGameplayArea = styled.div<{
   display: flex;
   justify-content: ${({ $activeGame }) =>
     $activeGame === undefined ? "center" : "space-evenly"};
-  height: 100vh;
-  /* align-items: center; */
+  /* height: 100vh; */
+  min-height: 100vh;
+  align-items: center;
   background-color: #070f4e;
   flex-wrap: wrap;
+  /* padding-top: 40px; */
 `;
 
 const StyledButton = styled.button`
@@ -51,8 +53,8 @@ export const GameplayArea = ({
 }: GameplayAreaProps) => {
   return (
     <>
+      <GamePlayAreaMenu />
       <StyledGameplayArea $activeGame={activeGame}>
-        <GamePlayAreaMenu />
         {activeGame ? (
           <>
             <GameOverview {...activeGame.gameOverview} />
