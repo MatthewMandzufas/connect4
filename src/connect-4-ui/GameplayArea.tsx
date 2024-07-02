@@ -24,10 +24,23 @@ const StyledGameplayArea = styled.div<{
 `;
 
 const StyledButton = styled.button`
-  padding: 20px 10px;
+  padding: 20px 30px;
   font-family: monospace;
   font-size: 2rem;
   background-color: beige;
+  outline: 8px solid #142d4c;
+`;
+
+const StyledHeader = styled.h1`
+  color: beige;
+  font-size: 128px;
+  font-family: monospace;
+`;
+
+const StyledStartGameArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const GameplayArea = ({
@@ -44,7 +57,12 @@ export const GameplayArea = ({
             <Board {...activeGame.board} onBoardCellClick={onBoardCellClick} />
           </>
         ) : (
-          <StyledButton onClick={onStartGameClick}>Start Game</StyledButton>
+          <>
+            <StyledStartGameArea>
+              <StyledHeader>Connect4</StyledHeader>
+              <StyledButton onClick={onStartGameClick}>Start Game</StyledButton>
+            </StyledStartGameArea>
+          </>
         )}
       </StyledGameplayArea>
     </>

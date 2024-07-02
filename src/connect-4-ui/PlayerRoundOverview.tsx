@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   flex: 1;
   align-items: center;
   font-family: monospace;
+  outline: 6px solid #d5eeff;
 `;
 
 const Row = styled.div`
