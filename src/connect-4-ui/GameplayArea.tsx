@@ -2,6 +2,7 @@ import { Board, BoardProps, GridBoardCellProps } from "@/connect-4-ui/Board";
 import GameOverview, { GameOverviewProps } from "@/connect-4-ui/GameOverview";
 import styled from "styled-components";
 import GamePlayAreaMenu from "./GamePlayAreaMenu";
+import MenuButton from "./MenuButton";
 
 export type GameplayAreaProps = {
   activeGame?: {
@@ -53,7 +54,9 @@ export const GameplayArea = ({
 }: GameplayAreaProps) => {
   return (
     <>
-      <GamePlayAreaMenu />
+      <GamePlayAreaMenu>
+        <MenuButton text={"New Game"} onClick={onStartGameClick} />
+      </GamePlayAreaMenu>
       <StyledGameplayArea $activeGame={activeGame}>
         {activeGame ? (
           <>

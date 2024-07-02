@@ -16,6 +16,7 @@ const StyledRoundNumber = styled.div`
   width: min(60vh, 60vw);
   min-height: 50px;
   height: min(6vh, 6vw);
+  align-content: center;
 `;
 
 export const Round = ({ roundNumber }: RoundProps) => (

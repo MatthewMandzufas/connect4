@@ -15,7 +15,8 @@ const StyledGameStatus = styled.div`
   font-family: monospace;
   outline: 6px solid #d5eeff;
   width: min(60vh, 60vw);
-  height: min(6vh, 6vw);
+  height: min(7.2vh, 7.2vw);
+  align-content: center;
 `;
 
 export const GameStatus = ({ gameRunning }: GameStatusProps) => {

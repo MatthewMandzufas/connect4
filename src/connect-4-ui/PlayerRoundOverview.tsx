@@ -12,15 +12,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   color: #f5ebeb;
-  /* font-size: 1.2rem; */
   font-size: min(4vw, 1.2rem);
   padding: 0 10px 0 10px;
   flex: 1;
   align-items: center;
   font-family: monospace;
   outline: 6px solid #d5eeff;
-  /* width: min(60vh, 60vw);
-  height: min(7vh, 7vw); */
 `;
 
 const Row = styled.div`

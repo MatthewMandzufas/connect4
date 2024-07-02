@@ -1,6 +1,6 @@
 import GameFactory, { Status } from "@/connect-4-domain/game";
 import { GameplayArea } from "@/connect-4-ui/GameplayArea";
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
 import createGameApi, { GameApi } from "./connect-4-ui/create-game-api";
@@ -11,9 +11,11 @@ function createHandleStartGameClick(
     gameOverview: GameOverviewProps;
     board: BoardProps;
   }) => void,
-  gameApi: GameApi
+  gameApiRef: MutableRefObject<GameApi | undefined>
 ): () => void {
   return function handleStartGameClick(): void {
+    gameApiRef.current = createGameApi(new GameFactory());
+    const gameApi = gameApiRef.current;
     setActiveGame({
       gameOverview: {
         roundNumber: 1,
@@ -46,12 +48,13 @@ function createHandleBoardCellClick(
     gameOverview: GameOverviewProps;
     board: BoardProps;
   }) => void,
-  gameApi: GameApi
+  gameApi = createGameApi(new GameFactory())
 ) {
   return function handleBoardCellClick({
     row,
     column,
   }: GridBoardCellProps): void {
+    // const gameApi = gameApiRef.current;
     const player = gameApi.getActivePlayer();
     const handlePlayerMove = gameApi.getBoard()[row][column].handlePlayerMove;
     handlePlayerMove(player);
@@ -88,15 +91,12 @@ const App = () => {
     board: BoardProps;
   }>();
 
-  const gameApiRef = useRef<GameApi>(createGameApi(new GameFactory()));
+  const gameApiRef = useRef<GameApi | undefined>(undefined);
 
   return (
     <GameplayArea
       activeGame={activeGame}
-      onStartGameClick={createHandleStartGameClick(
-        setActiveGame,
-        gameApiRef.current
-      )}
+      onStartGameClick={createHandleStartGameClick(setActiveGame, gameApiRef)}
       onBoardCellClick={createHandleBoardCellClick(
         setActiveGame,
         gameApiRef.current

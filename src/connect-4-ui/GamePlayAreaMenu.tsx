@@ -2,16 +2,14 @@ import styled from "styled-components";
 import MenuButton from "./MenuButton";
 
 const StyledMenu = styled.menu`
-  /* background-color: #2772db; */
   background-color: #d5eeff;
   position: sticky;
   top: 0;
-  min-height: 60px;
-  /* height: 80px; */
-  width: 100%;
+  height: 60px;
   display: flex;
   align-items: center;
-  margin: -2px;
+  margin-top: -2px;
+  margin-bottom: -2px;
   flex-wrap: wrap;
   justify-content: space-evenly;
 `;
@@ -23,12 +21,7 @@ const GamePlayAreaMenu = ({
     | Array<React.ReactElement<typeof MenuButton>>
     | React.ReactElement<typeof MenuButton>;
 }) => {
-  return (
-    <StyledMenu>
-      {children}
-      {/* <MenuButton text={"Button!"} /> */}
-    </StyledMenu>
-  );
+  return <StyledMenu>{children}</StyledMenu>;
 };
 
 export default GamePlayAreaMenu;
