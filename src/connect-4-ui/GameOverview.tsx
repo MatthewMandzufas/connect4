@@ -1,4 +1,4 @@
-import { Status } from "@/connect-4-domain/game";
+import { Status } from "@/connect-4-ui/create-game-api";
 import { GameStatus } from "@/connect-4-ui/GameStatus";
 import { PlayerRoundOverviewProps } from "@/connect-4-ui/PlayerRoundOverview";
 import { PlayerRoundOverviews } from "@/connect-4-ui/PlayerRoundOverviews";

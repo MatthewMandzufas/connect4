@@ -1,4 +1,4 @@
-import { Status } from "@/connect-4-domain/game";
+import { Status } from "@/connect-4-ui/create-game-api";
 import styled from "styled-components";
 
 export type GameStatusProps = {

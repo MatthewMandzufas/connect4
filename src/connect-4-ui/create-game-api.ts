@@ -15,7 +15,7 @@ export type BoardCell = {
   handlePlayerMove: (player: Player) => MoveResult;
 };
 
-enum Status {
+export enum Status {
   DRAW = "DRAW",
   IN_PROGRESS = "IN_PROGRESS",
   PLAYER_ONE_WIN = "PLAYER_ONE_WIN",
