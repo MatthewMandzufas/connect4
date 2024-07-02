@@ -1,6 +1,7 @@
 import { Board, BoardProps, GridBoardCellProps } from "@/connect-4-ui/Board";
 import GameOverview, { GameOverviewProps } from "@/connect-4-ui/GameOverview";
 import styled from "styled-components";
+import GamePlayAreaMenu from "./GamePlayAreaMenu";
 
 export type GameplayAreaProps = {
   activeGame?: {
@@ -8,7 +9,7 @@ export type GameplayAreaProps = {
     board: BoardProps;
   };
   onStartGameClick?: () => void;
-  onBoardCellClick: ({ row, column }: GridBoardCellProps) => void;
+  onBoardCellClick?: ({ row, column }: GridBoardCellProps) => void;
 };
 
 const StyledGameplayArea = styled.div<{
@@ -18,7 +19,7 @@ const StyledGameplayArea = styled.div<{
   justify-content: ${({ $activeGame }) =>
     $activeGame === undefined ? "center" : "space-evenly"};
   height: 100vh;
-  align-items: center;
+  /* align-items: center; */
   background-color: #070f4e;
   flex-wrap: wrap;
 `;
@@ -45,12 +46,13 @@ const StyledStartGameArea = styled.div`
 
 export const GameplayArea = ({
   activeGame,
-  onStartGameClick,
-  onBoardCellClick,
+  onStartGameClick = () => {},
+  onBoardCellClick = () => {},
 }: GameplayAreaProps) => {
   return (
     <>
       <StyledGameplayArea $activeGame={activeGame}>
+        <GamePlayAreaMenu />
         {activeGame ? (
           <>
             <GameOverview {...activeGame.gameOverview} />

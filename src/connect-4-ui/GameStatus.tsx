@@ -8,12 +8,14 @@ export type GameStatusProps = {
 const StyledGameStatus = styled.div`
   background-color: #2772db;
   color: #f5ebeb;
-  font-size: 2rem;
+  font-size: min(4vw, 2rem);
   text-align: center;
   padding: 10px 0px;
   border-radius: 0px 0px 20px 20px;
   font-family: monospace;
   outline: 6px solid #d5eeff;
+  width: min(60vh, 60vw);
+  height: min(9vh, 9vw);
 `;
 
 export const GameStatus = ({ gameRunning }: GameStatusProps) => {

@@ -12,6 +12,9 @@ export type PlayerRoundOverviewsProps = {
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: min(60vh, 60vw);
+  /* height: min(12vh, 12vw); */
+  min-height: min(15vh, 15vw);
 `;
 
 export const PlayerRoundOverviews = ({
