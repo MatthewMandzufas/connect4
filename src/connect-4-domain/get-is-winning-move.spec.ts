@@ -581,6 +581,38 @@ describe("get-is-winning-move", () => {
     });
     describe("that is top-left to bottom-right", () => {
       describe("given the board and the next players move", () => {
+        describe("and there are 4 active player tokens separated by one space in the middle", () => {
+          it("does not detect the win", () => {
+            const asciiTable = `
+|---|---|---|---|---|---|---|
+|   |   |   |   |   |   | 1 |
+|---|---|---|---|---|---|---|
+|   |   |   |   |   | 1 |   |
+|---|---|---|---|---|---|---|
+|   |   |   |   | 1 |   |   |
+|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|
+|   |   | 1 |   |   |   |   |
+|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|`;
+            const board = parseAsciiTable(asciiTable, customResolver);
+
+            const playerMove = {
+              player: 1,
+              targetCell: {
+                row: 5,
+                column: 1,
+              },
+            } satisfies PlayerMove;
+            expect(getIsWinningMove(board, playerMove)).toEqual(
+              expect.objectContaining({
+                isWin: false,
+              })
+            );
+          });
+        });
         describe("and the target cell is at the top right of 3 successive active player cells", () => {
           it("detects the win", () => {
             const playerMove = {

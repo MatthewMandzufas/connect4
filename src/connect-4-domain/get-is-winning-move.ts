@@ -144,11 +144,24 @@ function getBRTLDiagonalCells(
   do {
     if (row !== i + rowOffset) {
       cells.push(board[i + rowOffset][columnOffset - i]);
+    } else {
+      cells.push({ targetCell: "Here" });
     }
     i++;
   } while (i + rowOffset < board.length && columnOffset - i >= 0);
 
-  return cells;
+  const reversedCells = cells.reverse();
+  const targetCellIndex = reversedCells.findIndex((cell) =>
+    Object.hasOwn(cell, "targetCell")
+  );
+  const cellsWithRemovedTarget = cells.filter(
+    (cell) => !Object.hasOwn(cell, "targetCell")
+  );
+
+  return cellsWithRemovedTarget.splice(
+    Math.max(0, column - 3),
+    Math.min(cells.length + 1, targetCellIndex + 3)
+  ) as Array<BoardCell>;
 }
 
 function isDiagonalWin(
