@@ -23,12 +23,15 @@ const StyledGameplayArea = styled.div<{
   display: flex;
   justify-content: ${({ $activeGame }) =>
     $activeGame === undefined ? "center" : "space-evenly"};
-  /* height: 100vh; */
   min-height: 100vh;
   align-items: center;
-  background-color: #070f4e;
+  /* background-color: #070f4e; */
+  background: linear-gradient(
+    112.1deg,
+    rgb(32, 38, 57) 11.4%,
+    rgb(63, 76, 119) 70.2%
+  );
   flex-wrap: wrap;
-  /* padding-top: 40px; */
 `;
 
 const StyledButton = styled.button`

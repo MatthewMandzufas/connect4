@@ -2,7 +2,7 @@ import styled from "styled-components";
 import MenuButton from "./MenuButton";
 
 const StyledMenu = styled.menu`
-  background-color: #d5eeff;
+  background-color: #385170;
   position: sticky;
   top: 0;
   min-height: 70px;
