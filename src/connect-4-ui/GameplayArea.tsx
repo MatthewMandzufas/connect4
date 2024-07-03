@@ -14,7 +14,7 @@ export type GameplayAreaProps = {
   onStartGameClick?: () => void;
   onBoardCellClick?: ({ row, column }: GridBoardCellProps) => void;
   onSaveGameClick?: () => void;
-  onLoadGameClick?: (gameId: GameUuid) => void;
+  onLoadGameClick?: () => void;
 };
 
 const StyledGameplayArea = styled.div<{

@@ -5,13 +5,13 @@ const StyledMenu = styled.menu`
   background-color: #d5eeff;
   position: sticky;
   top: 0;
-  height: 70px;
+  min-height: 70px;
   display: flex;
   align-items: center;
   margin-top: -2px;
   margin-bottom: -2px;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
 `;
 
 const GamePlayAreaMenu = ({

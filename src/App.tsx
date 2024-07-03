@@ -1,5 +1,5 @@
 import GameFactory, { Status } from "@/connect-4-domain/game";
-import { GameplayArea, GameplayAreaProps } from "@/connect-4-ui/GameplayArea";
+import { GameUuid, GameplayArea } from "@/connect-4-ui/GameplayArea";
 import { MutableRefObject, useRef, useState } from "react";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
@@ -54,57 +54,72 @@ function createHandleBoardCellClick(
     row,
     column,
   }: GridBoardCellProps): void {
-    // const gameApi = gameApiRef.current;
     const player = gameApi.getActivePlayer();
     const handlePlayerMove = gameApi.getBoard()[row][column].handlePlayerMove;
     handlePlayerMove(player);
-    setActiveGame({
-      gameOverview: {
-        roundNumber: 1,
-        playerOne: {
-          playerNumber: 1,
-          isActive: gameApi.getActivePlayer() === 1,
-          remainingDisks: gameApi.getRemainingDisks(1),
-          playerDiskColor: "#FF5733",
-        },
-        playerTwo: {
-          playerNumber: 2,
-          isActive: gameApi.getActivePlayer() === 2,
-          remainingDisks: gameApi.getRemainingDisks(2),
-          playerDiskColor: "#fdfd96",
-        },
-        gameRunning: gameApi.getGameStatus(),
-      },
-      board: {
-        cells: gameApi.getBoard(),
-        playerOneColor: "#FF5733",
-        playerTwoColor: "#fdfd96",
-        onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
-      } satisfies BoardProps,
-    });
+    updateGame(setActiveGame, gameApi);
   };
 }
 
 function createHandleSaveGame(
-  setSavedGame: (activeGame: GameplayAreaProps["activeGame"]) => void,
-  activeGame: GameplayAreaProps["activeGame"]
+  setSavedUuid: (uuid: GameUuid) => void,
+  gameApi = createGameApi(new GameFactory())
 ): () => void {
   return function handleSaveGame(): void {
-    setSavedGame(activeGame);
+    setSavedUuid(gameApi.saveGame());
     alert("Game Saved!");
   };
 }
 
-function createHandleLoadGame(
+function updateGame(
   setActiveGame: (activeGame: {
     gameOverview: GameOverviewProps;
     board: BoardProps;
   }) => void,
-  savedGame: GameplayAreaProps["activeGame"]
+  gameApi = createGameApi(new GameFactory())
+) {
+  setActiveGame({
+    gameOverview: {
+      roundNumber: 1,
+      playerOne: {
+        playerNumber: 1,
+        isActive: gameApi.getActivePlayer() === 1,
+        remainingDisks: gameApi.getRemainingDisks(1),
+        playerDiskColor: "#FF5733",
+      },
+      playerTwo: {
+        playerNumber: 2,
+        isActive: gameApi.getActivePlayer() === 2,
+        remainingDisks: gameApi.getRemainingDisks(2),
+        playerDiskColor: "#fdfd96",
+      },
+      gameRunning: gameApi.getGameStatus(),
+    },
+    board: {
+      cells: gameApi.getBoard(),
+      playerOneColor: "#FF5733",
+      playerTwoColor: "#fdfd96",
+      onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
+    } satisfies BoardProps,
+  });
+}
+
+function createHandleLoadGame(
+  savedUuid: GameUuid,
+  gameApi = createGameApi(new GameFactory()),
+  setActiveGame: (activeGame: {
+    gameOverview: GameOverviewProps;
+    board: BoardProps;
+  }) => void
 ): () => void {
   return function handleLoadGame(): void {
-    setActiveGame(savedGame);
-    alert("Game Loaded!");
+    try {
+      gameApi.loadGame(savedUuid);
+      updateGame(setActiveGame, gameApi);
+      alert("Game Loaded!");
+    } catch (error) {
+      alert("No Valid Game Saved!");
+    }
   };
 }
 
@@ -113,10 +128,7 @@ const App = () => {
     gameOverview: GameOverviewProps;
     board: BoardProps;
   }>();
-  const [savedGame, setSavedGame] = useState<{
-    gameOverview: GameOverviewProps;
-    board: BoardProps;
-  }>();
+  const [savedUuid, setSavedUuid] = useState<GameUuid>(crypto.randomUUID());
 
   const gameApiRef = useRef<GameApi | undefined>(undefined);
 
@@ -128,8 +140,12 @@ const App = () => {
         setActiveGame,
         gameApiRef.current
       )}
-      onSaveGameClick={createHandleSaveGame(setSavedGame, activeGame)}
-      onLoadGameClick={createHandleLoadGame(setActiveGame, savedGame)}
+      onSaveGameClick={createHandleSaveGame(setSavedUuid, gameApiRef.current)}
+      onLoadGameClick={createHandleLoadGame(
+        savedUuid,
+        gameApiRef.current,
+        setActiveGame
+      )}
     />
   );
 };

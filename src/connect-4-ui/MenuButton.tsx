@@ -6,7 +6,7 @@ type MenuButtonProps = {
 };
 
 const StyledMenuButton = styled.button`
-  padding: 20px 30px;
+  padding: 20px;
   font-family: monospace;
   font-size: 2rem;
   background-color: beige;
@@ -14,8 +14,6 @@ const StyledMenuButton = styled.button`
   height: 50px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  /* margin: 5px; */
 
   &:hover {
     outline: none;
