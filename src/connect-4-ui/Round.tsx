@@ -12,7 +12,7 @@ const StyledRoundNumber = styled.div`
   padding: 10px 0px;
   font-family: monospace;
   border-radius: 20px 20px 0 0;
-  outline: 6px solid #d5eeff;
+  outline: 6px solid #142d4c;
   width: min(60vh, 60vw);
   min-height: 50px;
   height: min(6vh, 6vw);

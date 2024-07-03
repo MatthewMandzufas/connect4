@@ -13,7 +13,7 @@ const StyledGameStatus = styled.div`
   padding: 10px 0px;
   border-radius: 0px 0px 20px 20px;
   font-family: monospace;
-  outline: 6px solid #d5eeff;
+  outline: 6px solid #142d4c;
   width: min(60vh, 60vw);
   height: min(7.2vh, 7.2vw);
   align-content: center;

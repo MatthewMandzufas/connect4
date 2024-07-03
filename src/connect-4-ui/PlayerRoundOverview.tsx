@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   flex: 1;
   align-items: center;
   font-family: monospace;
-  outline: 6px solid #d5eeff;
+  outline: 6px solid #142d4c;
 `;
 
 const Row = styled.div`
@@ -37,7 +37,7 @@ const Token = styled.div<{ $isActive: boolean; $playerDiskColor: string }>`
   border-radius: 50%;
   height: 30px;
   min-width: 30px;
-  outline: ${({ $isActive }) => ($isActive ? "3px #f5ebeb dashed" : "none")};
+  outline: ${({ $isActive }) => ($isActive ? "3px #142d4c dashed" : "none")};
   width: 30px;
   margin-left: 20px;
 `;
