@@ -66,6 +66,7 @@ interface Game {
   ) => PlayerMoveFailedEvent | PlayerMovedEvent;
   load: (gameId: GameUuid) => void;
   save: () => GameUuid;
+  reset: (boardDimensions: { rows: number; columns: number }) => void;
 }
 
 type ValidationResult = {
@@ -86,6 +87,10 @@ class GameFactory implements Game {
   private activePlayer: 1 | 2;
   private status: Status;
   private repository: GameRepository;
+  private boardDimensions: {
+    rows: number;
+    columns: number;
+  };
 
   constructor(
     {
@@ -97,6 +102,10 @@ class GameFactory implements Game {
     }
   ) {
     this.#validateBoard(boardDimensions);
+    this.boardDimensions = {
+      rows: boardDimensions.rows,
+      columns: boardDimensions.columns,
+    };
     const startingDisks = (boardDimensions.rows * boardDimensions.columns) / 2;
     this.players = this.#createPlayers(startingDisks);
     this.board = this.#createBoard(boardDimensions);
@@ -130,6 +139,15 @@ class GameFactory implements Game {
     } else {
       throw new Error("The provided GameUuid was invalid.");
     }
+  }
+
+  reset() {
+    const { rows, columns } = this.boardDimensions;
+    const startingDisks = (rows * columns) / 2;
+    this.players = this.#createPlayers(startingDisks);
+    this.board = this.#createBoard({ rows, columns });
+    this.activePlayer = 1;
+    this.status = Status.IN_PROGRESS;
   }
 
   #validateBoard(boardDimensions: BoardDimension) {

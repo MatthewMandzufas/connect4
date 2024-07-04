@@ -15,6 +15,7 @@ export type GameplayAreaProps = {
   onBoardCellClick?: ({ row, column }: GridBoardCellProps) => void;
   onSaveGameClick?: () => void;
   onLoadGameClick?: () => void;
+  onRestartGameClick?: () => void;
 };
 
 const StyledGameplayArea = styled.div<{
@@ -60,11 +61,12 @@ export const GameplayArea = ({
   onBoardCellClick = () => {},
   onSaveGameClick = () => {},
   onLoadGameClick = () => {},
+  onRestartGameClick = () => {},
 }: GameplayAreaProps) => {
   return (
     <>
       <GamePlayAreaMenu>
-        <MenuButton text={"New Game"} onClick={onStartGameClick} />
+        <MenuButton text={"Restart Game"} onClick={onRestartGameClick} />
         <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
         <MenuButton text={"Load A Game"} onClick={onLoadGameClick} />
       </GamePlayAreaMenu>

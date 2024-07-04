@@ -139,12 +139,23 @@ function createHandleLoadGame(
   };
 }
 
+function createHandleRestartGame(
+  gameApiRef = createGameApi(new GameFactory()),
+  setActiveGame: (activeGame: {
+    gameOverview: GameOverviewProps;
+    board: BoardProps;
+  }) => void
+) {
+  return function handleRestartGame() {
+    gameApiRef.resetGame();
+    updateGame(setActiveGame, gameApiRef);
+  };
+}
+
 type SavedGame = {
   gameId: GameUuid;
   dateSaved: Date;
 };
-
-// TODO: New Game creates a new instances of game factory, all saved games become invalid, is this what we want to happen? or should new game simply reset the game back to its original state
 
 const App = () => {
   const [activeGame, setActiveGame] = useState<{
@@ -201,6 +212,10 @@ const App = () => {
           savedGamesRef
         )}
         onLoadGameClick={createHandleOpenOverlay(setShowOverlay)}
+        onRestartGameClick={createHandleRestartGame(
+          gameApiRef.current,
+          setActiveGame
+        )}
       />
     </>
   );
