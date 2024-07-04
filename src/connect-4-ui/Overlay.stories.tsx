@@ -1,6 +1,8 @@
 import Overlay from "@/connect-4-ui/Overlay";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
+import LoadGameDialog from "./LoadGameDialog";
+import SavedGame from "./SavedGame";
 
 const meta: Meta<typeof Overlay> = {
   component: Overlay,
@@ -35,6 +37,49 @@ export const TheOneWithAComponent: Story = {
         ),
         props: {
           name: "Matt",
+        },
+      }}
+    />
+  ),
+};
+
+export const TheOneWithLoadDialogAndAClickHandler: Story = {
+  render: () => (
+    <Overlay
+      componentSpec={{
+        Component: ({ closeDialog }: { closeDialog: () => void }) => (
+          <LoadGameDialog onCloseDialogClick={closeDialog} />
+        ),
+        props: {
+          closeDialog: action("clicked!"),
+        },
+      }}
+    />
+  ),
+};
+
+export const TheOneWithLoadDialogWithChildrenAndAClickHandler: Story = {
+  render: () => (
+    <Overlay
+      componentSpec={{
+        Component: ({ closeDialog }: { closeDialog: () => void }) => (
+          <LoadGameDialog onCloseDialogClick={closeDialog}>
+            <SavedGame
+              dateSaved={new Date(Date.now())}
+              gameId={crypto.randomUUID()}
+            />
+            <SavedGame
+              dateSaved={new Date(Date.now())}
+              gameId={crypto.randomUUID()}
+            />
+            <SavedGame
+              dateSaved={new Date(Date.now())}
+              gameId={crypto.randomUUID()}
+            />
+          </LoadGameDialog>
+        ),
+        props: {
+          closeDialog: action("Clicked!"),
         },
       }}
     />

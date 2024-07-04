@@ -9,6 +9,7 @@ type SavedGameProps = {
 const StyledSavedGame = styled.div`
   outline: 2px solid black;
   margin: 10px;
+  padding: 10px;
 `;
 
 const SavedGame = ({ gameId, dateSaved }: SavedGameProps) => {

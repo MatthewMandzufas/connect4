@@ -4,6 +4,8 @@ import SavedGame from "./SavedGame";
 const StyledLoadGameDialog = styled.div`
   border: 2px solid blue;
   background: beige;
+  min-height: 20vh;
+  min-width: 60vw;
 `;
 
 const StyledHeading = styled.h1`
@@ -11,6 +13,7 @@ const StyledHeading = styled.h1`
   font-family: monospace;
   font-weight: 700;
   color: blue;
+  margin: 10px;
   text-decoration: underline dashed;
 `;
 
@@ -19,12 +22,14 @@ const StyledSavedGames = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 2rem;
+  padding-top: 2rem;
 `;
 
 const StyledCloseButton = styled.button`
   font-size: 1rem;
   padding: 5px 10px;
-  color: blue;
+  color: red;
+  /* outline: 3px solid black; */
   border: none;
 
   &:active {
@@ -33,6 +38,7 @@ const StyledCloseButton = styled.button`
 
   &:hover {
     cursor: pointer;
+    outline: 3px red solid;
   }
 `;
 
@@ -59,7 +65,7 @@ const LoadGameDialog = ({
         <StyledCloseButton onClick={onCloseDialogClick}>X</StyledCloseButton>
       </StyledHeader>
 
-      {children ?? <StyledSavedGames>No Saved Games</StyledSavedGames>}
+      <StyledSavedGames>{children ?? "No Saved Games"}</StyledSavedGames>
     </StyledLoadGameDialog>
   );
 };
