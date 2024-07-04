@@ -66,7 +66,7 @@ export const GameplayArea = ({
       <GamePlayAreaMenu>
         <MenuButton text={"New Game"} onClick={onStartGameClick} />
         <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
-        <MenuButton text={"Load Game"} onClick={onLoadGameClick} />
+        <MenuButton text={"Load A Game"} onClick={onLoadGameClick} />
       </GamePlayAreaMenu>
       <StyledGameplayArea $activeGame={activeGame}>
         {activeGame ? (
