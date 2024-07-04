@@ -41,7 +41,6 @@ const Overlay = <T extends React.ComponentType<any>>({
 };
 
 // TODO: Finish types
-// Make story about overlay providing a close handler to the component that it renders
 // Fix saving/loading
 
 export default Overlay;
