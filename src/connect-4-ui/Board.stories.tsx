@@ -15,7 +15,7 @@ const randomSelectionStrategy: () => 1 | 2 | undefined = () =>
 type Story = StoryObj<typeof Board>;
 
 export const TheOneWithDefaults: Story = {
-  render: () => <Board />,
+  render: () => <Board cells={createBoardCells(6, 7)} />,
 };
 
 export const TheOneWithA10x10Grid: Story = {
@@ -47,5 +47,10 @@ export const TheOneWithRandomTokensAndCustomTokenColour: Story = {
 };
 
 export const TheOneWithAClickHandler: Story = {
-  render: () => <Board onClick={action("Clicked")} />,
+  render: () => (
+    <Board
+      onBoardCellClick={action("Clicked")}
+      cells={createBoardCells(6, 7)}
+    />
+  ),
 };

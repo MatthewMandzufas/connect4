@@ -28,11 +28,12 @@ type ComponentSpec<T extends React.ComponentType<any>> = {
 
 const Overlay = <T extends React.ComponentType<any>>({
   handleClose = () => {},
-  componentSpec: { Component, props } = {
-    Component: () => <></>,
-    props: {},
+  componentSpec = {
+    Component: (() => <></>) as unknown as T,
+    props: {} as React.ComponentProps<T>,
   },
-}: OverlayProps) => {
+}: OverlayProps<T>) => {
+  const { Component, props } = componentSpec;
   return (
     <StyledOverlay id="overlay" onClick={handleClose}>
       <Component {...props} />

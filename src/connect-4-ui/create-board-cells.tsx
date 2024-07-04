@@ -13,6 +13,10 @@ const createBoardCells = (
       cells[rowIndex][columnIndex] = {
         player: selectionStrategy(),
         uuid: crypto.randomUUID(),
+        // TODO: Ensure this did not break anything :)
+        handlePlayerMove: () => ({
+          isSuccess: false,
+        }),
       };
     }
   }

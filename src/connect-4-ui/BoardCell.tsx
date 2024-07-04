@@ -6,7 +6,7 @@ export type BoardCellProps = {
   uuid?: string;
   playerOneColor?: string;
   playerTwoColor?: string;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const StyledBoardCell = styled.div`
@@ -63,8 +63,6 @@ export const BoardCell = ({
   className,
   playerOneColor = "red",
   playerTwoColor = "yellow",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  uuid = crypto.randomUUID(),
   onClick,
 }: BoardCellProps) => (
   <StyledBoardCell className={className} onClick={onClick}>
