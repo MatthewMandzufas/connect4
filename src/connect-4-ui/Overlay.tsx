@@ -1,13 +1,47 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from "styled-components";
 
 const StyledOverlay = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: blue;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* display: none; */
 `;
 
-const Overlay = () => {
-  return <StyledOverlay></StyledOverlay>;
+type OverlayProps<T extends React.ComponentType<any>> = {
+  handleClose?: () => void;
+  componentSpec?: ComponentSpec<T>;
 };
+
+type ComponentSpec<T extends React.ComponentType<any>> = {
+  Component: T;
+  props: React.ComponentProps<T>;
+};
+
+const Overlay = <T extends React.ComponentType<any>>({
+  handleClose = () => {},
+  componentSpec: { Component, props } = {
+    Component: () => <></>,
+    props: {},
+  },
+}: OverlayProps) => {
+  return (
+    <StyledOverlay id="overlay" onClick={handleClose}>
+      <Component {...props} />
+    </StyledOverlay>
+  );
+};
+
+// TODO: Finish types
+// Make story about overlay providing a close handler to the component that it renders
+// Fix saving/loading
 
 export default Overlay;

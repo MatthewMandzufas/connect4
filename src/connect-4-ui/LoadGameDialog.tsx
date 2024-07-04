@@ -3,6 +3,7 @@ import SavedGame from "./SavedGame";
 
 const StyledLoadGameDialog = styled.div`
   border: 2px solid blue;
+  background: beige;
 `;
 
 const StyledHeading = styled.h1`

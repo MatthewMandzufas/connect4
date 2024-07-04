@@ -1,8 +1,10 @@
 import GameFactory, { Status } from "@/connect-4-domain/game";
 import { GameUuid, GameplayArea } from "@/connect-4-ui/GameplayArea";
 import { MutableRefObject, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
+import Overlay from "./connect-4-ui/Overlay";
 import createGameApi, { GameApi } from "./connect-4-ui/create-game-api";
 import "./global.css";
 
@@ -110,13 +112,14 @@ function createHandleLoadGame(
   setActiveGame: (activeGame: {
     gameOverview: GameOverviewProps;
     board: BoardProps;
-  }) => void
+  }) => void,
+  setShowOverlay: (value: boolean) => void
 ): () => void {
   return function handleLoadGame(): void {
+    setShowOverlay(true);
     try {
       gameApi.loadGame(savedUuid);
       updateGame(setActiveGame, gameApi);
-      alert("Game Loaded!");
     } catch (error) {
       alert("No Valid Game Saved!");
     }
@@ -129,24 +132,33 @@ const App = () => {
     board: BoardProps;
   }>();
   const [savedUuid, setSavedUuid] = useState<GameUuid>(crypto.randomUUID());
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const gameApiRef = useRef<GameApi | undefined>(undefined);
 
   return (
-    <GameplayArea
-      activeGame={activeGame}
-      onStartGameClick={createHandleStartGameClick(setActiveGame, gameApiRef)}
-      onBoardCellClick={createHandleBoardCellClick(
-        setActiveGame,
-        gameApiRef.current
-      )}
-      onSaveGameClick={createHandleSaveGame(setSavedUuid, gameApiRef.current)}
-      onLoadGameClick={createHandleLoadGame(
-        savedUuid,
-        gameApiRef.current,
-        setActiveGame
-      )}
-    />
+    <>
+      {showOverlay &&
+        createPortal(
+          <Overlay handleClose={() => setShowOverlay(false)} />,
+          document.body
+        )}
+      <GameplayArea
+        activeGame={activeGame}
+        onStartGameClick={createHandleStartGameClick(setActiveGame, gameApiRef)}
+        onBoardCellClick={createHandleBoardCellClick(
+          setActiveGame,
+          gameApiRef.current
+        )}
+        onSaveGameClick={createHandleSaveGame(setSavedUuid, gameApiRef.current)}
+        onLoadGameClick={createHandleLoadGame(
+          savedUuid,
+          gameApiRef.current,
+          setActiveGame,
+          setShowOverlay
+        )}
+      />
+    </>
   );
 };
 
