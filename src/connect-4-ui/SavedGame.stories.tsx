@@ -1,3 +1,4 @@
+import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import SavedGame from "./SavedGame";
 
@@ -10,6 +11,16 @@ type Story = StoryObj<typeof SavedGame>;
 export const TheOneWithDateAndTime: Story = {
   render: () => (
     <SavedGame gameId={crypto.randomUUID()} dateSaved={new Date(Date.now())} />
+  ),
+};
+
+export const TheOneWithALoadButtonAndClickHandler: Story = {
+  render: () => (
+    <SavedGame
+      gameId={crypto.randomUUID()}
+      dateSaved={new Date(Date.now())}
+      handleLoadGame={action("Clicked")}
+    />
   ),
 };
 

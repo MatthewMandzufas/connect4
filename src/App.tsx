@@ -70,6 +70,7 @@ function createHandleSaveGame(
   savedGames: MutableRefObject<Array<SavedGame>>
 ): () => void {
   return function handleSaveGame(): void {
+    alert("Saved Game!");
     savedGames.current.push({
       gameId: gameApi.saveGame(),
       dateSaved: new Date(Date.now()),
@@ -110,11 +111,27 @@ function updateGame(
   });
 }
 
-function createHandleLoadGame(
+function createHandleOpenOverlay(
   setShowOverlay: (value: boolean) => void
 ): () => void {
-  return function handleLoadGame(): void {
+  return function handleOpenOverlay(): void {
     setShowOverlay(true);
+  };
+}
+
+function createHandleLoadGame(
+  gameId: GameUuid,
+  gameApiRef = createGameApi(new GameFactory()),
+  setShowOverlay: (value: boolean) => void,
+  setActiveGame: (activeGame: {
+    gameOverview: GameOverviewProps;
+    board: BoardProps;
+  }) => void
+) {
+  return function handleLoadGame() {
+    gameApiRef.loadGame(gameId);
+    setShowOverlay(false);
+    updateGame(setActiveGame, gameApiRef);
   };
 }
 
@@ -131,7 +148,6 @@ const App = () => {
 
   const savedGamesRef = useRef<Array<SavedGame>>([]);
   const [showOverlay, setShowOverlay] = useState(false);
-
   const gameApiRef = useRef<GameApi | undefined>(undefined);
 
   return (
@@ -150,6 +166,12 @@ const App = () => {
                     <SavedGame
                       gameId={game.gameId}
                       dateSaved={game.dateSaved}
+                      onClick={createHandleLoadGame(
+                        game.gameId,
+                        gameApiRef.current,
+                        setShowOverlay,
+                        setActiveGame
+                      )}
                     />
                   ))}
                 </LoadGameDialog>
@@ -172,7 +194,7 @@ const App = () => {
           gameApiRef.current,
           savedGamesRef
         )}
-        onLoadGameClick={createHandleLoadGame(setShowOverlay)}
+        onLoadGameClick={createHandleOpenOverlay(setShowOverlay)}
       />
     </>
   );

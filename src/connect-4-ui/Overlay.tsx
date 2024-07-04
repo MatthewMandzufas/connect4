@@ -40,7 +40,4 @@ const Overlay = <T extends React.ComponentType<any>>({
   );
 };
 
-// TODO: Finish types
-// Fix saving/loading
-
 export default Overlay;
