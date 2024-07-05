@@ -119,13 +119,24 @@ function getBLTRDiagonalCells(
   do {
     if (row !== i + rowOffset) {
       cells.push(board[i + rowOffset][columnOffset + i]);
+    } else {
+      cells.push({ targetCell: "Here" });
     }
     i++;
   } while (i + rowOffset < board.length && i + columnOffset < board[0].length);
-  return cells.splice(
-    Math.max(0, column - 3),
-    Math.min(cells.length + 1, column + 3)
+
+  const reversedCells = cells.reverse();
+  const targetCellIndex = reversedCells.findIndex((cell) =>
+    Object.hasOwn(cell, "targetCell")
   );
+  const cellsWithRemovedTarget = cells.filter(
+    (cell) => !Object.hasOwn(cell, "targetCell")
+  );
+
+  return cellsWithRemovedTarget.splice(
+    Math.max(0, targetCellIndex - 3),
+    Math.min(cells.length + 1, targetCellIndex + 3)
+  ) as Array<BoardCell>;
 }
 
 function getBRTLDiagonalCells(
@@ -159,7 +170,7 @@ function getBRTLDiagonalCells(
   );
 
   return cellsWithRemovedTarget.splice(
-    Math.max(0, column - 3),
+    Math.max(0, targetCellIndex - 3),
     Math.min(cells.length + 1, targetCellIndex + 3)
   ) as Array<BoardCell>;
 }

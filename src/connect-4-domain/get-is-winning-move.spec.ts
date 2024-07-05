@@ -296,7 +296,7 @@ describe("get-is-winning-move", () => {
     describe("that is top-right to bottom-left", () => {
       describe("given the board and the next players move", () => {
         describe('and the diagonal is "floating" on the right side of the board', () => {
-          it.only("detects the win", () => {});
+          it("detects the win", () => {});
 
           const asciiTable = `
 |---|---|---|---|---|---|---|
