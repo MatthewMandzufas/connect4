@@ -12,7 +12,7 @@ const createBoardCells = (
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
       cells[rowIndex][columnIndex] = {
         player: selectionStrategy(),
-        uuid: crypto.randomUUID(),
+        uuid: window.crypto.randomUUID(),
         // TODO: Ensure this did not break anything :)
         handlePlayerMove: () => ({
           isSuccess: false,

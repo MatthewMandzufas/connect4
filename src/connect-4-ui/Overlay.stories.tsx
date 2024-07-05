@@ -66,15 +66,15 @@ export const TheOneWithLoadDialogWithChildrenAndAClickHandler: Story = {
           <LoadGameDialog onCloseDialogClick={closeDialog}>
             <SavedGame
               dateSaved={new Date(Date.now())}
-              gameId={crypto.randomUUID()}
+              gameId={window.crypto.randomUUID()}
             />
             <SavedGame
               dateSaved={new Date(Date.now())}
-              gameId={crypto.randomUUID()}
+              gameId={window.crypto.randomUUID()}
             />
             <SavedGame
               dateSaved={new Date(Date.now())}
-              gameId={crypto.randomUUID()}
+              gameId={window.crypto.randomUUID()}
             />
           </LoadGameDialog>
         ),

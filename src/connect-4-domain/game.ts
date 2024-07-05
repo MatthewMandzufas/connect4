@@ -115,7 +115,7 @@ class GameFactory implements Game {
   }
 
   save(): GameUuid {
-    const gameUuid = crypto.randomUUID();
+    const gameUuid = window.crypto.randomUUID();
     this.repository.save(
       {
         board: this.getBoard(),

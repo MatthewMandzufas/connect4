@@ -23,7 +23,7 @@ export const TheOneWithASavedGame: Story = {
   render: () => (
     <LoadGameDialog onCloseDialogClick={action("Clicked!")}>
       <SavedGame
-        gameId={crypto.randomUUID()}
+        gameId={window.crypto.randomUUID()}
         dateSaved={new Date(Date.now())}
       />
     </LoadGameDialog>
@@ -33,15 +33,15 @@ export const TheOneWithMultipleSavedGames: Story = {
   render: () => (
     <LoadGameDialog onCloseDialogClick={action("Clicked!")}>
       <SavedGame
-        gameId={crypto.randomUUID()}
+        gameId={window.crypto.randomUUID()}
         dateSaved={new Date(Date.now())}
       />
       <SavedGame
-        gameId={crypto.randomUUID()}
+        gameId={window.crypto.randomUUID()}
         dateSaved={new Date(Date.now())}
       />
       <SavedGame
-        gameId={crypto.randomUUID()}
+        gameId={window.crypto.randomUUID()}
         dateSaved={new Date(Date.now())}
       />
     </LoadGameDialog>

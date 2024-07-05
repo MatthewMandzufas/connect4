@@ -288,7 +288,7 @@ describe("game", () => {
           it("throws an error", () => {
             const repository = new InMemoryRepository();
             const game = new GameFactory({ repository });
-            const invalidGameUuid = crypto.randomUUID();
+            const invalidGameUuid = window.crypto.randomUUID();
             expect(() => game.load(invalidGameUuid)).toThrow(
               "The provided GameUuid was invalid."
             );

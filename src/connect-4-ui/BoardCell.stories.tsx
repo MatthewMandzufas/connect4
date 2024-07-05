@@ -18,20 +18,24 @@ export default meta;
 type Story = StoryObj<typeof BoardCell>;
 
 export const TheOneWithDefaults: Story = {
-  render: () => <BoardCell uuid={crypto.randomUUID()} />,
+  render: () => <BoardCell uuid={window.crypto.randomUUID()} />,
 };
 
 export const TheOneWithPlayer1: Story = {
-  render: () => <BoardCell player={1} uuid={crypto.randomUUID()} />,
+  render: () => <BoardCell player={1} uuid={window.crypto.randomUUID()} />,
 };
 
 export const TheOneWithPlayer2: Story = {
-  render: () => <BoardCell player={2} uuid={crypto.randomUUID()} />,
+  render: () => <BoardCell player={2} uuid={window.crypto.randomUUID()} />,
 };
 
 export const TheOneWithPlayer1AndADifferentTokenColour: Story = {
   render: () => (
-    <BoardCell player={1} uuid={crypto.randomUUID()} playerOneColor="pink" />
+    <BoardCell
+      player={1}
+      uuid={window.crypto.randomUUID()}
+      playerOneColor="pink"
+    />
   ),
 };
 
