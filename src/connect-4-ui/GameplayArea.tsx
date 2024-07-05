@@ -69,11 +69,15 @@ export const GameplayArea = ({
 }: GameplayAreaProps) => {
   return (
     <>
-      <GamePlayAreaMenu>
-        <MenuButton text={"Restart Game"} onClick={onRestartGameClick} />
-        <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
-        <MenuButton text={"Load A Game"} onClick={onLoadGameClick} />
-      </GamePlayAreaMenu>
+      {activeGame ? (
+        <GamePlayAreaMenu>
+          <MenuButton text={"Restart Game"} onClick={onRestartGameClick} />
+          <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
+          <MenuButton text={"Load A Game"} onClick={onLoadGameClick} />
+        </GamePlayAreaMenu>
+      ) : (
+        <> </>
+      )}
       <StyledGameplayArea $activeGame={activeGame}>
         {activeGame ? (
           <>
