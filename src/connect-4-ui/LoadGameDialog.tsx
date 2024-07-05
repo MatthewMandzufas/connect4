@@ -8,6 +8,9 @@ const StyledLoadGameDialog = styled.div`
   background: #32424a;
   min-height: 20vh;
   min-width: 60vw;
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow: scroll;
 `;
 
 const StyledHeading = styled.h1`

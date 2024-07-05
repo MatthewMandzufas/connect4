@@ -41,11 +41,15 @@ const StyledButton = styled.button`
   font-size: 2rem;
   background-color: beige;
   outline: 8px solid #142d4c;
+  height: 10vh;
+  width: 70vw;
+  max-height: 150px;
+  max-width: 300px;
 `;
 
 const StyledHeader = styled.h1`
   color: beige;
-  font-size: 128px;
+  font-size: 4.5rem;
   font-family: monospace;
 `;
 

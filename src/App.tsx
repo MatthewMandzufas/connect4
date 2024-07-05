@@ -75,6 +75,8 @@ function createHandleSaveGame(
       gameId: gameApi.saveGame(),
       dateSaved: new Date(Date.now()),
     });
+    console.log(`Game Saved`);
+    console.log(savedGames.current);
   };
 }
 
