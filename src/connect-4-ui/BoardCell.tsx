@@ -56,6 +56,10 @@ const StyledBoardDiskCutout = styled.div<{
         return "#f5ebeb";
     }
   }};
+
+  &:hover {
+    opacity: 0.33;
+  }
 `;
 
 export const BoardCell = ({

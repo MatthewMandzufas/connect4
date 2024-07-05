@@ -73,7 +73,7 @@ export const GameplayArea = ({
         <GamePlayAreaMenu>
           <MenuButton text={"Restart Game"} onClick={onRestartGameClick} />
           <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
-          <MenuButton text={"Load A Game"} onClick={onLoadGameClick} />
+          <MenuButton text={"Load Game"} onClick={onLoadGameClick} />
         </GamePlayAreaMenu>
       ) : (
         <> </>

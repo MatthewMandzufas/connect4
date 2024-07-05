@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import MenuButton from "./MenuButton";
 
-const StyledMenu = styled.menu`
+const StyledMenu = styled.div`
   background-color: #385170;
   position: sticky;
   top: 0;

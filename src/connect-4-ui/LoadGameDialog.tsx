@@ -10,7 +10,7 @@ const StyledLoadGameDialog = styled.div`
   min-width: 60vw;
   max-width: 80vw;
   max-height: 80vh;
-  overflow: scroll;
+  overflow-x: hidden;
 `;
 
 const StyledHeading = styled.h1`

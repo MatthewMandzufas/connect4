@@ -6,7 +6,7 @@ type MenuButtonProps = {
 };
 
 const StyledMenuButton = styled.button`
-  padding: 20px;
+  /* padding: 20px; */
   font-family: monospace;
   font-size: 1.2rem;
   background-color: beige;
