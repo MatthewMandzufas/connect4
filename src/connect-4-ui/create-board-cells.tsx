@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import { BoardCell } from "./create-game-api";
 
 const createBoardCells = (
@@ -12,7 +13,7 @@ const createBoardCells = (
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
       cells[rowIndex][columnIndex] = {
         player: selectionStrategy(),
-        uuid: window.crypto.randomUUID(),
+        uuid: v4(),
         // TODO: Ensure this did not break anything :)
         handlePlayerMove: () => ({
           isSuccess: false,

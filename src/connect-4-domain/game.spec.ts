@@ -11,6 +11,7 @@ import GameFactory, {
 import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
 import _toAsciiTable from "@/connect-4-domain/to-ascii-table";
 import * as R from "ramda";
+import { v4 } from "uuid";
 import { describe, expect, it } from "vitest";
 import { PlayerMoveFailedEvent, PlayerMovedEvent } from "./events";
 
@@ -288,7 +289,7 @@ describe("game", () => {
           it("throws an error", () => {
             const repository = new InMemoryRepository();
             const game = new GameFactory({ repository });
-            const invalidGameUuid = window.crypto.randomUUID();
+            const invalidGameUuid = v4();
             expect(() => game.load(invalidGameUuid)).toThrow(
               "The provided GameUuid was invalid."
             );

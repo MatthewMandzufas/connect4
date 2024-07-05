@@ -1,6 +1,7 @@
 import { BoardCell } from "@/connect-4-ui/BoardCell";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
+import { v4 } from "uuid";
 
 const meta: Meta<typeof BoardCell> = {
   component: BoardCell,
@@ -18,25 +19,19 @@ export default meta;
 type Story = StoryObj<typeof BoardCell>;
 
 export const TheOneWithDefaults: Story = {
-  render: () => <BoardCell uuid={window.crypto.randomUUID()} />,
+  render: () => <BoardCell uuid={v4()} />,
 };
 
 export const TheOneWithPlayer1: Story = {
-  render: () => <BoardCell player={1} uuid={window.crypto.randomUUID()} />,
+  render: () => <BoardCell player={1} uuid={v4()} />,
 };
 
 export const TheOneWithPlayer2: Story = {
-  render: () => <BoardCell player={2} uuid={window.crypto.randomUUID()} />,
+  render: () => <BoardCell player={2} uuid={v4()} />,
 };
 
 export const TheOneWithPlayer1AndADifferentTokenColour: Story = {
-  render: () => (
-    <BoardCell
-      player={1}
-      uuid={window.crypto.randomUUID()}
-      playerOneColor="pink"
-    />
-  ),
+  render: () => <BoardCell player={1} uuid={v4()} playerOneColor="pink" />,
 };
 
 export const TheOneWithAClickHandler: Story = {

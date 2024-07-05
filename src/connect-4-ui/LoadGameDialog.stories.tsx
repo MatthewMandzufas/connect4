@@ -1,5 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
+import { v4 } from "uuid";
 import LoadGameDialog from "./LoadGameDialog";
 import SavedGame from "./SavedGame";
 
@@ -22,28 +23,16 @@ export const TheOneCloseDialogClickHandler: Story = {
 export const TheOneWithASavedGame: Story = {
   render: () => (
     <LoadGameDialog onCloseDialogClick={action("Clicked!")}>
-      <SavedGame
-        gameId={window.crypto.randomUUID()}
-        dateSaved={new Date(Date.now())}
-      />
+      <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
     </LoadGameDialog>
   ),
 };
 export const TheOneWithMultipleSavedGames: Story = {
   render: () => (
     <LoadGameDialog onCloseDialogClick={action("Clicked!")}>
-      <SavedGame
-        gameId={window.crypto.randomUUID()}
-        dateSaved={new Date(Date.now())}
-      />
-      <SavedGame
-        gameId={window.crypto.randomUUID()}
-        dateSaved={new Date(Date.now())}
-      />
-      <SavedGame
-        gameId={window.crypto.randomUUID()}
-        dateSaved={new Date(Date.now())}
-      />
+      <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
+      <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
+      <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
     </LoadGameDialog>
   ),
 };

@@ -1,6 +1,7 @@
 import { GameRepository, PersistentGame } from "@/connect-4-domain/game";
+import { v4 } from "uuid";
 
-export type GameUuid = `${string}-${string}-${string}-${string}-${string}`;
+export type GameUuid = string;
 
 type BoardMap = Map<GameUuid, PersistentGame>;
 
@@ -11,10 +12,7 @@ export default class InMemoryRepository implements GameRepository {
     this.store = store;
   }
 
-  save(
-    persistentGame: PersistentGame,
-    uuid: GameUuid = window.crypto.randomUUID()
-  ): GameUuid {
+  save(persistentGame: PersistentGame, uuid: GameUuid = v4()): GameUuid {
     this.store.set(uuid, persistentGame);
     return uuid;
   }

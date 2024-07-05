@@ -1,5 +1,5 @@
 import GameFactory, { Status } from "@/connect-4-domain/game";
-import { GameUuid, GameplayArea } from "@/connect-4-ui/GameplayArea";
+import { GameplayArea } from "@/connect-4-ui/GameplayArea";
 import { MutableRefObject, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
@@ -75,8 +75,6 @@ function createHandleSaveGame(
       gameId: gameApi.saveGame(),
       dateSaved: new Date(Date.now()),
     });
-    console.log(`Game Saved`);
-    console.log(savedGames.current);
   };
 }
 
@@ -122,7 +120,7 @@ function createHandleOpenOverlay(
 }
 
 function createHandleLoadGame(
-  gameId: GameUuid,
+  gameId: string,
   gameApiRef = createGameApi(new GameFactory()),
   setShowOverlay: (value: boolean) => void,
   setActiveGame: (activeGame: {
@@ -155,7 +153,7 @@ function createHandleRestartGame(
 }
 
 type SavedGame = {
-  gameId: GameUuid;
+  gameId: string;
   dateSaved: Date;
 };
 

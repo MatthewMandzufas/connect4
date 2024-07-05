@@ -5,6 +5,7 @@ import {
   Status,
 } from "@/connect-4-domain/game";
 import InMemoryRepository from "@/connect-4-domain/in-memory-repository";
+import { v4 } from "uuid";
 import { describe, expect, it } from "vitest";
 import parseAsciiTable from "./parse-ascii-table";
 
@@ -52,7 +53,7 @@ describe("in-memory-repository", () => {
     });
     it("returns undefined when loading a non-existant game", () => {
       const repository = new InMemoryRepository();
-      const gameId = window.crypto.randomUUID();
+      const gameId = v4();
       expect(repository.load(gameId)).toBe(undefined);
     });
   });
@@ -68,7 +69,7 @@ describe("in-memory-repository", () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
-      const uuid = window.crypto.randomUUID();
+      const uuid = v4();
       const boardId = repository.save(persistentGame, uuid);
       expect(uuid).toBe(boardId);
       expect(store.get(boardId)).toMatchObject(persistentGame);

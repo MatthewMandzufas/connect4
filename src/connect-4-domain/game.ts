@@ -11,6 +11,7 @@ import getIsWinningMove from "@/connect-4-domain/get-is-winning-move";
 import InMemoryRepository, {
   GameUuid,
 } from "@/connect-4-domain/in-memory-repository";
+import { v4 } from "uuid";
 
 export class InvalidBoardDimensions extends RangeError {}
 
@@ -115,7 +116,7 @@ class GameFactory implements Game {
   }
 
   save(): GameUuid {
-    const gameUuid = window.crypto.randomUUID();
+    const gameUuid = v4();
     this.repository.save(
       {
         board: this.getBoard(),

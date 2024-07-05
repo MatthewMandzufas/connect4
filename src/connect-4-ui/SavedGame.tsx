@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { GameUuid } from "./GameplayArea";
 
 type SavedGameProps = {
-  gameId: GameUuid;
+  gameId: string;
   dateSaved: Date;
   handleLoadGame?: () => void;
 };
