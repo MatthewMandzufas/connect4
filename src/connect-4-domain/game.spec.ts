@@ -1147,4 +1147,55 @@ describe("game", () => {
       });
     });
   });
+  describe("restarting the current game", () => {
+    it("resets all values back to default", () => {
+      const game = new GameFactory();
+
+      const playerMoveCommand = createMovePlayerCommand({
+        player: 1,
+        targetCell: {
+          row: 0,
+          column: 0,
+        },
+      });
+      game.move(playerMoveCommand);
+      expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+        "
+        |---|--|--|--|--|--|--|
+        | 1 |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|
+        |   |  |  |  |  |  |  |
+        |---|--|--|--|--|--|--|"
+      `);
+      expect(game.getPlayerStats(1).remainingDisks).toBe(20);
+
+      game.reset();
+      expect(game.getActivePlayer()).toBe(1);
+      expect(game.getPlayerStats(1).remainingDisks).toBe(21);
+      expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
+        "
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|
+        |  |  |  |  |  |  |  |
+        |--|--|--|--|--|--|--|"
+      `);
+    });
+  });
 });
