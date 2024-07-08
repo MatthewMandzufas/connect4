@@ -174,11 +174,11 @@ const App = () => {
           <Overlay
             componentSpec={{
               Component: ({
-                onCloseDialogClick,
+                handleCloseDialog: onCloseDialogClick,
               }: {
-                onCloseDialogClick: () => void;
+                handleCloseDialog: () => void;
               }) => (
-                <LoadGameDialog onCloseDialogClick={onCloseDialogClick}>
+                <LoadGameDialog handleCloseDialog={onCloseDialogClick}>
                   {savedGamesRef.current.map((game: SavedGame) => (
                     <SavedGame
                       gameId={game.gameId}
@@ -194,7 +194,7 @@ const App = () => {
                 </LoadGameDialog>
               ),
               props: {
-                onCloseDialogClick: () => setShowOverlay(false),
+                handleCloseDialog: () => setShowOverlay(false),
               },
             }}
           />,

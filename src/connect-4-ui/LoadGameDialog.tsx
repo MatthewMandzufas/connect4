@@ -55,7 +55,7 @@ const StyledHeader = styled.div`
 `;
 
 type LoadGameDialogProps = {
-  onCloseDialogClick?: () => void;
+  handleCloseDialog?: () => void;
   children?:
     | Array<React.ReactElement<typeof SavedGame>>
     | React.ReactElement<typeof SavedGame>;
@@ -66,14 +66,14 @@ const StyledNoSavedGames = styled.p`
 `;
 
 const LoadGameDialog = ({
-  onCloseDialogClick = () => {},
+  handleCloseDialog = () => {},
   children = [],
 }: LoadGameDialogProps) => {
   return (
     <StyledLoadGameDialog>
       <StyledHeader>
         <StyledHeading>Saved Games</StyledHeading>
-        <StyledCloseButton onClick={onCloseDialogClick}>X</StyledCloseButton>
+        <StyledCloseButton onClick={handleCloseDialog}>X</StyledCloseButton>
       </StyledHeader>
       <StyledSavedGames>
         {React.Children.count(children) ? (
