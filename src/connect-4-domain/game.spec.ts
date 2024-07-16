@@ -239,7 +239,7 @@ describe("game", () => {
     });
     describe("persisting a game", () => {
       describe("given a custom repository", () => {
-        it("saves the game", () => {
+        it("saves the game", async () => {
           const repository = new InMemoryRepository();
           const game = new GameFactory({ repository });
 
@@ -250,8 +250,8 @@ describe("game", () => {
             2: game.getPlayerStats(2),
           };
           const status = game.getStatus();
-          const gameUuid = game.save();
-          const persistentGame = repository.load(gameUuid);
+          const gameUuid = await game.save();
+          const persistentGame = await repository.load(gameUuid);
           expect(persistentGame).toMatchObject({
             board,
             activePlayer,
@@ -259,7 +259,7 @@ describe("game", () => {
             status,
           });
         });
-        it("loads a game", () => {
+        it("loads a game", async () => {
           const repository = new InMemoryRepository();
           const game = new GameFactory({ repository });
           const beforeSave = {
@@ -272,8 +272,8 @@ describe("game", () => {
             status: game.getStatus(),
           };
 
-          const gameId = game.save();
-          game.load(gameId);
+          const gameId = await game.save();
+          await game.load(gameId);
           const afterLoad = {
             board: game.getBoard(),
             activePlayer: game.getActivePlayer(),
@@ -286,22 +286,22 @@ describe("game", () => {
           expect(beforeSave).toMatchObject(afterLoad);
         });
         describe("and an invalid gameUuid", () => {
-          it("throws an error", () => {
+          it("throws an error", async () => {
             const repository = new InMemoryRepository();
             const game = new GameFactory({ repository });
             const invalidGameUuid = v4();
-            expect(() => game.load(invalidGameUuid)).toThrow(
+            await expect(game.load(invalidGameUuid)).rejects.toThrow(
               "The provided GameUuid was invalid."
             );
           });
         });
       });
       describe("given defaults", () => {
-        it("uses a default in-memory-repository to save a game", () => {
+        it("uses a default in-memory-repository to save a game", async () => {
           const game = new GameFactory();
 
-          const gameUuid = game.save();
-          game.load(gameUuid);
+          const gameUuid = await game.save();
+          await game.load(gameUuid);
           expect(toAsciiTable(game.getBoard())).toMatchInlineSnapshot(`
             "
             |--|--|--|--|--|--|--|

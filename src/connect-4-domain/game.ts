@@ -16,8 +16,8 @@ import { v4 } from "uuid";
 export class InvalidBoardDimensions extends RangeError {}
 
 export interface GameRepository {
-  save: (persistentGame: PersistentGame, uuid?: GameUuid) => GameUuid;
-  load: (gameUuid: GameUuid) => undefined | PersistentGame;
+  save: (persistentGame: PersistentGame, uuid?: GameUuid) => Promise<GameUuid>;
+  load: (gameUuid: GameUuid) => Promise<undefined | PersistentGame>;
 }
 
 export type BoardCell = {
@@ -34,7 +34,7 @@ export type BoardDimension = {
   columns: number;
 };
 
-interface PlayerStats {
+export interface PlayerStats {
   playerNumber: 1 | 2;
   remainingDisks: number;
 }
@@ -66,7 +66,7 @@ interface Game {
     movePlayerCommand: MovePlayerCommand
   ) => PlayerMoveFailedEvent | PlayerMovedEvent;
   load: (gameId: GameUuid) => void;
-  save: () => GameUuid;
+  save: () => Promise<GameUuid>;
   reset: (boardDimensions: { rows: number; columns: number }) => void;
 }
 
@@ -115,7 +115,7 @@ class GameFactory implements Game {
     this.repository = repository;
   }
 
-  save(): GameUuid {
+  async save(): Promise<GameUuid> {
     const gameUuid = v4();
     this.repository.save(
       {
@@ -129,8 +129,8 @@ class GameFactory implements Game {
     return gameUuid;
   }
 
-  load(gameId: GameUuid) {
-    const gameStateToLoad = this.repository?.load(gameId);
+  async load(gameId: GameUuid) {
+    const gameStateToLoad = await this.repository?.load(gameId);
     if (gameStateToLoad !== undefined) {
       const { board, activePlayer, players, status } = gameStateToLoad;
       this.board = board;

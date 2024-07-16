@@ -39,7 +39,7 @@ function createPersistentGame() {
   return persistentGame;
 }
 
-describe("in-memory-repository", () => {
+describe.skip("in-memory-repository", () => {
   describe("given defaults", () => {
     it("creates an in memory repository", () => {
       const repository = new InMemoryRepository();

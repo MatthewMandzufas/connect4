@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+
+    command: sleep infinity
+
+    network_mode: service:db
+
+  db:
+    image: mongo:latest
+    restart: unless-stopped
