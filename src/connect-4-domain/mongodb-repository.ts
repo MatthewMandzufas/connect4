@@ -1,59 +1,88 @@
-import SavedGame from "@/connect-4-ui/SavedGame";
-import { model, Schema } from "mongoose";
+import { GameStatus } from "@/connect-4-ui/GameStatus";
+import { connect, Model, model, Schema } from "mongoose";
 import "reflect-metadata";
 import { v4 } from "uuid";
-import * as game from "./game";
-import { PersistentGame } from "./game";
+import { BoardCell, PersistentGame } from "./game";
 import { GameUuid } from "./in-memory-repository";
 
-interface SavedGame {
-  id: GameUuid;
-  board: game.Board;
-  activePlayer: game.PlayerNumber;
-  players: game.PlayerStats;
-  status: game.Status;
-}
-
-const gameSchema = new Schema<SavedGame>({
-  id: { type: String, required: true },
-  board: Array<Array<game.BoardCell>>,
+const gameSchema = new Schema({
+  gameUuid: { type: String, required: true },
+  board: Array<Array<BoardCell>>,
   activePlayer: { type: Number, required: true },
   players: {
-    type: { playerNumber: Number, remainingDisks: Number },
+    type: {
+      "1": {
+        playerNumber: { type: Number, required: true },
+      },
+      "2": {
+        playerNumber: { type: Number, required: true },
+      },
+    },
     required: true,
   },
   status: {
     type: String,
+    enum: Object.values(GameStatus),
     required: true,
   },
 });
 
-const Game = model<SavedGame>("Game", gameSchema);
+export interface GameDocument extends Document, PersistentGame {}
 
 export default class MongoDBRepository {
-  constructor() {}
+  private gameModel: Model<GameDocument>;
+
+  constructor(gameModel?: Model<GameDocument>) {
+    console.log(gameModel);
+    if (gameModel !== undefined) {
+      this.gameModel = gameModel;
+    } else {
+      (async () => {
+        await connect("mongodb://localhost:27017/test");
+
+        this.gameModel = model<GameDocument>("Game", gameSchema);
+      })();
+    }
+  }
 
   async save(
-    persistentGame: game.PersistentGame,
+    persistentGame: PersistentGame,
     uuid: GameUuid = v4()
   ): Promise<string> {
-    const game = new Game({
-      id: uuid,
-      board: persistentGame.board,
-      activePlayer: persistentGame.activePlayer,
-      players: persistentGame.players,
-      status: persistentGame.status,
-    });
+    try {
+      await this.gameModel.create({
+        gameUuid: uuid,
+        board: persistentGame.board,
+        activePlayer: persistentGame.activePlayer,
+        players: persistentGame.players,
+        status: persistentGame.status,
+      });
 
-    await game.save();
-    console.log(game);
-
-    return uuid;
+      return uuid;
+    } catch (error) {
+      console.log(error);
+      return uuid;
+    }
   }
 
   async load(uuid: GameUuid): Promise<undefined | PersistentGame> {
-    const game = await Game.find({ id: uuid });
-    console.log(game);
-    return game;
+    try {
+      const gameToLoad = await this.gameModel
+        .findOne({ gameUuid: uuid })
+        .exec();
+      if (gameToLoad !== undefined && gameToLoad !== null) {
+        return {
+          board: gameToLoad.board,
+          activePlayer: gameToLoad.activePlayer,
+          players: gameToLoad.players,
+          status: gameToLoad.status,
+        };
+      } else {
+        return undefined;
+      }
+    } catch (error) {
+      console.error("Error loading Game: ", error);
+      return undefined;
+    }
   }
 }

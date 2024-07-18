@@ -17,10 +17,10 @@ export default class InMemoryRepository implements GameRepository {
     uuid: GameUuid = v4()
   ): Promise<GameUuid> {
     this.store.set(uuid, persistentGame);
-    return uuid;
+    return Promise.resolve(uuid);
   }
 
   async load(gameId: GameUuid): Promise<undefined | PersistentGame> {
-    return this.store.get(gameId);
+    return Promise.resolve(this.store.get(gameId));
   }
 }

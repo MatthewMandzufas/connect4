@@ -39,47 +39,47 @@ function createPersistentGame() {
   return persistentGame;
 }
 
-describe.skip("in-memory-repository", () => {
+describe("in-memory-repository", () => {
   describe("given defaults", () => {
     it("creates an in memory repository", () => {
       const repository = new InMemoryRepository();
       expect(repository).toBeInstanceOf(InMemoryRepository);
     });
-    it("it loads a previously saved game", () => {
+    it("it loads a previously saved game", async () => {
       const repository = new InMemoryRepository();
       const persistentGame = createPersistentGame();
-      const boardId = repository.save(persistentGame);
-      expect(repository.load(boardId)).toMatchObject(persistentGame);
+      const boardId = await repository.save(persistentGame);
+      expect(await repository.load(boardId)).toMatchObject(persistentGame);
     });
-    it("returns undefined when loading a non-existant game", () => {
+    it("returns undefined when loading a non-existant game", async () => {
       const repository = new InMemoryRepository();
       const gameId = v4();
-      expect(repository.load(gameId)).toBe(undefined);
+      expect(await repository.load(gameId)).toBe(undefined);
     });
   });
   describe("given a store", () => {
-    it("saves a game", () => {
+    it("saves a game", async () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
-      const boardId = repository.save(persistentGame);
+      const boardId = await repository.save(persistentGame);
       expect(store.get(boardId)).toMatchObject(persistentGame);
     });
-    it("saves the game with a user-provided uuid", () => {
+    it("saves the game with a user-provided uuid", async () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
       const uuid = v4();
-      const boardId = repository.save(persistentGame, uuid);
+      const boardId = await repository.save(persistentGame, uuid);
       expect(uuid).toBe(boardId);
       expect(store.get(boardId)).toMatchObject(persistentGame);
     });
-    it("loads a saved game", () => {
+    it("loads a saved game", async () => {
       const store = new Map();
       const repository = new InMemoryRepository(store);
       const persistentGame = createPersistentGame();
-      const boardId = repository.save(persistentGame);
-      expect(repository.load(boardId)).toMatchObject(persistentGame);
+      const boardId = await repository.save(persistentGame);
+      expect(await repository.load(boardId)).toMatchObject(persistentGame);
     });
   });
 });
