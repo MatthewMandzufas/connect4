@@ -126,7 +126,7 @@ class GameFactory implements Game {
       },
       gameUuid
     );
-    return gameUuid;
+    return Promise.resolve(gameUuid);
   }
 
   async load(gameId: GameUuid) {

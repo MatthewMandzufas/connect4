@@ -30,8 +30,8 @@ export interface GameApi {
   getRemainingDisks: (player: Player) => number;
   getGameStatus: () => Status;
   getBoard: () => Array<Array<BoardCell>>;
-  saveGame: () => GameUuid;
-  loadGame: (gameId: GameUuid) => void;
+  saveGame: () => Promise<GameUuid>;
+  loadGame: (gameId: GameUuid) => Promise<void>;
   resetGame: () => void;
 }
 
@@ -70,8 +70,8 @@ export default function createGameApi(game: GameFactory): GameApi {
       game.getPlayerStats(player).remainingDisks,
     getGameStatus: () => game.getStatus(),
     getBoard: () => game.getBoard().map(rowMapper),
-    saveGame: () => game.save(),
-    loadGame: (gameId: GameUuid) => game.load(gameId),
+    saveGame: async () => await game.save(),
+    loadGame: async (gameId: GameUuid) => await game.load(gameId),
     resetGame: () => game.reset(),
   };
   return gameApi;

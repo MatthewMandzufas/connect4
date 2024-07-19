@@ -69,10 +69,10 @@ function createHandleSaveGame(
   gameApi = createGameApi(new GameFactory()),
   savedGames: MutableRefObject<Array<SavedGame>>
 ): () => void {
-  return function handleSaveGame(): void {
+  return async function handleSaveGame(): Promise<void> {
     alert("Saved Game!");
     savedGames.current.push({
-      gameId: gameApi.saveGame(),
+      gameId: await gameApi.saveGame(),
       dateSaved: new Date(Date.now()),
     });
   };
@@ -128,9 +128,9 @@ function createHandleLoadGame(
     board: BoardProps;
   }) => void
 ) {
-  return function handleLoadGame() {
+  return async function handleLoadGame() {
     try {
-      gameApiRef.loadGame(gameId);
+      await gameApiRef.loadGame(gameId);
       setShowOverlay(false);
       updateGame(setActiveGame, gameApiRef);
     } catch (error) {
@@ -181,6 +181,7 @@ const App = () => {
                 <LoadGameDialog handleCloseDialog={onCloseDialogClick}>
                   {savedGamesRef.current.map((game: SavedGame) => (
                     <SavedGame
+                      key={game.gameId}
                       gameId={game.gameId}
                       dateSaved={game.dateSaved}
                       handleLoadGame={createHandleLoadGame(
