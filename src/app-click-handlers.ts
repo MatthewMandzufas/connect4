@@ -1,5 +1,7 @@
 import { MutableRefObject } from "react";
 import GameFactory, { Status } from "./connect-4-domain/game";
+import InMemoryRepository from "./connect-4-domain/in-memory-repository";
+import MongoDBRepository from "./connect-4-domain/mongodb-repository";
 import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
 import createGameApi, { GameApi } from "./connect-4-ui/create-game-api";
@@ -9,6 +11,21 @@ export type SavedGameType = {
   dateSaved: Date;
 };
 
+function resolveGameFactoryConfiguration() {
+  console.log("IMPORTMETA: ", import.meta.env.VITE_REPOSITORY);
+  const repository =
+    import.meta.env.VITE_REPOSITORY === "mongo"
+      ? new MongoDBRepository()
+      : new InMemoryRepository();
+  return {
+    boardDimensions: {
+      rows: 6,
+      columns: 7,
+    },
+    repository,
+  };
+}
+
 export function createHandleStartGameClick(
   setActiveGame: (activeGame: {
     gameOverview: GameOverviewProps;
@@ -17,7 +34,10 @@ export function createHandleStartGameClick(
   gameApiRef: MutableRefObject<GameApi | undefined>
 ): () => void {
   return function handleStartGameClick(): void {
-    gameApiRef.current = createGameApi(new GameFactory());
+    const gameFactoryConfiguration = resolveGameFactoryConfiguration();
+    gameApiRef.current = createGameApi(
+      new GameFactory(gameFactoryConfiguration)
+    );
     const gameApi = gameApiRef.current;
     setActiveGame({
       gameOverview: {

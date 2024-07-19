@@ -54,7 +54,7 @@ function createPersistentGame() {
 
 beforeAll(async () => {
   if (connection.readyState === 0) {
-    await connect(process.env.MONGODB_URI!);
+    await connect(import.meta.env.VITE_MONGODB_URI);
   }
 });
 

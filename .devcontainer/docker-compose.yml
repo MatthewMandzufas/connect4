@@ -1,10 +1,12 @@
 services:
   app:
+    environment:
+      - REPOSITORY=in-memory
+    ports:
+      - 3000:80
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-
-    network_mode: service:db
 
   db:
     image: mongo:latest

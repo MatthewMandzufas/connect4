@@ -1,0 +1,32 @@
+Parameters:
+  CallingUserArn:
+    Description: Calling User ARN
+    Type: String
+
+Resources:
+  MyWorkshopRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: "workshop-repository"
+      RepositoryPolicyText:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowPushPull
+            Effect: Allow
+            Principal:
+              Service:
+                - "ecr.amazonaws.com"
+              AWS:
+                - !Ref CallingUserArn
+            Action:
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"
+              - "ecr:PutImage"
+              - "ecr:InitiateLayerUpload"
+              - "ecr:UploadLayerPart"
+              - "ecr:CompleteLayerUpload"
+Outputs:
+  RepositoryURI:
+    Description: The URI of the repository
+    Value: !GetAtt MyWorkshopRepository.RepositoryUri

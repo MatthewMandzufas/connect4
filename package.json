@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:dev": "tsc && vite build --mode development",
+    "build:prod": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test:watch": "vitest"
+    "test:watch": "vitest --mode development",
+    "devcontainer": "pnpm run build:dev && devcontainer up --workspace-folder . --remove-existing-container",
+    "docker-compose-up:prod": "pnpm run build:prod && docker compose -f .devcontainer/docker-compose.yml up --build"
   },
   "dependencies": {
     "@storybook/addon-actions": "^8.1.10",
