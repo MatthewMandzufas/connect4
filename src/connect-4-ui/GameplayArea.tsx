@@ -25,8 +25,8 @@ const StyledGameplayArea = styled.div<{
   justify-content: ${({ $activeGame }) =>
     $activeGame === undefined ? "center" : "space-evenly"};
   min-height: 100vh;
+  overflow: auto;
   align-items: center;
-  /* background-color: #070f4e; */
   background: linear-gradient(
     112.1deg,
     rgb(32, 38, 57) 11.4%,
@@ -59,6 +59,8 @@ const StyledStartGameArea = styled.div`
   align-items: center;
 `;
 
+const StyledMainDiv = styled.div``;
+
 export const GameplayArea = ({
   activeGame,
   onStartGameClick = () => {},
@@ -68,12 +70,12 @@ export const GameplayArea = ({
   onRestartGameClick = () => {},
 }: GameplayAreaProps) => {
   return (
-    <>
+    <StyledMainDiv>
       {activeGame ? (
         <GamePlayAreaMenu>
-          <MenuButton text={"Restart Game"} onClick={onRestartGameClick} />
-          <MenuButton text={"Save Game"} onClick={onSaveGameClick} />
-          <MenuButton text={"Load Game"} onClick={onLoadGameClick} />
+          <MenuButton text={"Restart"} onClick={onRestartGameClick} />
+          <MenuButton text={"Save"} onClick={onSaveGameClick} />
+          <MenuButton text={"Load"} onClick={onLoadGameClick} />
         </GamePlayAreaMenu>
       ) : (
         <> </>
@@ -93,6 +95,6 @@ export const GameplayArea = ({
           </>
         )}
       </StyledGameplayArea>
-    </>
+    </StyledMainDiv>
   );
 };

@@ -19,7 +19,7 @@ const StyledBoardCell = styled.div`
 `;
 
 const AspectRatioBox = styled.div`
-  width: 65%;
+  width: 75%;
   position: relative;
 
   &:before {
@@ -45,7 +45,7 @@ const StyledBoardDiskCutout = styled.div<{
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  outline: 5px solid #070f4e;
+  outline: 3px solid #070f4e;
   background: ${({ $player, $playerOneColor, $playerTwoColor }) => {
     switch ($player) {
       case 1:

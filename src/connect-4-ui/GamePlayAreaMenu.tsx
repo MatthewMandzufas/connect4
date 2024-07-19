@@ -4,16 +4,14 @@ import MenuButton from "./MenuButton";
 const StyledMenu = styled.div`
   background-color: #385170;
   position: sticky;
+  width: 100%;
   top: 0;
   left: 0;
   min-height: 70px;
   display: flex;
   align-items: center;
-  margin-top: -2px;
-  margin-bottom: -2px;
-  /* flex-wrap: wrap; */
   justify-content: space-evenly;
-  gap: 10px;
+  outline: 5px solid #142d4c;
 `;
 
 const GamePlayAreaMenu = ({

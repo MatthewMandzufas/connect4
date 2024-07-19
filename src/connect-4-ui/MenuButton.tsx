@@ -15,6 +15,7 @@ const StyledMenuButton = styled.button`
   max-height: 50px;
   width: 50vw;
   max-width: 200px;
+  margin: 10px;
 
   display: flex;
   align-items: center;
