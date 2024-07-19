@@ -17,19 +17,19 @@ export const TheOneWithNoSavedGames: Story = {
 };
 
 export const TheOneCloseDialogClickHandler: Story = {
-  render: () => <LoadGameDialog onCloseDialogClick={action("Clicked!")} />,
+  render: () => <LoadGameDialog handleCloseDialog={action("Clicked!")} />,
 };
 
 export const TheOneWithASavedGame: Story = {
   render: () => (
-    <LoadGameDialog onCloseDialogClick={action("Clicked!")}>
+    <LoadGameDialog handleCloseDialog={action("Clicked!")}>
       <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
     </LoadGameDialog>
   ),
 };
 export const TheOneWithMultipleSavedGames: Story = {
   render: () => (
-    <LoadGameDialog onCloseDialogClick={action("Clicked!")}>
+    <LoadGameDialog handleCloseDialog={action("Clicked!")}>
       <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
       <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />
       <SavedGame gameId={v4()} dateSaved={new Date(Date.now())} />

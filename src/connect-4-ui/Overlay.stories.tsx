@@ -25,10 +25,6 @@ export const TheOneWithDefaults: Story = {
   render: () => <Overlay />,
 };
 
-export const TheOneWithAClickHandler: Story = {
-  render: () => <Overlay handleClose={action("Clicked!")} />,
-};
-
 export const TheOneWithAComponent: Story = {
   render: () => (
     <Overlay
@@ -49,7 +45,7 @@ export const TheOneWithLoadDialogAndAClickHandler: Story = {
     <Overlay
       componentSpec={{
         Component: ({ closeDialog }: { closeDialog: () => void }) => (
-          <LoadGameDialog onCloseDialogClick={closeDialog} />
+          <LoadGameDialog handleCloseDialog={closeDialog} />
         ),
         props: {
           closeDialog: action("clicked!"),
@@ -64,7 +60,7 @@ export const TheOneWithLoadDialogWithChildrenAndAClickHandler: Story = {
     <Overlay
       componentSpec={{
         Component: ({ closeDialog }: { closeDialog: () => void }) => (
-          <LoadGameDialog onCloseDialogClick={closeDialog}>
+          <LoadGameDialog handleCloseDialog={closeDialog}>
             <SavedGame dateSaved={new Date(Date.now())} gameId={v4()} />
             <SavedGame dateSaved={new Date(Date.now())} gameId={v4()} />
             <SavedGame dateSaved={new Date(Date.now())} gameId={v4()} />
