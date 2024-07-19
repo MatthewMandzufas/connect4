@@ -1,11 +1,11 @@
 import { GameStatus } from "@/connect-4-ui/GameStatus";
-import { connect, Model, model, Schema } from "mongoose";
+import { connect, model, Model, Schema } from "mongoose";
 import "reflect-metadata";
 import { v4 } from "uuid";
 import { BoardCell, PersistentGame } from "./game";
 import { GameUuid } from "./in-memory-repository";
 
-const gameSchema = new Schema({
+export const gameSchema = new Schema({
   gameUuid: { type: String, required: true },
   board: Array<Array<BoardCell>>,
   activePlayer: { type: Number, required: true },
@@ -34,7 +34,7 @@ export default class MongoDBRepository {
 
   constructor(gameModel?: Model<GameDocument>) {
     console.log(gameModel);
-    if (gameModel !== undefined) {
+    if (gameModel !== undefined && gameModel !== null) {
       this.gameModel = gameModel;
     } else {
       (async () => {

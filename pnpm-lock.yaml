@@ -17,6 +17,9 @@ importers:
       '@types/uuid':
         specifier: ^10.0.0
         version: 10.0.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       ramda:
         specifier: ^0.30.1
         version: 0.30.1
