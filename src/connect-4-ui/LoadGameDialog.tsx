@@ -3,8 +3,6 @@ import styled from "styled-components";
 import SavedGame from "./SavedGame";
 
 const StyledLoadGameDialog = styled.div`
-  border: 2px solid #32424a;
-  /* background: beige; */
   background: #32424a;
   min-height: 20vh;
   min-width: 60vw;
@@ -19,7 +17,6 @@ const StyledHeading = styled.h1`
   font-weight: 700;
   color: #f5ebeb;
   margin: 10px;
-  text-decoration: underline dashed;
   font-size: 3rem;
 `;
 

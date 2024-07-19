@@ -7,16 +7,17 @@ type SavedGameProps = {
 };
 
 const StyledGameAndDate = styled.div`
-  outline: 2px solid #f5ebeb;
   margin: 10px;
   padding: 10px;
   color: #f5ebeb;
 `;
 
 const StyledSavedGame = styled.div`
+  min-width: 80%;
   display: flex;
+  outline: 2px solid #f5ebeb;
   flex-direction: row;
-  margin-right: 10px;
+  margin: 15px;
 `;
 
 const StyledButton = styled.button`

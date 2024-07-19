@@ -3,5 +3,5 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
-  // "forwardPorts": [27017]
+  // "forwardPorts": [3000]
 }
