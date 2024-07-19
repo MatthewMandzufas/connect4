@@ -1,7 +1,7 @@
 {
-  "name": "Connect-4-mongoDB",
-  "service": "app",
-  "workspaceFolder": "/workspaces/${workspaceFolderBasename}",
+  "name": "connect-4",
   "dockerComposeFile": "docker-compose.yml",
-  "forwardPorts": [3000]
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+  // "forwardPorts": [27017]
 }
