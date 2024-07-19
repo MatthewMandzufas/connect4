@@ -1,21 +1,29 @@
 import { GameStatus } from "@/connect-4-ui/GameStatus";
-import { connect, model, Model, Schema } from "mongoose";
+import { model, Model, Schema } from "mongoose";
 import "reflect-metadata";
 import { v4 } from "uuid";
-import { BoardCell, PersistentGame } from "./game";
+import { PersistentGame } from "./game";
 import { GameUuid } from "./in-memory-repository";
 
 export const gameSchema = new Schema({
   gameUuid: { type: String, required: true },
-  board: Array<Array<BoardCell>>,
+  board: [
+    [
+      {
+        player: { type: Number, required: false },
+      },
+    ],
+  ],
   activePlayer: { type: Number, required: true },
   players: {
     type: {
       "1": {
         playerNumber: { type: Number, required: true },
+        remainingDisks: { type: Number, required: true },
       },
       "2": {
         playerNumber: { type: Number, required: true },
+        remainingDisks: { type: Number, required: true },
       },
     },
     required: true,
@@ -33,15 +41,10 @@ export default class MongoDBRepository {
   private gameModel: Model<GameDocument>;
 
   constructor(gameModel?: Model<GameDocument>) {
-    console.log(gameModel);
-    if (gameModel !== undefined && gameModel !== null) {
+    if (gameModel !== undefined) {
       this.gameModel = gameModel;
     } else {
-      (async () => {
-        await connect("mongodb://localhost:27017/test");
-
-        this.gameModel = model<GameDocument>("Game", gameSchema);
-      })();
+      this.gameModel = model<GameDocument>("Game", gameSchema);
     }
   }
 

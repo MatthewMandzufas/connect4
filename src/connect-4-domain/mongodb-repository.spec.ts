@@ -52,9 +52,6 @@ function createPersistentGame() {
   return persistentGame;
 }
 
-let gameModel: Model<GameDocument>;
-let repository: MongoDBRepository;
-
 beforeAll(async () => {
   if (connection.readyState === 0) {
     await connect(process.env.MONGODB_URI!);
@@ -68,7 +65,7 @@ afterAll(async () => {
 describe("mongodb-repository", () => {
   describe("given defaults", () => {
     it("creates an in memory repository", () => {
-      // const repository = new MongoDBRepository();
+      const repository = new MongoDBRepository();
       expect(repository).toBeInstanceOf(MongoDBRepository);
     });
     it("it loads a previously saved game", async () => {
@@ -84,6 +81,9 @@ describe("mongodb-repository", () => {
     });
   });
   describe("given a store", () => {
+    let gameModel: Model<GameDocument>;
+    let repository: MongoDBRepository;
+
     beforeEach(async () => {
       gameModel = model<GameDocument>("Game", gameSchema);
       repository = new MongoDBRepository(gameModel);
@@ -94,8 +94,6 @@ describe("mongodb-repository", () => {
     });
 
     it("saves a game", async () => {
-      gameModel = model<GameDocument>("Game", gameSchema);
-      const repository = new MongoDBRepository(gameModel);
       const persistentGame = createPersistentGame();
       const boardId = await repository.save(persistentGame);
       const gameToLoad = await gameModel.findOne({ gameUuid: boardId });
@@ -111,19 +109,23 @@ describe("mongodb-repository", () => {
       expect(expectedGame).toMatchObject(persistentGame);
     });
     it("saves the game with a user-provided uuid", async () => {
-      gameModel = model<GameDocument>("Game", gameSchema);
-      const repository = new MongoDBRepository(gameModel);
       const persistentGame = createPersistentGame();
       const uuid = v4();
       const boardId = await repository.save(persistentGame, uuid);
       expect(uuid).toBe(boardId);
-      expect(gameModel.findOne({ gameUuid: boardId })).toMatchObject(
-        persistentGame
-      );
+      const gameToLoad = await gameModel.findOne({ gameUuid: boardId });
+      const expectedGame =
+        gameToLoad !== null
+          ? {
+              board: gameToLoad.board,
+              activePlayer: gameToLoad.activePlayer,
+              players: gameToLoad.players,
+              status: gameToLoad.status,
+            }
+          : undefined;
+      expect(expectedGame).toMatchObject(persistentGame);
     });
     it("loads a saved game", async () => {
-      gameModel = model<GameDocument>("Game", gameSchema);
-      const repository = new MongoDBRepository(gameModel);
       const persistentGame = createPersistentGame();
       const boardId = await repository.save(persistentGame);
       expect(await repository.load(boardId)).toMatchObject(persistentGame);
