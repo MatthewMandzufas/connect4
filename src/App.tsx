@@ -1,161 +1,22 @@
-import GameFactory, { Status } from "@/connect-4-domain/game";
 import { GameplayArea } from "@/connect-4-ui/GameplayArea";
-import { MutableRefObject, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { BoardProps, GridBoardCellProps } from "./connect-4-ui/Board";
+import {
+  createHandleBoardCellClick,
+  createHandleLoadGame,
+  createHandleOpenOverlay,
+  createHandleRestartGame,
+  createHandleSaveGame,
+  createHandleStartGameClick,
+  SavedGameType,
+} from "./app-click-handlers";
+import { BoardProps } from "./connect-4-ui/Board";
 import { GameOverviewProps } from "./connect-4-ui/GameOverview";
 import LoadGameDialog from "./connect-4-ui/LoadGameDialog";
 import Overlay from "./connect-4-ui/Overlay";
 import SavedGame from "./connect-4-ui/SavedGame";
-import createGameApi, { GameApi } from "./connect-4-ui/create-game-api";
+import { GameApi } from "./connect-4-ui/create-game-api";
 import "./global.css";
-
-function createHandleStartGameClick(
-  setActiveGame: (activeGame: {
-    gameOverview: GameOverviewProps;
-    board: BoardProps;
-  }) => void,
-  gameApiRef: MutableRefObject<GameApi | undefined>
-): () => void {
-  return function handleStartGameClick(): void {
-    gameApiRef.current = createGameApi(new GameFactory());
-    const gameApi = gameApiRef.current;
-    setActiveGame({
-      gameOverview: {
-        roundNumber: 1,
-        playerOne: {
-          playerNumber: 1,
-          isActive: gameApi.getActivePlayer() === 1,
-          remainingDisks: gameApi.getRemainingDisks(1),
-          playerDiskColor: "#FF5733",
-        },
-        playerTwo: {
-          playerNumber: 2,
-          isActive: gameApi.getActivePlayer() === 2,
-          remainingDisks: gameApi.getRemainingDisks(2),
-          playerDiskColor: "#fdfd96",
-        },
-        gameRunning: Status.IN_PROGRESS,
-      },
-      board: {
-        cells: gameApi.getBoard(),
-        playerOneColor: "#FF5733",
-        playerTwoColor: "#fdfd96",
-        onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
-      } satisfies BoardProps,
-    });
-  };
-}
-
-function createHandleBoardCellClick(
-  setActiveGame: (activeGame: {
-    gameOverview: GameOverviewProps;
-    board: BoardProps;
-  }) => void,
-  gameApi = createGameApi(new GameFactory())
-) {
-  return function handleBoardCellClick({
-    row,
-    column,
-  }: GridBoardCellProps): void {
-    const player = gameApi.getActivePlayer();
-    const handlePlayerMove = gameApi.getBoard()[row][column].handlePlayerMove;
-    handlePlayerMove(player);
-    updateGame(setActiveGame, gameApi);
-  };
-}
-
-function createHandleSaveGame(
-  gameApi = createGameApi(new GameFactory()),
-  savedGames: MutableRefObject<Array<SavedGame>>
-): () => void {
-  return async function handleSaveGame(): Promise<void> {
-    alert("Saved Game!");
-    savedGames.current.push({
-      gameId: await gameApi.saveGame(),
-      dateSaved: new Date(Date.now()),
-    });
-  };
-}
-
-function updateGame(
-  setActiveGame: (activeGame: {
-    gameOverview: GameOverviewProps;
-    board: BoardProps;
-  }) => void,
-  gameApi = createGameApi(new GameFactory())
-) {
-  setActiveGame({
-    gameOverview: {
-      roundNumber: 1,
-      playerOne: {
-        playerNumber: 1,
-        isActive: gameApi.getActivePlayer() === 1,
-        remainingDisks: gameApi.getRemainingDisks(1),
-        playerDiskColor: "#FF5733",
-      },
-      playerTwo: {
-        playerNumber: 2,
-        isActive: gameApi.getActivePlayer() === 2,
-        remainingDisks: gameApi.getRemainingDisks(2),
-        playerDiskColor: "#fdfd96",
-      },
-      gameRunning: gameApi.getGameStatus(),
-    },
-    board: {
-      cells: gameApi.getBoard(),
-      playerOneColor: "#FF5733",
-      playerTwoColor: "#fdfd96",
-      onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
-    } satisfies BoardProps,
-  });
-}
-
-function createHandleOpenOverlay(
-  setShowOverlay: (value: boolean) => void
-): () => void {
-  return function handleOpenOverlay(): void {
-    setShowOverlay(true);
-  };
-}
-
-function createHandleLoadGame(
-  gameId: string,
-  gameApiRef = createGameApi(new GameFactory()),
-  setShowOverlay: (value: boolean) => void,
-  setActiveGame: (activeGame: {
-    gameOverview: GameOverviewProps;
-    board: BoardProps;
-  }) => void
-) {
-  return async function handleLoadGame() {
-    try {
-      await gameApiRef.loadGame(gameId);
-      setShowOverlay(false);
-      updateGame(setActiveGame, gameApiRef);
-    } catch (error) {
-      alert(error);
-    }
-  };
-}
-
-function createHandleRestartGame(
-  gameApiRef = createGameApi(new GameFactory()),
-  setActiveGame: (activeGame: {
-    gameOverview: GameOverviewProps;
-    board: BoardProps;
-  }) => void
-) {
-  return function handleRestartGame() {
-    gameApiRef.resetGame();
-    updateGame(setActiveGame, gameApiRef);
-  };
-}
-
-type SavedGame = {
-  gameId: string;
-  dateSaved: Date;
-};
 
 const App = () => {
   const [activeGame, setActiveGame] = useState<{
@@ -163,7 +24,7 @@ const App = () => {
     board: BoardProps;
   }>();
 
-  const savedGamesRef = useRef<Array<SavedGame>>([]);
+  const savedGamesRef = useRef<Array<SavedGameType>>([]);
   const [showOverlay, setShowOverlay] = useState(false);
   const gameApiRef = useRef<GameApi | undefined>(undefined);
 
@@ -179,7 +40,7 @@ const App = () => {
                 handleCloseDialog: () => void;
               }) => (
                 <LoadGameDialog handleCloseDialog={onCloseDialogClick}>
-                  {savedGamesRef.current.map((game: SavedGame) => (
+                  {savedGamesRef.current.map((game: SavedGameType) => (
                     <SavedGame
                       key={game.gameId}
                       gameId={game.gameId}
