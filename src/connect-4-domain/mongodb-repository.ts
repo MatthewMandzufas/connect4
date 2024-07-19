@@ -2,7 +2,7 @@ import { GameStatus } from "@/connect-4-ui/GameStatus";
 import { model, Model, Schema } from "mongoose";
 import "reflect-metadata";
 import { v4 } from "uuid";
-import { PersistentGame } from "./game";
+import { GameRepository, PersistentGame } from "./game";
 import { GameUuid } from "./in-memory-repository";
 
 export const gameSchema = new Schema({
@@ -37,7 +37,7 @@ export const gameSchema = new Schema({
 
 export interface GameDocument extends Document, PersistentGame {}
 
-export default class MongoDBRepository {
+export default class MongoDBRepository implements GameRepository {
   private gameModel: Model<GameDocument>;
 
   constructor(gameModel?: Model<GameDocument>) {

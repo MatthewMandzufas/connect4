@@ -88,7 +88,7 @@ export const GameplayArea = ({
           <>
             <StyledStartGameArea>
               <StyledHeader>Connect4</StyledHeader>
-              <StyledButton onClick={onStartGameClick}>Start Game</StyledButton>
+              <StyledButton onClick={onStartGameClick}>Start</StyledButton>
             </StyledStartGameArea>
           </>
         )}
