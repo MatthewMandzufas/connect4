@@ -27,6 +27,10 @@ export type BoardCell = {
 export type GameParameters = {
   boardDimensions?: BoardDimension;
   repository?: GameRepository;
+  playerColors?: {
+    playerOneColor: string;
+    playerTwoColor: string;
+  };
 };
 
 export type BoardDimension = {
@@ -44,6 +48,7 @@ export type PersistentGame = {
   activePlayer: PlayerNumber;
   players: Record<PlayerNumber, PlayerStats>;
   status: Status;
+  playerColors: PlayerColorsType;
 };
 
 export type PlayerNumber = 1 | 2;
@@ -68,7 +73,13 @@ interface Game {
   load: (gameId: GameUuid) => void;
   save: () => Promise<GameUuid>;
   reset: (boardDimensions: { rows: number; columns: number }) => void;
+  getPlayerColors: () => PlayerColorsType;
 }
+
+export type PlayerColorsType = {
+  playerOneColor: string;
+  playerTwoColor: string;
+};
 
 type ValidationResult = {
   isValid: boolean;
@@ -92,14 +103,17 @@ class GameFactory implements Game {
     rows: number;
     columns: number;
   };
+  private playerColors: PlayerColorsType;
 
   constructor(
     {
       boardDimensions = { rows: 6, columns: 7 },
       repository = new InMemoryRepository(),
+      playerColors = { playerOneColor: "#FF5733", playerTwoColor: "#fdfd96" },
     }: GameParameters = {
       boardDimensions: { rows: 6, columns: 7 },
       repository: new InMemoryRepository(),
+      playerColors: { playerOneColor: "#FF5733", playerTwoColor: "#fdfd96" },
     }
   ) {
     this.#validateBoard(boardDimensions);
@@ -113,6 +127,11 @@ class GameFactory implements Game {
     this.activePlayer = 1;
     this.status = Status.IN_PROGRESS;
     this.repository = repository;
+    this.playerColors = playerColors;
+  }
+
+  getPlayerColors() {
+    return this.playerColors;
   }
 
   async save(): Promise<GameUuid> {
@@ -123,6 +142,7 @@ class GameFactory implements Game {
         activePlayer: this.activePlayer,
         players: this.players,
         status: this.status,
+        playerColors: this.playerColors,
       },
       gameUuid
     );
@@ -132,11 +152,13 @@ class GameFactory implements Game {
   async load(gameId: GameUuid) {
     const gameStateToLoad = await this.repository?.load(gameId);
     if (gameStateToLoad !== undefined) {
-      const { board, activePlayer, players, status } = gameStateToLoad;
+      const { board, activePlayer, players, status, playerColors } =
+        gameStateToLoad;
       this.board = board;
       this.activePlayer = activePlayer;
       this.players = players;
       this.status = status;
+      this.playerColors = playerColors;
     } else {
       throw new Error("The provided GameUuid was invalid.");
     }
