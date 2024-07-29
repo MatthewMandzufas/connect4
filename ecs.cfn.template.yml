@@ -1,0 +1,62 @@
+Parameters:
+  ECRRepositoryURI:
+    Description: URI of ECR Repository
+    Type: String
+  PublicSubnetId:
+    Description: ID of public subnet
+    Type: String
+  VPCID:
+    Description: Id of VPC
+    Type: String
+
+Resources:
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: connect-4-cluster
+      CapacityProviders:
+        - FARGATE
+      Tags:
+        - Key: Name
+          Value: environment:sandbox
+
+  ECRExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ap-southeast-2-Connect4-Cluster
+      Description: ECS Task Execution Role
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+            Service:
+              - ecr-tasks.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: connect-4-logs
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      ContainerDefinitions:
+        - Cpu: 256
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              - awslogs-group: !Ref LogGroup
+              - awslogs-region: ap-southeast-2
+          Name: Connect4Task
+          Image: !Ref ECRRepositoryURI
+          Memory: 512
+          PortMappings:
+            - ContainerPort: 80
+              HostPort: 80
+              Protocol: tcp
