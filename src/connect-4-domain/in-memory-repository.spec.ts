@@ -35,6 +35,10 @@ function createPersistentGame() {
       2: { playerNumber: 2, remainingDisks: 2 },
     },
     status: "IN_PROGRESS" as Status,
+    playerColors: {
+      playerOneColor: "#FF5733",
+      playerTwoColor: "#fdfd96",
+    },
   };
   return persistentGame;
 }

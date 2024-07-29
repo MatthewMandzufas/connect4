@@ -33,6 +33,12 @@ export const gameSchema = new Schema({
     enum: Object.values(GameStatus),
     required: true,
   },
+  playerColors: {
+    type: {
+      playerOneColor: { type: String, required: true },
+      playerTwoColor: { type: String, required: true },
+    },
+  },
 });
 
 export interface GameDocument extends Document, PersistentGame {}
@@ -59,6 +65,10 @@ export default class MongoDBRepository implements GameRepository {
         activePlayer: persistentGame.activePlayer,
         players: persistentGame.players,
         status: persistentGame.status,
+        playerColors: {
+          playerOneColor: persistentGame.playerColors.playerOneColor,
+          playerTwoColor: persistentGame.playerColors.playerTwoColor,
+        },
       });
 
       return uuid;
@@ -79,6 +89,10 @@ export default class MongoDBRepository implements GameRepository {
           activePlayer: gameToLoad.activePlayer,
           players: gameToLoad.players,
           status: gameToLoad.status,
+          playerColors: {
+            playerOneColor: gameToLoad.playerColors.playerOneColor,
+            playerTwoColor: gameToLoad.playerColors.playerTwoColor,
+          },
         };
       } else {
         return undefined;

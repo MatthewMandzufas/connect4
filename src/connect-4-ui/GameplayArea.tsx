@@ -125,9 +125,7 @@ export const GameplayArea = ({
               <StyledButton onClick={handleStart}>Start</StyledButton>
               <StyledPlayerColorSelect>
                 <StyledHorizontalDiv>
-                  <StyledPlayerHeader>
-                    Player One Colour: {playerOneColor}
-                  </StyledPlayerHeader>
+                  <StyledPlayerHeader>Player One Colour:</StyledPlayerHeader>
                   <TwitterPicker
                     colors={[
                       "#FF5733",
@@ -141,9 +139,7 @@ export const GameplayArea = ({
                   />
                 </StyledHorizontalDiv>
                 <StyledHorizontalDiv>
-                  <StyledPlayerHeader>
-                    Player Two Colour: {playerTwoColor}
-                  </StyledPlayerHeader>
+                  <StyledPlayerHeader>Player Two Colour:</StyledPlayerHeader>
                   <TwitterPicker
                     colors={[
                       "#7BDCB5",
@@ -156,6 +152,15 @@ export const GameplayArea = ({
                     onChange={updatePlayerTwoColor}
                   />
                 </StyledHorizontalDiv>
+                {/* <StyledHorizontalDiv>
+                  <StyledPlayerHeader>Rows: </StyledPlayerHeader>
+                  <input type="number" placeholder="6"></input>
+                </StyledHorizontalDiv>
+                <StyledHorizontalDiv>
+                  <StyledPlayerHeader>Columns: </StyledPlayerHeader>
+                  <input type="number" placeholder="7"></input>
+                </StyledHorizontalDiv> */}
+                {/* TODO: Implement custom board size in UI */}
               </StyledPlayerColorSelect>
             </StyledStartGameArea>
           </>

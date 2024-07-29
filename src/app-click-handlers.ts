@@ -105,6 +105,7 @@ export function createHandleSaveGame(
 ): () => void {
   return async function handleSaveGame(): Promise<void> {
     alert("Saved Game!");
+
     savedGames.current.push({
       gameId: await gameApi.saveGame(),
       dateSaved: new Date(Date.now()),

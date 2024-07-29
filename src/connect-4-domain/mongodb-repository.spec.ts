@@ -48,6 +48,10 @@ function createPersistentGame() {
       2: { playerNumber: 2, remainingDisks: 2 },
     },
     status: "IN_PROGRESS" as Status,
+    playerColors: {
+      playerOneColor: "#FF5733",
+      playerTwoColor: "#fdfd96",
+    },
   };
   return persistentGame;
 }
@@ -104,6 +108,7 @@ describe("mongodb-repository", () => {
               activePlayer: gameToLoad.activePlayer,
               players: gameToLoad.players,
               status: gameToLoad.status,
+              playerColors: gameToLoad.playerColors,
             }
           : undefined;
       expect(expectedGame).toMatchObject(persistentGame);
@@ -121,6 +126,7 @@ describe("mongodb-repository", () => {
               activePlayer: gameToLoad.activePlayer,
               players: gameToLoad.players,
               status: gameToLoad.status,
+              playerColors: gameToLoad.playerColors,
             }
           : undefined;
       expect(expectedGame).toMatchObject(persistentGame);

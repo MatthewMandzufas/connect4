@@ -45,5 +45,5 @@ export const TheOneWithAGameInProgress: Story = {
 };
 
 export const TheOneWithAStartGameClickHandler: Story = {
-  render: () => <GameplayArea onStartGameClick={action("Start Game!")} />,
+  render: () => <GameplayArea onStartGameClick={() => action("Start Game!")} />,
 };
