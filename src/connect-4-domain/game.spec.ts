@@ -136,6 +136,13 @@ describe("game", () => {
           |--|--|--|--|--|--|--|"
         `);
       });
+      it("sets player 1 color to red and player 2 color to yellow", () => {
+        const game = new GameFactory();
+        expect(game.getPlayerColors()).toEqual({
+          playerOneColor: "#FF5733",
+          playerTwoColor: "#fdfd96",
+        });
+      });
     });
     describe("given custom board dimensions", () => {
       describe("with 0 rows", () => {
