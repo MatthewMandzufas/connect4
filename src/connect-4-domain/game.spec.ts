@@ -144,6 +144,21 @@ describe("game", () => {
         });
       });
     });
+    describe("given custom player colors", () => {
+      it("sets the appropriate player color", () => {
+        const game = new GameFactory({
+          boardDimensions: { rows: 6, columns: 7 },
+          playerColors: {
+            playerOneColor: "#9900ef",
+            playerTwoColor: "#00d084",
+          },
+        });
+        expect(game.getPlayerColors()).toEqual({
+          playerOneColor: "#9900ef",
+          playerTwoColor: "#00d084",
+        });
+      });
+    });
     describe("given custom board dimensions", () => {
       describe("with 0 rows", () => {
         it("throws an error", () => {
