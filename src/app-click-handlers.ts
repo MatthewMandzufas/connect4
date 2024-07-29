@@ -11,8 +11,11 @@ export type SavedGameType = {
   dateSaved: Date;
 };
 
-function resolveGameFactoryConfiguration() {
-  console.log("IMPORTMETA: ", import.meta.env.VITE_REPOSITORY);
+function resolveGameFactoryConfiguration(
+  playerOneColor: string,
+  playerTwoColor: string
+) {
+  // console.log("IMPORTMETA: ", import.meta.env.VITE_REPOSITORY);
   const repository =
     import.meta.env.VITE_REPOSITORY === "mongo"
       ? new MongoDBRepository()
@@ -23,6 +26,10 @@ function resolveGameFactoryConfiguration() {
       columns: 7,
     },
     repository,
+    playerColors: {
+      playerOneColor,
+      playerTwoColor,
+    },
   };
 }
 
@@ -32,37 +39,45 @@ export function createHandleStartGameClick(
     board: BoardProps;
   }) => void,
   gameApiRef: MutableRefObject<GameApi | undefined>
-): () => void {
-  return function handleStartGameClick(): void {
-    const gameFactoryConfiguration = resolveGameFactoryConfiguration();
-    gameApiRef.current = createGameApi(
-      new GameFactory(gameFactoryConfiguration)
-    );
-    const gameApi = gameApiRef.current;
-    setActiveGame({
-      gameOverview: {
-        roundNumber: 1,
-        playerOne: {
-          playerNumber: 1,
-          isActive: gameApi.getActivePlayer() === 1,
-          remainingDisks: gameApi.getRemainingDisks(1),
-          playerDiskColor: "#FF5733",
+) {
+  return function colorAwareStartGame(
+    playerOneColor: string,
+    playerTwoColor: string
+  ) {
+    return function handleStartGameClick(): void {
+      const gameFactoryConfiguration = resolveGameFactoryConfiguration(
+        playerOneColor,
+        playerTwoColor
+      );
+      gameApiRef.current = createGameApi(
+        new GameFactory(gameFactoryConfiguration)
+      );
+      const gameApi = gameApiRef.current;
+      setActiveGame({
+        gameOverview: {
+          roundNumber: 1,
+          playerOne: {
+            playerNumber: 1,
+            isActive: gameApi.getActivePlayer() === 1,
+            remainingDisks: gameApi.getRemainingDisks(1),
+            playerDiskColor: gameApi.getPlayerColors().playerOneColor,
+          },
+          playerTwo: {
+            playerNumber: 2,
+            isActive: gameApi.getActivePlayer() === 2,
+            remainingDisks: gameApi.getRemainingDisks(2),
+            playerDiskColor: gameApi.getPlayerColors().playerTwoColor,
+          },
+          gameRunning: Status.IN_PROGRESS,
         },
-        playerTwo: {
-          playerNumber: 2,
-          isActive: gameApi.getActivePlayer() === 2,
-          remainingDisks: gameApi.getRemainingDisks(2),
-          playerDiskColor: "#fdfd96",
-        },
-        gameRunning: Status.IN_PROGRESS,
-      },
-      board: {
-        cells: gameApi.getBoard(),
-        playerOneColor: "#FF5733",
-        playerTwoColor: "#fdfd96",
-        onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
-      } satisfies BoardProps,
-    });
+        board: {
+          cells: gameApi.getBoard(),
+          playerOneColor: gameApi.getPlayerColors().playerOneColor,
+          playerTwoColor: gameApi.getPlayerColors().playerTwoColor,
+          onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
+        } satisfies BoardProps,
+      });
+    };
   };
 }
 
@@ -111,20 +126,20 @@ function updateGame(
         playerNumber: 1,
         isActive: gameApi.getActivePlayer() === 1,
         remainingDisks: gameApi.getRemainingDisks(1),
-        playerDiskColor: "#FF5733",
+        playerDiskColor: gameApi.getPlayerColors().playerOneColor,
       },
       playerTwo: {
         playerNumber: 2,
         isActive: gameApi.getActivePlayer() === 2,
         remainingDisks: gameApi.getRemainingDisks(2),
-        playerDiskColor: "#fdfd96",
+        playerDiskColor: gameApi.getPlayerColors().playerTwoColor,
       },
       gameRunning: gameApi.getGameStatus(),
     },
     board: {
       cells: gameApi.getBoard(),
-      playerOneColor: "#FF5733",
-      playerTwoColor: "#fdfd96",
+      playerOneColor: gameApi.getPlayerColors().playerOneColor,
+      playerTwoColor: gameApi.getPlayerColors().playerTwoColor,
       onBoardCellClick: createHandleBoardCellClick(setActiveGame, gameApi),
     } satisfies BoardProps,
   });

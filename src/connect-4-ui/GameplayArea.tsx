@@ -1,5 +1,7 @@
 import { Board, BoardProps, GridBoardCellProps } from "@/connect-4-ui/Board";
 import GameOverview, { GameOverviewProps } from "@/connect-4-ui/GameOverview";
+import { useState } from "react";
+import { TwitterPicker } from "react-color";
 import styled from "styled-components";
 import GamePlayAreaMenu from "./GamePlayAreaMenu";
 import MenuButton from "./MenuButton";
@@ -11,7 +13,10 @@ export type GameplayAreaProps = {
     gameOverview: GameOverviewProps;
     board: BoardProps;
   };
-  onStartGameClick?: () => void;
+  onStartGameClick?: (
+    playerOneColor: string,
+    playerTwoColor: string
+  ) => () => void;
   onBoardCellClick?: ({ row, column }: GridBoardCellProps) => void;
   onSaveGameClick?: () => void;
   onLoadGameClick?: () => void;
@@ -59,18 +64,40 @@ const StyledStartGameArea = styled.div`
   align-items: center;
 `;
 
-const StyledMainDiv = styled.div``;
+const StyledPlayerColorSelect = styled.div`
+  margin: 10%;
+`;
+
+const StyledPlayerHeader = styled.h1`
+  color: beige;
+`;
+
+const StyledHorizontalDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+`;
 
 export const GameplayArea = ({
   activeGame,
-  onStartGameClick = () => {},
+  onStartGameClick = () => () => {},
   onBoardCellClick = () => {},
   onSaveGameClick = () => {},
   onLoadGameClick = () => {},
   onRestartGameClick = () => {},
 }: GameplayAreaProps) => {
+  const [playerOneColor, setPlayerOneColor] = useState("#FF5733");
+  const [playerTwoColor, setPlayerTwoColor] = useState("#fdfd96");
+  const updatePlayerOneColor = ({ hex }: { hex: string }) => {
+    setPlayerOneColor(hex);
+  };
+  const updatePlayerTwoColor = ({ hex }: { hex: string }) => {
+    setPlayerTwoColor(hex);
+  };
+  const handleStart = onStartGameClick(playerOneColor, playerTwoColor);
   return (
-    <StyledMainDiv>
+    <div>
       {activeGame ? (
         <GamePlayAreaMenu>
           <MenuButton text={"Restart"} onClick={onRestartGameClick} />
@@ -84,17 +111,56 @@ export const GameplayArea = ({
         {activeGame ? (
           <>
             <GameOverview {...activeGame.gameOverview} />
-            <Board {...activeGame.board} onBoardCellClick={onBoardCellClick} />
+            <Board
+              {...activeGame.board}
+              playerOneColor={playerOneColor}
+              playerTwoColor={playerTwoColor}
+              onBoardCellClick={onBoardCellClick}
+            />
           </>
         ) : (
           <>
             <StyledStartGameArea>
               <StyledHeader>Connect4</StyledHeader>
-              <StyledButton onClick={onStartGameClick}>Start</StyledButton>
+              <StyledButton onClick={handleStart}>Start</StyledButton>
+              <StyledPlayerColorSelect>
+                <StyledHorizontalDiv>
+                  <StyledPlayerHeader>
+                    Player One Colour: {playerOneColor}
+                  </StyledPlayerHeader>
+                  <TwitterPicker
+                    colors={[
+                      "#FF5733",
+                      "#FCB900",
+                      "#EB144C",
+                      "#F78DA7",
+                      "#9900EF",
+                    ]}
+                    triangle="hide"
+                    onChange={updatePlayerOneColor}
+                  />
+                </StyledHorizontalDiv>
+                <StyledHorizontalDiv>
+                  <StyledPlayerHeader>
+                    Player Two Colour: {playerTwoColor}
+                  </StyledPlayerHeader>
+                  <TwitterPicker
+                    colors={[
+                      "#7BDCB5",
+                      "#00D084",
+                      "#8ED1FC",
+                      "#0693E3",
+                      "#ABB8C3",
+                    ]}
+                    triangle="hide"
+                    onChange={updatePlayerTwoColor}
+                  />
+                </StyledHorizontalDiv>
+              </StyledPlayerColorSelect>
             </StyledStartGameArea>
           </>
         )}
       </StyledGameplayArea>
-    </StyledMainDiv>
+    </div>
   );
 };

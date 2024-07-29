@@ -2,6 +2,7 @@ import { createMovePlayerCommand } from "@/connect-4-domain/commands";
 import { EventTypes } from "@/connect-4-domain/events";
 import GameFactory, {
   BoardCell as DomainBoardCell,
+  PlayerColorsType,
 } from "@/connect-4-domain/game";
 import { GameUuid } from "@/connect-4-domain/in-memory-repository";
 
@@ -33,6 +34,7 @@ export interface GameApi {
   saveGame: () => Promise<GameUuid>;
   loadGame: (gameId: GameUuid) => Promise<void>;
   resetGame: () => void;
+  getPlayerColors: () => PlayerColorsType;
 }
 
 const createRowMapper =
@@ -73,6 +75,7 @@ export default function createGameApi(game: GameFactory): GameApi {
     saveGame: async () => await game.save(),
     loadGame: async (gameId: GameUuid) => await game.load(gameId),
     resetGame: () => game.reset(),
+    getPlayerColors: () => game.getPlayerColors(),
   };
   return gameApi;
 }
